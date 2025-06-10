@@ -6,8 +6,8 @@ class NeuralNetwork {
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         this.nodes = [];
         this.connections = [];
-        this.firingConnections = [];
         this.firingSprites = [];
+        this.nodeFiringUntil = [];
         this.init();
     }
 
@@ -61,6 +61,7 @@ class NeuralNetwork {
                 }
             }
         }
+        this.nodeFiringUntil = new Array(this.nodes.length).fill(0);
     }
 
     createConnections() {
@@ -91,7 +92,8 @@ class NeuralNetwork {
     }
 
     triggerRandomSynapses() {
-        // Only fire one connection per node at a time
+        // Only fire one connection per node at a time, and allow new firings as soon as possible
+        const now = performance.now();
         const usedNodes = new Set();
         let fired = 0;
         const maxFirings = Math.min(this.nodes.length, 10);
@@ -100,9 +102,17 @@ class NeuralNetwork {
             const conn = this.connections[idx];
             const n1 = conn.userData.node1Idx;
             const n2 = conn.userData.node2Idx;
-            if (!usedNodes.has(n1) && !usedNodes.has(n2) && !conn.userData.firing) {
+            if (
+                !usedNodes.has(n1) &&
+                !usedNodes.has(n2) &&
+                now > this.nodeFiringUntil[n1] &&
+                now > this.nodeFiringUntil[n2] &&
+                !conn.userData.firing
+            ) {
                 conn.userData.firing = true;
                 conn.userData.pulse = 0;
+                this.nodeFiringUntil[n1] = now + 350; // allow new firing after 350ms
+                this.nodeFiringUntil[n2] = now + 350;
                 usedNodes.add(n1);
                 usedNodes.add(n2);
                 fired++;
