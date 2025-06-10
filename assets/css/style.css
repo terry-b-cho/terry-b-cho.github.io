@@ -317,4 +317,23 @@ body {
 
 .section {
     animation: fadeIn 1s ease-out;
+}
+
+.profile-headshot {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--primary-color);
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 24px 0 rgba(0,0,0,0.12);
+    transition: transform 0.3s cubic-bezier(.4,2,.6,1);
+    background: var(--accent-color);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.profile-headshot:hover {
+    transform: scale(1.04) rotate(-2deg);
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);
 } 
