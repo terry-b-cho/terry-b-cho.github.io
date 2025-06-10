@@ -140,6 +140,27 @@ const initScrollIndicator = () => {
     handleScroll(); // Initial check
 };
 
+// Logo Carousel Responsiveness
+function setLogoCarouselWidth() {
+    const carousel = document.getElementById('logoCarousel');
+    if (!carousel) return;
+    const tracks = carousel.querySelectorAll('.logo-track');
+    if (tracks.length < 2) return;
+    // Set the width of each track to fit its children
+    tracks.forEach(track => {
+        let totalWidth = 0;
+        track.childNodes.forEach(child => {
+            if (child.nodeType === 1) {
+                totalWidth += child.offsetWidth;
+            }
+        });
+        track.style.width = totalWidth + 'px';
+    });
+}
+
+window.addEventListener('load', setLogoCarouselWidth);
+window.addEventListener('resize', setLogoCarouselWidth);
+
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     initPreloader();

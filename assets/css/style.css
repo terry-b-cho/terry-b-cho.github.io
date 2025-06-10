@@ -423,12 +423,12 @@ body {
         padding: 3rem 0;
     }
 
-    .logo-list {
+    .logo-track {
         gap: 2rem;
     }
 
     .logo-item img {
-        max-width: 100px;
+        max-width: 80px;
     }
 }
 
@@ -466,12 +466,12 @@ body {
         padding: 2rem 0;
     }
 
-    .logo-list {
-        gap: 1.5rem;
+    .logo-track {
+        gap: 1.2rem;
     }
 
     .logo-item img {
-        max-width: 80px;
+        max-width: 60px;
     }
 }
 
@@ -556,15 +556,24 @@ body {
     overflow: hidden;
 }
 
-.logo-list {
+.logo-carousel {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
+}
+
+.logo-track {
+    display: flex;
     align-items: center;
     gap: 3rem;
-    opacity: 0;
-    transform: scale(0.8);
-    animation: fadeInScale 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: logo-scroll 12s linear infinite;
+}
+
+.logo-carousel:hover .logo-track {
+    animation-play-state: paused;
 }
 
 .logo-item {
@@ -580,7 +589,7 @@ body {
     height: auto;
     filter: grayscale(100%);
     opacity: 0.6;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
 }
 
 .logo-item:hover img {
@@ -589,14 +598,12 @@ body {
     transform: scale(1.05);
 }
 
-@keyframes fadeInScale {
-    from {
-        opacity: 0;
-        transform: scale(0.8);
+@keyframes logo-scroll {
+    0% {
+        transform: translateX(0);
     }
-    to {
-        opacity: 1;
-        transform: scale(1);
+    100% {
+        transform: translateX(-100%);
     }
 }
 
