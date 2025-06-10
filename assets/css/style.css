@@ -828,8 +828,32 @@ body {
     border-color: var(--secondary-color);
 }
 
+/* --- Background Animation Layers & Transitions --- */
 #neuralNetwork, #dnaAnimation {
-    transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1);
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -10;
+    pointer-events: none;
+    transition: opacity 0.9s cubic-bezier(0.4,0,0.2,1), filter 0.9s cubic-bezier(0.4,0,0.2,1);
+    opacity: 1;
+    filter: blur(0px);
+    background: transparent;
+}
+#neuralNetwork.fade-out, #dnaAnimation.fade-out {
+    opacity: 0;
+    filter: blur(8px);
+    pointer-events: none;
+}
+#neuralNetwork.fade-in, #dnaAnimation.fade-in {
+    opacity: 1;
+    filter: blur(0px);
+    pointer-events: none;
+}
+#dnaAnimation {
+    opacity: 0;
+    z-index: -10;
 }
 
 /* Button Styles */

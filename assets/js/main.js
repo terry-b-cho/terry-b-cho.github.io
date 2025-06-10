@@ -178,47 +178,49 @@ const initSmoothScroll = () => {
     });
 };
 
-// Neural Network Animation
-const initNeuralNetworkTransition = () => {
-    const handleScroll = () => {
-        const scrollPosition = window.scrollY;
-        const publicationsSection = document.getElementById('publications');
-        
-        if (publicationsSection) {
-            const publicationsOffset = publicationsSection.offsetTop;
-            const windowHeight = window.innerHeight;
-            
-            if (scrollPosition > publicationsOffset - windowHeight * 0.5) {
-                if (isNeuralNetworkVisible) {
-                    elements.neuralNetwork.style.opacity = '0';
-                    setTimeout(() => {
-                        elements.neuralNetwork.style.display = 'none';
-                        const dnaAnimation = document.getElementById('dnaAnimation');
-                        dnaAnimation.style.display = 'block';
-                        setTimeout(() => {
-                            dnaAnimation.style.opacity = '1';
-                        }, 50);
-                    }, 800);
-                    isNeuralNetworkVisible = false;
-                }
-            } else {
-                if (!isNeuralNetworkVisible) {
-                    const dnaAnimation = document.getElementById('dnaAnimation');
-                    dnaAnimation.style.opacity = '0';
-                    setTimeout(() => {
-                        dnaAnimation.style.display = 'none';
-                        elements.neuralNetwork.style.display = 'block';
-                        setTimeout(() => {
-                            elements.neuralNetwork.style.opacity = '1';
-                        }, 50);
-                    }, 800);
-                    isNeuralNetworkVisible = true;
-                }
-            }
-        }
-    };
-
-    window.addEventListener('scroll', handleScroll);
+// Neural Network & DNA Animation Crossfade
+const initNeuralNetworkDNATransition = () => {
+    const neural = document.getElementById('neuralNetwork');
+    const dna = document.getElementById('dnaAnimation');
+    if (!neural || !dna) return;
+    // Ensure both are visible and stacked
+    neural.style.display = 'block';
+    dna.style.display = 'block';
+    // Initialize DNA animation if not already
+    if (typeof window.initDNAAnimation === 'function') {
+        window.initDNAAnimation();
+    }
+    // Get About and Education sections
+    const about = document.getElementById('about');
+    const education = document.getElementById('education');
+    let lastProgress = -1;
+    function updateCrossfade() {
+        const scrollY = window.scrollY;
+        const windowH = window.innerHeight;
+        if (!about || !education) return;
+        const aboutRect = about.getBoundingClientRect();
+        const eduRect = education.getBoundingClientRect();
+        // Transition zone: from bottom of About leaving viewport to top of Education entering
+        const start = aboutRect.bottom + scrollY - windowH * 0.5;
+        const end = eduRect.top + scrollY - windowH * 0.5;
+        const progress = Math.min(1, Math.max(0, (scrollY - start) / (end - start)));
+        if (progress === lastProgress) return;
+        lastProgress = progress;
+        // Crossfade: neural fades out, dna fades in
+        neural.style.opacity = 1 - progress;
+        neural.style.filter = `blur(${progress * 8}px)`;
+        dna.style.opacity = progress;
+        dna.style.filter = `blur(${(1 - progress) * 8}px)`;
+        // For accessibility, keep both pointer-events none
+    }
+    // Use rAF for smoothness
+    function onScroll() {
+        requestAnimationFrame(updateCrossfade);
+    }
+    window.addEventListener('scroll', onScroll);
+    window.addEventListener('resize', onScroll);
+    // Initial state
+    updateCrossfade();
 };
 
 // Scroll Indicator
@@ -256,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initPreloader();
     initNavigation();
     initSmoothScroll();
-    initNeuralNetworkTransition();
+    initNeuralNetworkDNATransition();
     initScrollIndicator();
 
     // Add animation classes to elements
