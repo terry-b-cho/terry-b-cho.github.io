@@ -1,5 +1,3 @@
-import * as THREE from 'https://cdn.skypack.dev/three@0.160.0';
-
 /**
  * initDNAAnimation()
  * ---------------------------------------------------------------------------
@@ -8,7 +6,7 @@ import * as THREE from 'https://cdn.skypack.dev/three@0.160.0';
  * — 0.34 nm rise per base‑pair (scaled to 1 au = 0.34 nm)
  * — Complementary base‑pair colouring (A–T, G–C)
  * — Phosphodiester backbones rendered as smooth tubes following a helical path
- * — Hydrogen‑bond “rungs” rendered as cylinders between bases
+ * — Hydrogen‑bond "rungs" rendered as cylinders between bases
  *                                                                          */
 
 window.initDNAAnimation = function () {

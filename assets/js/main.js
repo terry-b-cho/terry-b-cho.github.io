@@ -66,7 +66,7 @@ const initNavigation = () => {
                 if (target) {
                     e.preventDefault();
                     closeNav();
-                    setTimeout(() => {
+                    requestAnimationFrame(() => {
                         const headerOffset = document.querySelector('.header').offsetHeight || 0;
                         const elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
                         const offsetPosition = elementPosition - headerOffset;
@@ -74,7 +74,7 @@ const initNavigation = () => {
                             top: offsetPosition,
                             behavior: 'smooth'
                         });
-                    }, 350); // Wait for menu to close
+                    });
                 }
             } else {
                 closeNav();
@@ -193,7 +193,9 @@ function initNeuralNetwork() {
 // Initialize DNA animation
 function initDNAAnimation() {
     if (!dnaAnimationInitialized) {
-        window.initDNAAnimation();
+        if (window.initDNAAnimation && window.initDNAAnimation !== initDNAAnimation) {
+            window.initDNAAnimation();
+        }
         dnaAnimationInitialized = true;
     }
 }
