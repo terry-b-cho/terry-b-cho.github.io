@@ -1,3 +1,7 @@
+import { EffectComposer } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/UnrealBloomPass.js';
+
 // Neural Network with Bloom Glowing Synapse Effect
 class NeuralNetwork {
     constructor() {
@@ -21,9 +25,9 @@ class NeuralNetwork {
         this.camera.position.z = 5;
 
         // Postprocessing: Bloom
-        this.composer = new THREE.EffectComposer(this.renderer);
-        this.renderScene = new THREE.RenderPass(this.scene, this.camera);
-        this.bloomPass = new THREE.UnrealBloomPass(
+        this.composer = new EffectComposer(this.renderer);
+        this.renderScene = new RenderPass(this.scene, this.camera);
+        this.bloomPass = new UnrealBloomPass(
             new THREE.Vector2(window.innerWidth, window.innerHeight),
             1.5, // strength
             0.4, // radius
