@@ -4,6 +4,7 @@ import { RenderPass } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/p
 import { UnrealBloomPass } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { Line2 } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/lines/Line2.js';
 import { LineMaterial } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/lines/LineMaterial.js';
+import { LineGeometry } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/lines/LineGeometry.js';
 
 // Neural Network with Bloom Glowing Synapse Effect
 class NeuralNetwork {
@@ -80,7 +81,7 @@ class NeuralNetwork {
                         node1.position.x, node1.position.y, node1.position.z,
                         node2.position.x, node2.position.y, node2.position.z
                     ];
-                    const geometry = new THREE.LineGeometry();
+                    const geometry = new LineGeometry();
                     geometry.setPositions(positions);
                     const material = new LineMaterial({
                         color: 0x64ffda,
@@ -139,7 +140,7 @@ class NeuralNetwork {
                 node2.position.x, node2.position.y, node2.position.z
             ];
             connection.geometry.setPositions(positions);
-            connection.geometry.attributes.position.needsUpdate = true;
+            connection.computeLineDistances();
             connection.material.resolution.set(window.innerWidth, window.innerHeight);
 
             // Animate synapse effect
