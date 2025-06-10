@@ -107,46 +107,64 @@ window.initDNAAnimation = function () {
   for (let i = 0; i < numBasePairs; i++) {
     const y = (i - (numBasePairs - 1) / 2) * rise;
     const angle = -i * anglePerBP;
-
-    // choose random 1st base, derive complement
     const base1 = bases[Math.floor(Math.random() * 4)];
     const base2 = complement[base1];
-
     const x1 = Math.cos(angle) * radius;
     const z1 = Math.sin(angle) * radius;
     const x2 = Math.cos(angle + Math.PI) * radius;
     const z2 = Math.sin(angle + Math.PI) * radius;
-
     const p1 = new THREE.Vector3(x1, y, z1);
     const p2 = new THREE.Vector3(x2, y, z2);
-
-    // Modern spheres
+    // Glassy, colored, softly glowing bases
     const sphereGeom = new THREE.SphereGeometry(0.35, 24, 24);
     const s1 = new THREE.Mesh(
       sphereGeom,
-      new THREE.MeshPhysicalMaterial({ color: colours[base1], opacity: 0.7, transparent: true, roughness: 0.15, metalness: 0.7, clearcoat: 0.8, clearcoatRoughness: 0.1 })
+      new THREE.MeshPhysicalMaterial({
+        color: colours[base1],
+        opacity: 0.82,
+        transparent: true,
+        roughness: 0.18,
+        metalness: 0.55,
+        clearcoat: 0.7,
+        clearcoatRoughness: 0.08,
+        emissive: colours[base1],
+        emissiveIntensity: 0.13
+      })
     );
     const s2 = new THREE.Mesh(
       sphereGeom,
-      new THREE.MeshPhysicalMaterial({ color: colours[base2], opacity: 0.7, transparent: true, roughness: 0.15, metalness: 0.7, clearcoat: 0.8, clearcoatRoughness: 0.1 })
+      new THREE.MeshPhysicalMaterial({
+        color: colours[base2],
+        opacity: 0.82,
+        transparent: true,
+        roughness: 0.18,
+        metalness: 0.55,
+        clearcoat: 0.7,
+        clearcoatRoughness: 0.08,
+        emissive: colours[base2],
+        emissiveIntensity: 0.13
+      })
     );
     s1.position.copy(p1);
     s2.position.copy(p2);
     dnaGroup.add(s1, s2);
-
-    // Modern hydrogen bond (cylinder)
+    // Glassy, softly glowing hydrogen bond (cylinder)
     const bondColour = (base1 === 'A' || base1 === 'T') ? 0xffffff : 0xbbbbbb;
-    const bondMat = new THREE.MeshPhysicalMaterial({ color: bondColour, opacity: 0.35, transparent: true, roughness: 0.2, metalness: 0.5 });
+    const bondMat = new THREE.MeshPhysicalMaterial({
+      color: bondColour,
+      opacity: 0.38,
+      transparent: true,
+      roughness: 0.22,
+      metalness: 0.45,
+      clearcoat: 0.6,
+      clearcoatRoughness: 0.12,
+      emissive: bondColour,
+      emissiveIntensity: 0.08
+    });
     const bond = cylinderBetween(p1, p2, 0.08, bondColour);
     bond.material = bondMat;
     dnaGroup.add(bond);
   }
-
-  // Add a soft glow effect to the group (optional, via a transparent sphere around the helix)
-  const glowGeom = new THREE.SphereGeometry(radius * 1.25, 32, 32);
-  const glowMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.07 });
-  const glow = new THREE.Mesh(glowGeom, glowMat);
-  dnaGroup.add(glow);
 
   /* ───────────────────────────────────────── Animation loop ────────────────────────────────── */
   let theta = 0;
