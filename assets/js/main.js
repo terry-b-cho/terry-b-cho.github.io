@@ -68,26 +68,40 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(style);
 
     let dnaInitialized = false;
+    let lastState = null;
+
+    function showDNAAnimation() {
+        const neuralNetwork = document.getElementById('neuralNetwork');
+        const dnaAnimation = document.getElementById('dnaAnimation');
+        if (lastState === 'dna') return;
+        neuralNetwork.style.opacity = 0;
+        setTimeout(() => { neuralNetwork.style.display = 'none'; }, 800);
+        dnaAnimation.style.display = 'block';
+        setTimeout(() => { dnaAnimation.style.opacity = 1; }, 10);
+        if (!dnaInitialized) {
+            if (window.initDNAAnimation) window.initDNAAnimation();
+            dnaInitialized = true;
+        }
+        lastState = 'dna';
+    }
+
+    function showNeuralNetwork() {
+        const neuralNetwork = document.getElementById('neuralNetwork');
+        const dnaAnimation = document.getElementById('dnaAnimation');
+        if (lastState === 'neural') return;
+        neuralNetwork.style.display = 'block';
+        setTimeout(() => { neuralNetwork.style.opacity = 1; }, 10);
+        dnaAnimation.style.opacity = 0;
+        setTimeout(() => { dnaAnimation.style.display = 'none'; }, 800);
+        lastState = 'neural';
+    }
 
     window.addEventListener('scroll', () => {
         const publicationsSection = document.getElementById('publications');
-        const neuralNetwork = document.getElementById('neuralNetwork');
-        const dnaAnimation = document.getElementById('dnaAnimation');
-
         if (isElementInViewport(publicationsSection)) {
-            neuralNetwork.style.opacity = 0;
-            setTimeout(() => { neuralNetwork.style.display = 'none'; }, 800);
-            dnaAnimation.style.display = 'block';
-            setTimeout(() => { dnaAnimation.style.opacity = 1; }, 10);
-            if (!dnaInitialized) {
-                if (window.initDNAAnimation) window.initDNAAnimation();
-                dnaInitialized = true;
-            }
+            showDNAAnimation();
         } else {
-            neuralNetwork.style.display = 'block';
-            setTimeout(() => { neuralNetwork.style.opacity = 1; }, 10);
-            dnaAnimation.style.opacity = 0;
-            setTimeout(() => { dnaAnimation.style.display = 'none'; }, 800);
+            showNeuralNetwork();
         }
     });
 }); 
