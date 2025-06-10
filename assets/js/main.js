@@ -5,10 +5,19 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
+                const headerOffset = 100;
+                const elementPosition = target.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
                 });
+
+                // Close mobile menu if open
+                if (navbar.classList.contains('active')) {
+                    toggleNav();
+                }
             }
         });
     });
@@ -102,6 +111,103 @@ document.addEventListener('DOMContentLoaded', () => {
             showDNAAnimation();
         } else {
             showNeuralNetwork();
+        }
+    });
+
+    // Preloader
+    const preloader = document.querySelector('[data-preloader]');
+    const preloaderCircle = document.querySelector('.preloader-circle');
+    const preloaderText = document.querySelector('.preloader-text');
+
+    let lastScrollY = window.scrollY;
+
+    const toggleNav = () => {
+        navbar.classList.toggle('active');
+        navToggleBtn.classList.toggle('active');
+        overlay.classList.toggle('active');
+        document.body.classList.toggle('nav-active');
+    };
+
+    navToggleBtn.addEventListener('click', toggleNav);
+    overlay.addEventListener('click', toggleNav);
+
+    // Sticky Header
+    const headerSticky = () => {
+        if (window.scrollY > 100) {
+            header.classList.add('sticky');
+        } else {
+            header.classList.remove('sticky');
+        }
+
+        if (window.scrollY > lastScrollY && window.scrollY > 100) {
+            header.classList.add('hide');
+        } else {
+            header.classList.remove('hide');
+        }
+
+        lastScrollY = window.scrollY;
+    };
+
+    window.addEventListener('scroll', headerSticky);
+
+    // Mobile Navigation
+    const navTogglers = document.querySelectorAll("[data-nav-toggler]");
+    const navToggleBtn = document.querySelector("[data-nav-toggle-btn]");
+    const navbar = document.querySelector("[data-navbar]");
+    const overlay = document.querySelector("[data-overlay]");
+
+    // Neural Network Animation
+    const neuralNetwork = document.getElementById('neuralNetwork');
+    let isNeuralNetworkVisible = true;
+
+    const handleScroll = () => {
+        const scrollPosition = window.scrollY;
+        const publicationsSection = document.getElementById('publications');
+        
+        if (publicationsSection) {
+            const publicationsOffset = publicationsSection.offsetTop;
+            const windowHeight = window.innerHeight;
+            
+            if (scrollPosition > publicationsOffset - windowHeight * 0.5) {
+                if (isNeuralNetworkVisible) {
+                    neuralNetwork.style.opacity = '0';
+                    setTimeout(() => {
+                        neuralNetwork.style.display = 'none';
+                        document.getElementById('dnaAnimation').style.display = 'block';
+                        setTimeout(() => {
+                            document.getElementById('dnaAnimation').style.opacity = '1';
+                        }, 50);
+                    }, 800);
+                    isNeuralNetworkVisible = false;
+                }
+            } else {
+                if (!isNeuralNetworkVisible) {
+                    document.getElementById('dnaAnimation').style.opacity = '0';
+                    setTimeout(() => {
+                        document.getElementById('dnaAnimation').style.display = 'none';
+                        neuralNetwork.style.display = 'block';
+                        setTimeout(() => {
+                            neuralNetwork.style.opacity = '1';
+                        }, 50);
+                    }, 800);
+                    isNeuralNetworkVisible = true;
+                }
+            }
+        }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        // Add animation classes to elements
+        document.querySelectorAll('.hero-title, .hero-subtitle, .hero-location, .hero-description').forEach(element => {
+            element.classList.add('animate-on-scroll');
+        });
+
+        // Initialize neural network animation
+        if (typeof initNeuralNetwork === 'function') {
+            initNeuralNetwork();
         }
     });
 }); 
