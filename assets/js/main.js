@@ -7,7 +7,8 @@ const elements = {
     navToggleBtn: document.querySelector('[data-nav-toggle-btn]'),
     navbar: document.querySelector('[data-navbar]'),
     overlay: document.querySelector('[data-overlay]'),
-    neuralNetwork: document.getElementById('neuralNetwork')
+    neuralNetwork: document.getElementById('neuralNetwork'),
+    scrollIndicator: document.querySelector('[data-scroll-indicator]')
 };
 
 let lastScrollY = window.scrollY;
@@ -125,12 +126,27 @@ const initNeuralNetworkTransition = () => {
     window.addEventListener('scroll', handleScroll);
 };
 
+// Scroll Indicator
+const initScrollIndicator = () => {
+    const handleScroll = () => {
+        if (window.scrollY > 100) {
+            elements.scrollIndicator.classList.add('hidden');
+        } else {
+            elements.scrollIndicator.classList.remove('hidden');
+        }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial check
+};
+
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     initPreloader();
     initNavigation();
     initSmoothScroll();
     initNeuralNetworkTransition();
+    initScrollIndicator();
 
     // Add animation classes to elements
     document.querySelectorAll('.hero-title, .hero-subtitle, .hero-location, .hero-description').forEach(element => {
