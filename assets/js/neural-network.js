@@ -6,8 +6,11 @@ class NeuralNetwork {
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         this.nodes = [];
         this.connections = [];
+        this.firingConnections = [];
         this.firingSprites = [];
-        this.nodeFiringUntil = [];
+        this.activeNodes = new Set(); // Track nodes with active firings
+        this.lastFireTime = 0;
+        this.fireInterval = 0.04; // seconds between firings
         this.init();
     }
 
@@ -41,9 +44,6 @@ class NeuralNetwork {
         // Handle window resize
         window.addEventListener('resize', () => this.onWindowResize(), false);
 
-        // Start synapse firing interval (reduced pause, more overlap)
-        this.firingInterval = setInterval(() => this.triggerRandomSynapses(), 350); // faster, less pause
-
         // Start animation
         this.animate();
     }
@@ -61,7 +61,6 @@ class NeuralNetwork {
                 }
             }
         }
-        this.nodeFiringUntil = new Array(this.nodes.length).fill(0);
     }
 
     createConnections() {
@@ -92,9 +91,8 @@ class NeuralNetwork {
     }
 
     triggerRandomSynapses() {
-        // Only fire one connection per node at a time, and allow new firings as soon as possible
-        const now = performance.now();
-        const usedNodes = new Set();
+        // Only fire one connection per node at a time
+        const usedNodes = new Set(this.activeNodes);
         let fired = 0;
         const maxFirings = Math.min(this.nodes.length, 10);
         while (fired < maxFirings) {
@@ -102,17 +100,11 @@ class NeuralNetwork {
             const conn = this.connections[idx];
             const n1 = conn.userData.node1Idx;
             const n2 = conn.userData.node2Idx;
-            if (
-                !usedNodes.has(n1) &&
-                !usedNodes.has(n2) &&
-                now > this.nodeFiringUntil[n1] &&
-                now > this.nodeFiringUntil[n2] &&
-                !conn.userData.firing
-            ) {
+            if (!usedNodes.has(n1) && !usedNodes.has(n2) && !conn.userData.firing) {
                 conn.userData.firing = true;
                 conn.userData.pulse = 0;
-                this.nodeFiringUntil[n1] = now + 350; // allow new firing after 350ms
-                this.nodeFiringUntil[n2] = now + 350;
+                this.activeNodes.add(n1);
+                this.activeNodes.add(n2);
                 usedNodes.add(n1);
                 usedNodes.add(n2);
                 fired++;
@@ -124,6 +116,16 @@ class NeuralNetwork {
         requestAnimationFrame(() => this.animate());
         this.scene.rotation.y += 0.001;
         this.scene.rotation.x += 0.0005;
+
+        // Fire new synapses as soon as possible (no pause)
+        const now = performance.now() / 1000;
+        if (now - this.lastFireTime > this.fireInterval) {
+            this.triggerRandomSynapses();
+            this.lastFireTime = now;
+        }
+
+        // Track nodes that are still firing
+        const stillActiveNodes = new Set();
 
         this.connections.forEach((connection) => {
             const positions = connection.geometry.attributes.position.array;
@@ -139,10 +141,9 @@ class NeuralNetwork {
 
             // Animate synapse effect
             if (connection.userData.firing) {
-                connection.userData.pulse += 0.09; // slightly slower for more overlap
-                // Smoother, more gradient transition
+                connection.userData.pulse += 0.09;
                 const t = connection.userData.pulse;
-                const fade = 0.5 * (1 - Math.cos(Math.PI * Math.min(t, 1))); // cosine for smooth in/out
+                const fade = 0.5 * (1 - Math.cos(Math.PI * Math.min(t, 1)));
                 const color = new THREE.Color().setHSL(0.15 + 0.5 * Math.sin(t * Math.PI), 1, 0.7);
                 connection.material.color.copy(color);
                 connection.material.opacity = 0.95 * (1 - fade) + 0.2;
@@ -157,11 +158,14 @@ class NeuralNetwork {
                     this.scene.add(sprite);
                     this.firingSprites.push(sprite);
                 }
-                if (connection.userData.pulse > 1.2) { // allow overlap
+                if (connection.userData.pulse > 1.2) {
                     connection.userData.firing = false;
                     connection.material.color.set(0x64ffda);
                     connection.material.opacity = 0.2;
                     connection.scale.setScalar(1);
+                } else {
+                    stillActiveNodes.add(connection.userData.node1Idx);
+                    stillActiveNodes.add(connection.userData.node2Idx);
                 }
             } else {
                 connection.material.color.set(0x64ffda);
@@ -169,6 +173,7 @@ class NeuralNetwork {
                 connection.scale.setScalar(1);
             }
         });
+        this.activeNodes = stillActiveNodes;
 
         if (this.firingSprites.length > 30) {
             const toRemove = this.firingSprites.splice(0, this.firingSprites.length - 30);
