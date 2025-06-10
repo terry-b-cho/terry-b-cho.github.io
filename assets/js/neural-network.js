@@ -14,8 +14,7 @@ class NeuralNetwork {
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         this.nodes = [];
         this.connections = [];
-        this.firingConnections = [];
-        this.firingSprites = [];
+        this.spritePool = [];
         this.init();
     }
 
@@ -30,15 +29,14 @@ class NeuralNetwork {
 
         // Postprocessing: Bloom
         this.composer = new EffectComposer(this.renderer);
-        this.renderScene = new RenderPass(this.scene, this.camera);
-        this.bloomPass = new UnrealBloomPass(
+        this.composer.addPass(new RenderPass(this.scene, this.camera));
+        this.bloom = new UnrealBloomPass(
             new THREE.Vector2(window.innerWidth, window.innerHeight),
             1.5, // strength
             0.4, // radius
             0.85 // threshold
         );
-        this.composer.addPass(this.renderScene);
-        this.composer.addPass(this.bloomPass);
+        this.composer.addPass(this.bloom);
 
         // Create nodes
         this.createNodes();
@@ -47,10 +45,10 @@ class NeuralNetwork {
         this.createConnections();
 
         // Handle window resize
-        window.addEventListener('resize', () => this.onWindowResize(), false);
+        window.addEventListener('resize', () => this.onResize(), false);
 
         // Start synapse firing interval (reduced pause, more overlap)
-        this.firingInterval = setInterval(() => this.triggerRandomSynapses(), 1000); // slower
+        this.fireTimer = setInterval(() => this.triggerRandomSynapses(), 1000); // slower
 
         // Start animation
         this.animate();
@@ -59,9 +57,9 @@ class NeuralNetwork {
     createNodes() {
         const geometry = new THREE.SphereGeometry(0.05, 32, 32);
         const material = new THREE.MeshBasicMaterial({ color: 0x64ffda });
-        for (let x = -2; x <= 2; x += 1) {
-            for (let y = -2; y <= 2; y += 1) {
-                for (let z = -2; z <= 2; z += 1) {
+        for (let x = -2; x <= 2; x++) {
+            for (let y = -2; y <= 2; y++) {
+                for (let z = -2; z <= 2; z++) {
                     const node = new THREE.Mesh(geometry, material);
                     node.position.set(x, y, z);
                     this.nodes.push(node);
@@ -72,55 +70,57 @@ class NeuralNetwork {
     }
 
     createConnections() {
+        const res = new THREE.Vector2(window.innerWidth, window.innerHeight);
+        const lim = 1.5;
         for (let i = 0; i < this.nodes.length; i++) {
             for (let j = i + 1; j < this.nodes.length; j++) {
                 const node1 = this.nodes[i];
                 const node2 = this.nodes[j];
-                if (node1.position.distanceTo(node2.position) < 2) {
-                    const positions = [
-                        node1.position.x, node1.position.y, node1.position.z,
-                        node2.position.x, node2.position.y, node2.position.z
-                    ];
-                    const geometry = new LineGeometry();
-                    geometry.setPositions(positions);
-                    const material = new LineMaterial({
-                        color: 0x64ffda,
-                        transparent: true,
-                        opacity: 0.25,
-                        linewidth: 1.0,
-                        worldUnits: true
-                    });
-                    material.resolution.set(window.innerWidth, window.innerHeight);
-                    const line = new Line2(geometry, material);
-                    line.computeLineDistances();
-                    line.userData = {
-                        firing: false,
-                        pulse: 0,
-                        node1Idx: i,
-                        node2Idx: j
-                    };
-                    this.connections.push(line);
-                    this.scene.add(line);
-                }
+                if (node1.position.distanceTo(node2.position) > lim) continue;
+
+                const positions = [
+                    node1.position.x, node1.position.y, node1.position.z,
+                    node2.position.x, node2.position.y, node2.position.z
+                ];
+                const geometry = new LineGeometry();
+                geometry.setPositions(positions);
+                const material = new LineMaterial({
+                    color: 0x64ffda,
+                    linewidth: 1.0,
+                    transparent: true,
+                    opacity: 0.25,
+                    worldUnits: true
+                });
+                material.resolution.copy(res);
+                const line = new Line2(geometry, material);
+                line.computeLineDistances();
+                line.userData = {
+                    firing: false,
+                    t: 0,
+                    aIdx: i,
+                    bIdx: j
+                };
+                this.connections.push(line);
+                this.scene.add(line);
             }
         }
     }
 
     triggerRandomSynapses() {
         // Only fire one connection per node at a time
-        const usedNodes = new Set();
+        const used = new Set();
         let fired = 0;
         const maxFirings = Math.min(this.nodes.length, 10);
         while (fired < maxFirings) {
             const idx = Math.floor(Math.random() * this.connections.length);
             const conn = this.connections[idx];
-            const n1 = conn.userData.node1Idx;
-            const n2 = conn.userData.node2Idx;
-            if (!usedNodes.has(n1) && !usedNodes.has(n2) && !conn.userData.firing) {
+            const aIdx = conn.userData.aIdx;
+            const bIdx = conn.userData.bIdx;
+            if (!conn.userData.firing && !used.has(aIdx) && !used.has(bIdx)) {
                 conn.userData.firing = true;
-                conn.userData.pulse = 0;
-                usedNodes.add(n1);
-                usedNodes.add(n2);
+                conn.userData.t = 0;
+                used.add(aIdx);
+                used.add(bIdx);
                 fired++;
             }
         }
@@ -131,71 +131,63 @@ class NeuralNetwork {
         this.scene.rotation.y += 0.001;
         this.scene.rotation.x += 0.0005;
         this.connections.forEach((connection) => {
-            const node1 = this.nodes[connection.userData.node1Idx];
-            const node2 = this.nodes[connection.userData.node2Idx];
-            if (connection.userData.firing) {
-                connection.userData.pulse += 0.03;
-                const t = Math.min(connection.userData.pulse, 1.0);
+            const u = connection.userData;
+            if (u.firing) {
+                u.t += 0.03;
+                const t = Math.min(u.t, 1.0);
                 connection.material.linewidth = 3.0 - 2.0 * t;
                 connection.material.color.setHSL(0.15 + 0.5 * Math.sin(t * Math.PI), 1, 0.7);
-                const map = this.getGlowTexture();
-                const spriteMaterial = new THREE.SpriteMaterial({ map, color: 0xffff99, transparent: true, opacity: 0.7 * (1 - t) + 0.2 });
-                const sprite = new THREE.Sprite(spriteMaterial);
-                const size = 0.55 * (1 - t) + 0.08;
-                sprite.scale.set(size, size, size);
-                const pA = new THREE.Vector3();
-                const pB = new THREE.Vector3();
-                node1.getWorldPosition(pA);
-                node2.getWorldPosition(pB);
-                sprite.position.lerpVectors(pA, pB, t);
-                this.scene.add(sprite);
-                this.firingSprites.push(sprite);
-                if (connection.userData.pulse > 1.8) {
-                    connection.userData.firing = false;
-                    connection.material.color.set(0x64ffda);
+                const sprite = this.fetchSprite();
+                sprite.position.lerpVectors(this.nodes[u.aIdx].position, this.nodes[u.bIdx].position, t);
+                sprite.material.opacity = 0.8 * (1 - t) + 0.2;
+                if (u.t > 1.8) {
+                    u.firing = false;
                     connection.material.linewidth = 1.0;
+                    connection.material.color.set(0x64ffda);
                 }
-            } else {
-                connection.material.color.set(0x64ffda);
-                connection.material.linewidth = 1.0;
             }
         });
-        if (this.firingSprites.length > 30) {
-            const toRemove = this.firingSprites.splice(0, this.firingSprites.length - 30);
-            toRemove.forEach(s => this.scene.remove(s));
-        }
         this.composer.render();
     }
 
-    getGlowTexture() {
-        if (!this._glowTexture) {
-            const size = 64;
-            const canvas = document.createElement('canvas');
-            canvas.width = canvas.height = size;
-            const ctx = canvas.getContext('2d');
-            const gradient = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
-            gradient.addColorStop(0, 'rgba(255,255,200,1)');
-            gradient.addColorStop(0.2, 'rgba(255,255,200,0.7)');
-            gradient.addColorStop(0.4, 'rgba(255,255,200,0.3)');
-            gradient.addColorStop(1, 'rgba(255,255,200,0)');
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, size, size);
-            this._glowTexture = new THREE.CanvasTexture(canvas);
+    fetchSprite() {
+        let s = this.spritePool.pop();
+        if (!s) {
+            const tex = this.getGlowTexture();
+            const sm = new THREE.SpriteMaterial({ map: tex, color: 0xffff99, transparent: true, depthWrite: false });
+            s = new THREE.Sprite(sm);
+            s.scale.set(0.25, 0.25, 0.25);
+            this.scene.add(s);
         }
-        return this._glowTexture;
+        return s;
     }
 
-    onWindowResize() {
+    getGlowTexture() {
+        if (this._tex) return this._tex;
+        const S = 64;
+        const c = document.createElement('canvas');
+        c.width = c.height = S;
+        const ctx = c.getContext('2d');
+        const g = ctx.createRadialGradient(S / 2, S / 2, 0, S / 2, S / 2, S / 2);
+        g.addColorStop(0, 'rgba(255,255,200,1)');
+        g.addColorStop(0.3, 'rgba(255,255,200,0.5)');
+        g.addColorStop(1, 'rgba(255,255,200,0)');
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, S, S);
+        this._tex = new THREE.CanvasTexture(c);
+        return this._tex;
+    }
+
+    onResize() {
         this.camera.aspect = window.innerWidth / window.innerHeight;
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(window.innerWidth, window.innerHeight);
-        this.composer.setSize(window.innerWidth, window.innerHeight);
-        this.bloomPass.setSize(window.innerWidth, window.innerHeight);
-        this.bloomPass.resolution.set(window.innerWidth, window.innerHeight);
-        // Update all line materials' resolution
-        this.connections.forEach(conn => {
+        this.bloom.setSize(window.innerWidth, window.innerHeight);
+        this.bloom.resolution.set(window.innerWidth, window.innerHeight);
+        const res = new THREE.Vector2(window.innerWidth, window.innerHeight);
+        this.connections.forEach((conn) => {
             if (conn.material && conn.material.resolution) {
-                conn.material.resolution.set(window.innerWidth, window.innerHeight);
+                conn.material.resolution.copy(res);
             }
         });
     }
