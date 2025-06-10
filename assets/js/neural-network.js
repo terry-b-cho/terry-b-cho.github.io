@@ -1,6 +1,9 @@
+import * as THREE from 'https://cdn.skypack.dev/three@0.136.0';
 import { EffectComposer } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { Line2 } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/lines/Line2.js';
+import { LineMaterial } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/lines/LineMaterial.js';
 
 // Neural Network with Bloom Glowing Synapse Effect
 class NeuralNetwork {
@@ -46,7 +49,7 @@ class NeuralNetwork {
         window.addEventListener('resize', () => this.onWindowResize(), false);
 
         // Start synapse firing interval (reduced pause, more overlap)
-        this.firingInterval = setInterval(() => this.triggerRandomSynapses(), 350); // faster, less pause
+        this.firingInterval = setInterval(() => this.triggerRandomSynapses(), 1000); // slower
 
         // Start animation
         this.animate();
@@ -73,19 +76,27 @@ class NeuralNetwork {
                 const node1 = this.nodes[i];
                 const node2 = this.nodes[j];
                 if (node1.position.distanceTo(node2.position) < 2) {
-                    const geometry = new THREE.BufferGeometry().setFromPoints([
-                        node1.position,
-                        node2.position
-                    ]);
-                    // Use MeshLine for width animation, fallback to LineBasicMaterial for simplicity
-                    const material = new THREE.LineBasicMaterial({ color: 0x64ffda, transparent: true, opacity: 0.2 });
-                    const line = new THREE.Line(geometry, material);
+                    const positions = [
+                        node1.position.x, node1.position.y, node1.position.z,
+                        node2.position.x, node2.position.y, node2.position.z
+                    ];
+                    const geometry = new THREE.LineGeometry();
+                    geometry.setPositions(positions);
+                    const material = new LineMaterial({
+                        color: 0x64ffda,
+                        transparent: true,
+                        opacity: 0.25,
+                        linewidth: 1.0,
+                        worldUnits: true
+                    });
+                    material.resolution.set(window.innerWidth, window.innerHeight);
+                    const line = new Line2(geometry, material);
+                    line.computeLineDistances();
                     line.userData = {
                         firing: false,
                         pulse: 0,
                         node1Idx: i,
-                        node2Idx: j,
-                        width: 1
+                        node2Idx: j
                     };
                     this.connections.push(line);
                     this.scene.add(line);
@@ -120,52 +131,46 @@ class NeuralNetwork {
         this.scene.rotation.x += 0.0005;
 
         this.connections.forEach((connection) => {
-            const positions = connection.geometry.attributes.position.array;
             const node1 = this.nodes[connection.userData.node1Idx];
             const node2 = this.nodes[connection.userData.node2Idx];
-            positions[0] = node1.position.x;
-            positions[1] = node1.position.y;
-            positions[2] = node1.position.z;
-            positions[3] = node2.position.x;
-            positions[4] = node2.position.y;
-            positions[5] = node2.position.z;
+            // Update geometry positions
+            const positions = [
+                node1.position.x, node1.position.y, node1.position.z,
+                node2.position.x, node2.position.y, node2.position.z
+            ];
+            connection.geometry.setPositions(positions);
             connection.geometry.attributes.position.needsUpdate = true;
+            connection.material.resolution.set(window.innerWidth, window.innerHeight);
 
             // Animate synapse effect
             if (connection.userData.firing) {
-                connection.userData.pulse += 0.09; // slightly slower for more overlap
-                // Smoother, more gradient transition
-                const t = connection.userData.pulse;
-                const fade = 0.5 * (1 - Math.cos(Math.PI * Math.min(t, 1))); // cosine for smooth in/out
+                connection.userData.pulse += 0.03; // slower
+                const t = Math.min(connection.userData.pulse, 1.0);
+                connection.material.linewidth = 3.0 - 2.0 * t; // pulse width
                 const color = new THREE.Color().setHSL(0.15 + 0.5 * Math.sin(t * Math.PI), 1, 0.7);
                 connection.material.color.copy(color);
-                connection.material.opacity = 0.95 * (1 - fade) + 0.2;
-                connection.scale.setScalar(1.5 * (1 - fade) + 1);
-                if (t <= 1) {
-                    const map = this.getGlowTexture();
-                    const spriteMaterial = new THREE.SpriteMaterial({ map, color: 0xffff99, transparent: true, opacity: 0.7 * (1 - fade) + 0.2 });
-                    const sprite = new THREE.Sprite(spriteMaterial);
-                    const size = 0.55 * (1 - fade) + 0.08;
-                    sprite.scale.set(size, size, size);
-                    // Use the world positions of the nodes for accurate edge following
-                    const pA = new THREE.Vector3();
-                    const pB = new THREE.Vector3();
-                    node1.getWorldPosition(pA);
-                    node2.getWorldPosition(pB);
-                    sprite.position.lerpVectors(pA, pB, fade);
-                    this.scene.add(sprite);
-                    this.firingSprites.push(sprite);
-                }
-                if (connection.userData.pulse > 1.2) { // allow overlap
+                // Animate a glowing sprite at the firing point
+                const map = this.getGlowTexture();
+                const spriteMaterial = new THREE.SpriteMaterial({ map, color: 0xffff99, transparent: true, opacity: 0.7 * (1 - t) + 0.2 });
+                const sprite = new THREE.Sprite(spriteMaterial);
+                const size = 0.55 * (1 - t) + 0.08;
+                sprite.scale.set(size, size, size);
+                // Use world positions for accuracy
+                const pA = new THREE.Vector3();
+                const pB = new THREE.Vector3();
+                node1.getWorldPosition(pA);
+                node2.getWorldPosition(pB);
+                sprite.position.lerpVectors(pA, pB, t);
+                this.scene.add(sprite);
+                this.firingSprites.push(sprite);
+                if (connection.userData.pulse > 1.8) {
                     connection.userData.firing = false;
                     connection.material.color.set(0x64ffda);
-                    connection.material.opacity = 0.2;
-                    connection.scale.setScalar(1);
+                    connection.material.linewidth = 1.0;
                 }
             } else {
                 connection.material.color.set(0x64ffda);
-                connection.material.opacity = 0.2;
-                connection.scale.setScalar(1);
+                connection.material.linewidth = 1.0;
             }
         });
 
@@ -200,6 +205,13 @@ class NeuralNetwork {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.composer.setSize(window.innerWidth, window.innerHeight);
         this.bloomPass.setSize(window.innerWidth, window.innerHeight);
+        this.bloomPass.resolution.set(window.innerWidth, window.innerHeight);
+        // Update all line materials' resolution
+        this.connections.forEach(conn => {
+            if (conn.material && conn.material.resolution) {
+                conn.material.resolution.set(window.innerWidth, window.innerHeight);
+            }
+        });
     }
 }
 
