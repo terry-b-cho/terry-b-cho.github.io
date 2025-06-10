@@ -49,10 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function isElementInViewport(el) {
         const rect = el.getBoundingClientRect();
         return (
-            rect.top >= 0 &&
-            rect.left >= 0 &&
-            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            rect.top <= window.innerHeight * 0.5 &&
+            rect.bottom >= window.innerHeight * 0.2
         );
     }
 
@@ -68,4 +66,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     `;
     document.head.appendChild(style);
+
+    let dnaInitialized = false;
+
+    window.addEventListener('scroll', () => {
+        const publicationsSection = document.getElementById('publications');
+        const neuralNetwork = document.getElementById('neuralNetwork');
+        const dnaAnimation = document.getElementById('dnaAnimation');
+
+        if (isElementInViewport(publicationsSection)) {
+            neuralNetwork.style.opacity = 0;
+            setTimeout(() => { neuralNetwork.style.display = 'none'; }, 800);
+            dnaAnimation.style.display = 'block';
+            setTimeout(() => { dnaAnimation.style.opacity = 1; }, 10);
+            if (!dnaInitialized) {
+                if (window.initDNAAnimation) window.initDNAAnimation();
+                dnaInitialized = true;
+            }
+        } else {
+            neuralNetwork.style.display = 'block';
+            setTimeout(() => { neuralNetwork.style.opacity = 1; }, 10);
+            dnaAnimation.style.opacity = 0;
+            setTimeout(() => { dnaAnimation.style.display = 'none'; }, 800);
+        }
+    });
 }); 

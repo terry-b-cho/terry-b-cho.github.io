@@ -10,6 +10,7 @@
 </head>
 <body class="dark-theme">
     <div class="neural-network-animation" id="neuralNetwork"></div>
+    <div id="dnaAnimation" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:1;"></div>
     
     <header class="header">
         <nav class="nav">
@@ -27,7 +28,6 @@
     <main>
         <section class="hero">
             <div class="hero-content">
-                <img src="assets/images/profile/headshot_profile.jpg" alt="Terry Byeongyeon Cho" class="profile-headshot">
                 <h1>Terry Byeongyeon Cho</h1>
                 <p class="subtitle">PhD Candidate in Bioinformatics and Integrative Genomics</p>
                 <p class="location">Harvard Medical School | Department of Biomedical Informatics</p>
@@ -40,9 +40,9 @@
 
         <section id="about" class="section">
             <h2>About Me</h2>
-            <div class="about-content" style="display: flex; align-items: center; gap: 2rem;">
-                <img src="assets/images/profile/headshot_profile.jpg" alt="Terry Byeongyeon Cho" class="profile-headshot-hex" style="flex-shrink: 0;">
-                <p>I am a PhD candidate in Bioinformatics and Integrative Genomics at Harvard Medical School, with a background in Biomedical Informatics and Economics. My research focuses on leveraging computational methods to understand complex biological systems and develop innovative solutions in medicine.</p>
+            <div class="about-content" style="display: flex; flex-direction: column; align-items: center; max-width: 600px; margin: 0 auto;">
+                <img src="assets/images/profile/headshot_profile.jpg" alt="Terry Byeongyeon Cho" class="profile-headshot-hex-minimal">
+                <p style="margin-top: 1.5rem; text-align: center;">I am a PhD candidate in Bioinformatics and Integrative Genomics at Harvard Medical School, with a background in Biomedical Informatics and Economics. My research focuses on leveraging computational methods to understand complex biological systems and develop innovative solutions in medicine.</p>
             </div>
         </section>
 
@@ -139,5 +139,6 @@
 
     <script src="assets/js/neural-network.js"></script>
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/dna-animation.js"></script>
 </body>
 </html>

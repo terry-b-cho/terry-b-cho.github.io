@@ -362,4 +362,30 @@ body {
 .profile-headshot-hex:hover {
     box-shadow: 0 8px 24px 0 rgba(0,0,0,0.20);
     border-color: var(--secondary-color);
+}
+
+.profile-headshot-hex-minimal {
+    width: 96px;
+    height: 96px;
+    object-fit: cover;
+    clip-path: polygon(
+        25% 6%, 75% 6%,
+        100% 50%, 75% 94%,
+        25% 94%, 0% 50%
+    );
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
+    background: var(--accent-color);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+.profile-headshot-hex-minimal:hover {
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.12);
+    border-color: var(--secondary-color);
+}
+
+#neuralNetwork, #dnaAnimation {
+    transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1);
 } 
