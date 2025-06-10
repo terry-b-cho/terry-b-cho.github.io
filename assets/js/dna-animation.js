@@ -1,218 +1,163 @@
-import * as THREE from 'https://cdn.skypack.dev/three@0.136.0';
+import * as THREE from 'https://cdn.skypack.dev/three@0.160.0';
 
-// DNA Animation using Three.js (Apple-like, CSS-inspired)
-window.initDNAAnimation = function() {
-    if (window.dnaScene) return; // Prevent re-initialization
-    const container = document.getElementById('dnaAnimation');
-    container.innerHTML = '';
-    container.style.position = 'fixed';
-    container.style.top = '0';
-    container.style.left = '0';
-    container.style.width = '100vw';
-    container.style.height = '100vh';
-    container.style.zIndex = '-1';
-    container.style.pointerEvents = 'none';
-    container.style.background = 'transparent';
+/**
+ * initDNAAnimation()
+ * ---------------------------------------------------------------------------
+ * Lightweight, biologically faithful B‑DNA double‑helix rendered with Three.js.
+ * — 10.5 base‑pairs per turn (≈ B‑DNA)
+ * — 0.34 nm rise per base‑pair (scaled to 1 au = 0.34 nm)
+ * — Complementary base‑pair colouring (A–T, G–C)
+ * — Phosphodiester backbones rendered as smooth tubes following a helical path
+ * — Hydrogen‑bond “rungs” rendered as cylinders between bases
+ *                                                                          */
 
-    // Get theme colors from CSS variables
-    const styles = getComputedStyle(document.documentElement);
-    const adenine = new THREE.Color('#EDD382');    // A: Yellow
-    const thymine = new THREE.Color('#717EC3');    // T: Blue
-    const cytosine = new THREE.Color('#FF6F59');   // C: Red
-    const guanine = new THREE.Color('#85FFC7');    // G: Green
-    const backbone = new THREE.Color(styles.getPropertyValue('--primary-color') || '#64ffda');
+window.initDNAAnimation = function () {
+  // Prevent multiple initialisations -----------------------------------------------------------
+  if (window.dnaScene) return;
 
-    // Scene setup
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 0, 15);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0x000000, 0);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    container.appendChild(renderer.domElement);
+  /* ───────────────────────────────────────── Container ─────────────────────────────────────── */
+  const container = document.getElementById('dnaAnimation');
+  if (!container) return;
+  container.innerHTML = '';
+  Object.assign(container.style, {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100vw',
+    height: '100vh',
+    zIndex: '-1',
+    pointerEvents: 'none',
+    background: 'transparent'
+  });
 
-    // DNA Parameters
-    const numBasePairs = 24;
-    const basePairSpacing = 0.5;
-    const helixRadius = 2;
-    const helixHeight = basePairSpacing * (numBasePairs - 1);
-    const turns = 2.5;
-    const baseSize = 0.3;
-    const backboneSize = 0.15;
+  /* ───────────────────────────────────────── Scene setup ────────────────────────────────────── */
+  const scene = new THREE.Scene();
+  window.dnaScene = scene; // allow external access / safe‑guard re‑init
 
-    // Group for all DNA elements
-    const dnaGroup = new THREE.Group();
+  const camera = new THREE.PerspectiveCamera(
+    60,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+  );
+  camera.position.set(0, 0, 30);
 
-    // Create base pairs
-    const basePairs = [];
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setClearColor(0x000000, 0); // transparent bg
+  container.appendChild(renderer.domElement);
+
+  /* ──────────────────────────────────────── Colour palette ─────────────────────────────────── */
+  const colours = {
+    A: 0xedd382, // adenine  – yellow
+    T: 0x717ec3, // thymine  – blue
+    G: 0x85ffc7, // guanine  – green
+    C: 0xff6f59  // cytosine – red
+  };
+
+  /* ──────────────────────────────────────── DNA geometry ───────────────────────────────────── */
+  const bpPerTurn = 10.5;            // biological B‑DNA
+  const rise = 1.0;                  // 1 au ≈ 0.34 nm (visual unit)
+  const radius = 4.0;                // helix radius in au
+  const numBasePairs = 42;           // ≈ 4 turns
+
+  const helixPitch = bpPerTurn * rise; // height of one full turn
+  const totalHeight = (numBasePairs - 1) * rise;
+  const anglePerBP = (2 * Math.PI) / bpPerTurn;
+
+  const dnaGroup = new THREE.Group();
+  scene.add(dnaGroup);
+
+  /* Helper: build cylinder between two points */
+  function cylinderBetween(p1, p2, radius, colour) {
+    const dir = new THREE.Vector3().subVectors(p2, p1);
+    const len = dir.length();
+    const geom = new THREE.CylinderGeometry(radius, radius, len, 8, 1);
+    const mat = new THREE.MeshBasicMaterial({ color: colour });
+
+    // orient the cylinder so that its Y axis matches dir
+    const mesh = new THREE.Mesh(geom, mat);
+    const midpoint = new THREE.Vector3().addVectors(p1, p2).multiplyScalar(0.5);
+    mesh.position.copy(midpoint);
+    mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.clone().normalize());
+    return mesh;
+  }
+
+  /* ───────────────────────────────────────── Backbones ─────────────────────────────────────── */
+  function buildBackbone(phase) {
+    const pathPts = [];
     for (let i = 0; i < numBasePairs; i++) {
-        const t = i / (numBasePairs - 1);
-        const angle = t * Math.PI * 2 * turns;
-        const y = (t - 0.5) * helixHeight;
-
-        // Helix points
-        const x1 = Math.cos(angle) * helixRadius;
-        const z1 = Math.sin(angle) * helixRadius;
-        const x2 = Math.cos(angle + Math.PI) * helixRadius;
-        const z2 = Math.sin(angle + Math.PI) * helixRadius;
-
-        // Randomly choose base pair type
-        const basePairType = Math.floor(Math.random() * 4);
-        let base1Color, base2Color;
-        switch(basePairType) {
-            case 0: // A-T
-                base1Color = adenine;
-                base2Color = thymine;
-                break;
-            case 1: // T-A
-                base1Color = thymine;
-                base2Color = adenine;
-                break;
-            case 2: // C-G
-                base1Color = cytosine;
-                base2Color = guanine;
-                break;
-            case 3: // G-C
-                base1Color = guanine;
-                base2Color = cytosine;
-                break;
-        }
-
-        // Create base pair spheres
-        const base1Geo = new THREE.SphereGeometry(baseSize, 16, 16);
-        const base2Geo = new THREE.SphereGeometry(baseSize, 16, 16);
-        const base1Mat = new THREE.MeshBasicMaterial({ color: base1Color, transparent: true, opacity: 0.9 });
-        const base2Mat = new THREE.MeshBasicMaterial({ color: base2Color, transparent: true, opacity: 0.9 });
-        const base1 = new THREE.Mesh(base1Geo, base1Mat);
-        const base2 = new THREE.Mesh(base2Geo, base2Mat);
-        base1.position.set(x1, y, z1);
-        base2.position.set(x2, y, z2);
-
-        // Create base pair connection
-        let basePairLineColor, basePairLineGlow;
-        switch(basePairType) {
-            case 0: // A-T
-                basePairLineColor = 0x717EC3; // thymine
-                basePairLineGlow = 0xEDD382; // adenine
-                break;
-            case 1: // T-A
-                basePairLineColor = 0xEDD382; // adenine
-                basePairLineGlow = 0x717EC3; // thymine
-                break;
-            case 2: // C-G
-                basePairLineColor = 0x85FFC7; // guanine
-                basePairLineGlow = 0xFF6F59; // cytosine
-                break;
-            case 3: // G-C
-                basePairLineColor = 0xFF6F59; // cytosine
-                basePairLineGlow = 0x85FFC7; // guanine
-                break;
-        }
-        const basePairGeo = new THREE.BufferGeometry().setFromPoints([
-            new THREE.Vector3(x1, y, z1),
-            new THREE.Vector3(x2, y, z2)
-        ]);
-        // Main colored line
-        const basePairMat = new THREE.LineBasicMaterial({ 
-            color: basePairLineColor,
-            transparent: true,
-            opacity: 0.7,
-            linewidth: 3
-        });
-        const basePairLine = new THREE.Line(basePairGeo, basePairMat);
-        // Subtle glow (wider, more transparent line)
-        const glowMat = new THREE.LineBasicMaterial({
-            color: basePairLineGlow,
-            transparent: true,
-            opacity: 0.18,
-            linewidth: 8
-        });
-        const basePairGlow = new THREE.Line(basePairGeo, glowMat);
-
-        // Add glowing effect
-        const glow1Geo = new THREE.SphereGeometry(baseSize * 1.5, 16, 16);
-        const glow2Geo = new THREE.SphereGeometry(baseSize * 1.5, 16, 16);
-        const glow1Mat = new THREE.MeshBasicMaterial({ color: base1Color, transparent: true, opacity: 0.2 });
-        const glow2Mat = new THREE.MeshBasicMaterial({ color: base2Color, transparent: true, opacity: 0.2 });
-        const glow1 = new THREE.Mesh(glow1Geo, glow1Mat);
-        const glow2 = new THREE.Mesh(glow2Geo, glow2Mat);
-        glow1.position.copy(base1.position);
-        glow2.position.copy(base2.position);
-
-        dnaGroup.add(base1, base2, basePairGlow, basePairLine, glow1, glow2);
-        basePairs.push({ base1, base2, basePairLine, basePairGlow, glow1, glow2, i });
+      const y = (i - (numBasePairs - 1) / 2) * rise;
+      const angle = i * anglePerBP + phase;
+      const x = Math.cos(angle) * radius;
+      const z = Math.sin(angle) * radius;
+      pathPts.push(new THREE.Vector3(x, y, z));
     }
+    const curve = new THREE.CatmullRomCurve3(pathPts);
+    const geom = new THREE.TubeGeometry(curve, 200, 0.15, 8, false);
+    const mat = new THREE.MeshBasicMaterial({ color: 0xffffff, opacity: 0.6, transparent: true });
+    return new THREE.Mesh(geom, mat);
+  }
+  dnaGroup.add(buildBackbone(0));         // strand 1
+  dnaGroup.add(buildBackbone(Math.PI));   // strand 2 (180° offset)
 
-    // Create backbone strands
-    function createBackbone(offset, color) {
-        const points = [];
-        for (let i = 0; i < numBasePairs; i++) {
-            const t = i / (numBasePairs - 1);
-            const angle = t * Math.PI * 2 * turns + offset;
-            const x = Math.cos(angle) * helixRadius;
-            const y = (t - 0.5) * helixHeight;
-            const z = Math.sin(angle) * helixRadius;
-            points.push(new THREE.Vector3(x, y, z));
-        }
-        const geo = new THREE.BufferGeometry().setFromPoints(points);
-        const mat = new THREE.LineDashedMaterial({ 
-            color: color,
-            dashSize: 0.5,
-            gapSize: 0.3,
-            linewidth: 2
-        });
-        const line = new THREE.Line(geo, mat);
-        line.computeLineDistances();
-        dnaGroup.add(line);
-    }
-    createBackbone(0, backbone);
-    createBackbone(Math.PI, backbone);
+  /* ───────────────────────────────────────── Base pairs ─────────────────────────────────────── */
+  const bases = ['A', 'T', 'G', 'C'];
+  const complement = { A: 'T', T: 'A', G: 'C', C: 'G' };
 
-    scene.add(dnaGroup);
+  for (let i = 0; i < numBasePairs; i++) {
+    const y = (i - (numBasePairs - 1) / 2) * rise;
+    const angle = i * anglePerBP;
 
-    // Animation
-    let theta = 0;
-    function animate() {
-        if (!container || container.style.display === 'none') return;
-        requestAnimationFrame(animate);
-        theta += 0.01;
+    // choose random 1st base, derive complement
+    const base1 = bases[Math.floor(Math.random() * 4)];
+    const base2 = complement[base1];
 
-        // DNA group rotation for 3D effect
-        dnaGroup.rotation.y = Math.sin(theta * 0.5) * 0.2 + theta * 0.1;
-        dnaGroup.rotation.x = Math.cos(theta * 0.3) * 0.1;
+    const x1 = Math.cos(angle) * radius;
+    const z1 = Math.sin(angle) * radius;
+    const x2 = Math.cos(angle + Math.PI) * radius;
+    const z2 = Math.sin(angle + Math.PI) * radius;
 
-        // Animate base pairs with phase offset for cascading effect
-        basePairs.forEach(({ base1, base2, basePairLine, basePairGlow, glow1, glow2, i }) => {
-            const t = i / (numBasePairs - 1);
-            const angle = t * Math.PI * 2 * turns + Math.sin(theta + i * 0.2) * 0.2;
-            const y = (t - 0.5) * helixHeight + Math.sin(theta * 2 + i * 0.3) * 0.2;
-            const x1 = Math.cos(angle) * helixRadius;
-            const z1 = Math.sin(angle) * helixRadius;
-            const x2 = Math.cos(angle + Math.PI) * helixRadius;
-            const z2 = Math.sin(angle + Math.PI) * helixRadius;
+    const p1 = new THREE.Vector3(x1, y, z1);
+    const p2 = new THREE.Vector3(x2, y, z2);
 
-            base1.position.set(x1, y, z1);
-            base2.position.set(x2, y, z2);
-            glow1.position.copy(base1.position);
-            glow2.position.copy(base2.position);
-            basePairLine.geometry.setFromPoints([
-                new THREE.Vector3(x1, y, z1),
-                new THREE.Vector3(x2, y, z2)
-            ]);
-            basePairGlow.geometry.setFromPoints([
-                new THREE.Vector3(x1, y, z1),
-                new THREE.Vector3(x2, y, z2)
-            ]);
-        });
+    // spheres for nucleotides ---------------------------------------------------
+    const sphereGeom = new THREE.SphereGeometry(0.35, 16, 16);
+    const s1 = new THREE.Mesh(
+      sphereGeom,
+      new THREE.MeshBasicMaterial({ color: colours[base1] })
+    );
+    const s2 = new THREE.Mesh(
+      sphereGeom,
+      new THREE.MeshBasicMaterial({ color: colours[base2] })
+    );
+    s1.position.copy(p1);
+    s2.position.copy(p2);
+    dnaGroup.add(s1, s2);
 
-        renderer.render(scene, camera);
-    }
-    animate();
+    // hydrogen bond (cylinder) --------------------------------------------------
+    const bondColour = (base1 === 'A' || base1 === 'T') ? 0xffffff : 0xbbbbbb;
+    dnaGroup.add(cylinderBetween(p1, p2, 0.08, bondColour));
+  }
 
-    window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-}; 
+  /* ───────────────────────────────────────── Animation loop ────────────────────────────────── */
+  let theta = 0;
+  (function animate() {
+    if (!container || container.style.display === 'none') return;
+    requestAnimationFrame(animate);
+
+    theta += 0.01;
+    dnaGroup.rotation.y = theta * 0.3;             // slow continuous rotation
+    dnaGroup.rotation.x = Math.sin(theta * 0.5) * 0.15; // gentle rocking
+
+    renderer.render(scene, camera);
+  })();
+
+  /* ───────────────────────────────────────── Responsiveness ────────────────────────────────── */
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+};
