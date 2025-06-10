@@ -31,6 +31,16 @@ const initNavigation = () => {
         elements.navToggleBtn.classList.toggle('active');
         elements.overlay.classList.toggle('active');
         document.body.classList.toggle('nav-active');
+        // Accessibility: ARIA
+        const expanded = elements.navbar.classList.contains('active');
+        elements.navToggleBtn.setAttribute('aria-expanded', expanded);
+        elements.navbar.setAttribute('aria-hidden', !expanded);
+        // Focus trap
+        if (expanded) {
+            trapFocus(elements.navbar);
+        } else {
+            releaseFocusTrap();
+        }
     };
 
     elements.navToggleBtn.addEventListener('click', toggleNav);
@@ -55,6 +65,39 @@ const initNavigation = () => {
 
     window.addEventListener('scroll', headerSticky);
 };
+
+// Focus Trap for Mobile Nav
+let lastFocusedElement = null;
+function trapFocus(container) {
+    lastFocusedElement = document.activeElement;
+    const focusable = container.querySelectorAll('a, button, [tabindex]:not([tabindex="-1"])');
+    if (focusable.length) focusable[0].focus();
+    function handleTrap(e) {
+        if (e.key === 'Tab') {
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
+        } else if (e.key === 'Escape') {
+            elements.navToggleBtn.click();
+        }
+    }
+    container.addEventListener('keydown', handleTrap);
+    container._focusTrapHandler = handleTrap;
+}
+function releaseFocusTrap() {
+    const container = elements.navbar;
+    if (container && container._focusTrapHandler) {
+        container.removeEventListener('keydown', container._focusTrapHandler);
+        delete container._focusTrapHandler;
+    }
+    if (lastFocusedElement) lastFocusedElement.focus();
+}
 
 // Smooth Scroll
 const initSmoothScroll = () => {
