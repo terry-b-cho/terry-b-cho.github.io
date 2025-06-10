@@ -652,8 +652,9 @@ body {
 .logo-track {
     display: flex;
     align-items: center;
-    gap: 2.5rem !important;
-    animation: logo-scroll 12s linear infinite;
+    gap: 2.5rem;
+    animation: logo-scroll 14s linear infinite;
+    will-change: transform;
 }
 
 .logo-carousel:hover .logo-track {
@@ -676,7 +677,7 @@ body {
     transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
     background: transparent;
     margin: 0 0.25rem;
-    border-radius: 8px;
+    border-radius: 0;
 }
 
 .logo-item:hover img {
@@ -690,7 +691,7 @@ body {
         transform: translateX(0);
     }
     100% {
-        transform: translateX(-100%);
+        transform: translateX(-50%);
     }
 }
 
@@ -967,11 +968,20 @@ body {
 }
 
 /* --- Logo Carousel Gaps & Order --- */
+.logo-carousel {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .logo-track {
     display: flex;
     align-items: center;
-    gap: 2.5rem !important;
-    animation: logo-scroll 12s linear infinite;
+    gap: 2.5rem;
+    animation: logo-scroll 14s linear infinite;
+    will-change: transform;
 }
 .logo-item img {
     max-width: 120px;
@@ -981,11 +991,16 @@ body {
     transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
     background: transparent;
     margin: 0 0.25rem;
-    border-radius: 8px;
+    border-radius: 0;
+}
+.logo-item:hover img {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.05);
 }
 @media (max-width: 767px) {
     .logo-track {
-        gap: 1.5rem !important;
+        gap: 1.5rem;
     }
     .logo-item img {
         max-width: 80px;
@@ -993,9 +1008,17 @@ body {
 }
 @media (max-width: 480px) {
     .logo-track {
-        gap: 1rem !important;
+        gap: 1rem;
     }
     .logo-item img {
         max-width: 60px;
+    }
+}
+@keyframes logo-scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
     }
 } 

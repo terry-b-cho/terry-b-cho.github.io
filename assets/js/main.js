@@ -60,10 +60,28 @@ const initNavigation = () => {
     // Close button
     const closeBtn = document.querySelector('[data-nav-close-btn]');
     if (closeBtn) closeBtn.addEventListener('click', closeNav);
-    // Close on link click (mobile)
+    // Close on link click (mobile) and smooth scroll
     document.querySelectorAll('.navbar-link').forEach(link => {
-        link.addEventListener('click', () => {
-            if (window.innerWidth < 768) closeNav();
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    closeNav();
+                    setTimeout(() => {
+                        const headerOffset = document.querySelector('.header').offsetHeight || 0;
+                        const elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
+                        const offsetPosition = elementPosition - headerOffset;
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }, 350); // Wait for menu to close
+                }
+            } else if (window.innerWidth < 768) {
+                closeNav();
+            }
         });
     });
     // Swipe-to-close gesture (mobile)
@@ -217,26 +235,25 @@ const initScrollIndicator = () => {
     handleScroll(); // Initial check
 };
 
-// Logo Carousel Responsiveness
-function setLogoCarouselWidth() {
+// Logo Carousel Responsiveness & Seamless Infinite Scroll
+function setupLogoCarousel() {
     const carousel = document.getElementById('logoCarousel');
     if (!carousel) return;
-    const tracks = carousel.querySelectorAll('.logo-track');
-    if (tracks.length < 2) return;
-    // Set the width of each track to fit its children
-    tracks.forEach(track => {
-        let totalWidth = 0;
-        track.childNodes.forEach(child => {
-            if (child.nodeType === 1) {
-                totalWidth += child.offsetWidth;
-            }
-        });
-        track.style.width = totalWidth + 'px';
-    });
+    const track = carousel.querySelector('.logo-track');
+    if (!track) return;
+    // Remove any previous clones
+    carousel.querySelectorAll('.logo-track.clone').forEach(clone => clone.remove());
+    // Duplicate the track for seamless scroll
+    const clone = track.cloneNode(true);
+    clone.classList.add('clone');
+    carousel.appendChild(clone);
+    // Set width for both tracks
+    const totalWidth = Array.from(track.children).reduce((acc, el) => acc + el.offsetWidth, 0) + (track.children.length - 1) * parseInt(getComputedStyle(track).gap || 0);
+    track.style.width = totalWidth + 'px';
+    clone.style.width = totalWidth + 'px';
 }
-
-window.addEventListener('load', setLogoCarouselWidth);
-window.addEventListener('resize', setLogoCarouselWidth);
+window.addEventListener('load', setupLogoCarousel);
+window.addEventListener('resize', setupLogoCarousel);
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
