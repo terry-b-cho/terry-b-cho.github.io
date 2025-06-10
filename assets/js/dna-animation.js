@@ -1,3 +1,5 @@
+import * as THREE from 'https://cdn.skypack.dev/three@0.136.0';
+
 // DNA Animation using Three.js
 window.initDNAAnimation = function() {
     if (window.dnaScene) return; // Prevent re-initialization
