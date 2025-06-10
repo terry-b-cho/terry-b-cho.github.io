@@ -2,8 +2,8 @@
  * initDNAAnimation()
  * ---------------------------------------------------------------------------
  * Lightweight, biologically faithful B‑DNA double‑helix rendered with Three.js.
- * — 10.5 base‑pairs per turn (≈ B‑DNA)
- * — 0.34 nm rise per base‑pair (scaled to 1 au = 0.34 nm)
+ * — 10.5 base‑pairs per turn (≈ B‑DNA)
+ * — 0.34 nm rise per base‑pair (scaled to 1 au = 0.34 nm)
  * — Complementary base‑pair colouring (A–T, G–C)
  * — Phosphodiester backbones rendered as smooth tubes following a helical path
  * — Hydrogen‑bond "rungs" rendered as cylinders between bases
@@ -56,9 +56,9 @@ window.initDNAAnimation = function () {
 
   /* ──────────────────────────────────────── DNA geometry ───────────────────────────────────── */
   const bpPerTurn = 10.5;            // biological B‑DNA
-  const rise = 1.0;                  // 1 au ≈ 0.34 nm (visual unit)
+  const rise = 1.0;                  // 1 au ≈ 0.34 nm (visual unit)
   const radius = 4.0;                // helix radius in au
-  const numBasePairs = 42;           // ≈ 4 turns
+  const numBasePairs = 42;           // ≈ 4 turns
 
   const helixPitch = bpPerTurn * rise; // height of one full turn
   const totalHeight = (numBasePairs - 1) * rise;
@@ -87,14 +87,14 @@ window.initDNAAnimation = function () {
     const pathPts = [];
     for (let i = 0; i < numBasePairs; i++) {
       const y = (i - (numBasePairs - 1) / 2) * rise;
-      const angle = i * anglePerBP + phase;
+      const angle = -i * anglePerBP + phase;
       const x = Math.cos(angle) * radius;
       const z = Math.sin(angle) * radius;
       pathPts.push(new THREE.Vector3(x, y, z));
     }
     const curve = new THREE.CatmullRomCurve3(pathPts);
-    const geom = new THREE.TubeGeometry(curve, 200, 0.15, 8, false);
-    const mat = new THREE.MeshBasicMaterial({ color: 0xffffff, opacity: 0.6, transparent: true });
+    const geom = new THREE.TubeGeometry(curve, 200, 0.15, 16, false);
+    const mat = new THREE.MeshPhysicalMaterial({ color: 0xffffff, opacity: 0.45, transparent: true, roughness: 0.2, metalness: 0.5, clearcoat: 0.7, clearcoatRoughness: 0.1 });
     return new THREE.Mesh(geom, mat);
   }
   dnaGroup.add(buildBackbone(0));         // strand 1
@@ -106,7 +106,7 @@ window.initDNAAnimation = function () {
 
   for (let i = 0; i < numBasePairs; i++) {
     const y = (i - (numBasePairs - 1) / 2) * rise;
-    const angle = i * anglePerBP;
+    const angle = -i * anglePerBP;
 
     // choose random 1st base, derive complement
     const base1 = bases[Math.floor(Math.random() * 4)];
@@ -120,24 +120,33 @@ window.initDNAAnimation = function () {
     const p1 = new THREE.Vector3(x1, y, z1);
     const p2 = new THREE.Vector3(x2, y, z2);
 
-    // spheres for nucleotides ---------------------------------------------------
-    const sphereGeom = new THREE.SphereGeometry(0.35, 16, 16);
+    // Modern spheres
+    const sphereGeom = new THREE.SphereGeometry(0.35, 24, 24);
     const s1 = new THREE.Mesh(
       sphereGeom,
-      new THREE.MeshBasicMaterial({ color: colours[base1] })
+      new THREE.MeshPhysicalMaterial({ color: colours[base1], opacity: 0.7, transparent: true, roughness: 0.15, metalness: 0.7, clearcoat: 0.8, clearcoatRoughness: 0.1 })
     );
     const s2 = new THREE.Mesh(
       sphereGeom,
-      new THREE.MeshBasicMaterial({ color: colours[base2] })
+      new THREE.MeshPhysicalMaterial({ color: colours[base2], opacity: 0.7, transparent: true, roughness: 0.15, metalness: 0.7, clearcoat: 0.8, clearcoatRoughness: 0.1 })
     );
     s1.position.copy(p1);
     s2.position.copy(p2);
     dnaGroup.add(s1, s2);
 
-    // hydrogen bond (cylinder) --------------------------------------------------
+    // Modern hydrogen bond (cylinder)
     const bondColour = (base1 === 'A' || base1 === 'T') ? 0xffffff : 0xbbbbbb;
-    dnaGroup.add(cylinderBetween(p1, p2, 0.08, bondColour));
+    const bondMat = new THREE.MeshPhysicalMaterial({ color: bondColour, opacity: 0.35, transparent: true, roughness: 0.2, metalness: 0.5 });
+    const bond = cylinderBetween(p1, p2, 0.08, bondColour);
+    bond.material = bondMat;
+    dnaGroup.add(bond);
   }
+
+  // Add a soft glow effect to the group (optional, via a transparent sphere around the helix)
+  const glowGeom = new THREE.SphereGeometry(radius * 1.25, 32, 32);
+  const glowMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.07 });
+  const glow = new THREE.Mesh(glowGeom, glowMat);
+  dnaGroup.add(glow);
 
   /* ───────────────────────────────────────── Animation loop ────────────────────────────────── */
   let theta = 0;
@@ -146,8 +155,9 @@ window.initDNAAnimation = function () {
     requestAnimationFrame(animate);
 
     theta += 0.01;
-    dnaGroup.rotation.y = theta * 0.3;             // slow continuous rotation
-    dnaGroup.rotation.x = Math.sin(theta * 0.5) * 0.15; // gentle rocking
+    dnaGroup.rotation.y = theta * 0.3;
+    dnaGroup.rotation.x = Math.sin(theta * 0.5) * 0.18;
+    dnaGroup.rotation.z = Math.sin(theta * 0.23) * 0.08;
 
     renderer.render(scene, camera);
   })();
