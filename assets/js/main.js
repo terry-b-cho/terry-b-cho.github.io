@@ -235,22 +235,18 @@ const initScrollIndicator = () => {
     handleScroll(); // Initial check
 };
 
-// Logo Carousel Responsiveness & Seamless Infinite Scroll
+// Logo Carousel: Clone .logo-slide for seamless infinite scroll
 function setupLogoCarousel() {
-    const carousel = document.getElementById('logoCarousel');
+    const carousel = document.querySelector('.logo-carousel');
     if (!carousel) return;
-    const track = carousel.querySelector('.logo-track');
-    if (!track) return;
+    const slide = carousel.querySelector('.logo-slide');
+    if (!slide) return;
     // Remove any previous clones
-    carousel.querySelectorAll('.logo-track.clone').forEach(clone => clone.remove());
-    // Duplicate the track for seamless scroll
-    const clone = track.cloneNode(true);
+    carousel.querySelectorAll('.logo-slide.clone').forEach(clone => clone.remove());
+    // Clone the slide for seamless animation
+    const clone = slide.cloneNode(true);
     clone.classList.add('clone');
     carousel.appendChild(clone);
-    // Set width for both tracks
-    const totalWidth = Array.from(track.children).reduce((acc, el) => acc + el.offsetWidth, 0) + (track.children.length - 1) * parseInt(getComputedStyle(track).gap || 0);
-    track.style.width = totalWidth + 'px';
-    clone.style.width = totalWidth + 'px';
 }
 window.addEventListener('load', setupLogoCarousel);
 window.addEventListener('resize', setupLogoCarousel);

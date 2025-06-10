@@ -634,65 +634,83 @@ body {
 
 /* Logo Section */
 .logo-section {
-    padding: 4rem 0;
     background: var(--background-color);
+    padding: 3rem 0;
     position: relative;
     overflow: hidden;
 }
 
 .logo-carousel {
-    width: 100%;
     overflow: hidden;
+    background: var(--background-color);
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    white-space: nowrap;
+    padding: 2rem 0;
 }
 
-.logo-track {
-    display: flex;
-    align-items: center;
-    gap: 2.5rem;
-    animation: logo-scroll 14s linear infinite;
-    will-change: transform;
+.logo-carousel:before,
+.logo-carousel:after {
+    position: absolute;
+    top: 0;
+    width: 80px;
+    height: 100%;
+    content: "";
+    z-index: 2;
+    pointer-events: none;
 }
 
-.logo-carousel:hover .logo-track {
-    animation-play-state: paused;
+.logo-carousel:before {
+    left: 0;
+    background: linear-gradient(to left, rgba(255,255,255,0), var(--background-color));
 }
 
-.logo-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+.logo-carousel:after {
+    right: 0;
+    background: linear-gradient(to right, rgba(255,255,255,0), var(--background-color));
 }
 
-.logo-item img {
-    max-width: 120px;
-    height: auto;
+.logo-slide {
+    display: inline-block;
+    animation: logo-slide-anim 18s linear infinite;
+    white-space: nowrap;
+}
+
+.logo-slide img {
+    height: 48px;
+    margin: 0 40px;
+    vertical-align: middle;
     filter: grayscale(100%);
-    opacity: 0.6;
-    transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
-    background: transparent;
-    margin: 0 0.25rem;
+    opacity: 0.7;
+    transition: filter 0.3s, opacity 0.3s, transform 0.3s;
     border-radius: 0;
+    background: transparent;
 }
 
-.logo-item:hover img {
+.logo-slide img:hover {
     filter: grayscale(0%);
     opacity: 1;
     transform: scale(1.05);
 }
 
-@keyframes logo-scroll {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-50%);
-    }
+.logo-carousel:hover .logo-slide {
+    animation-play-state: paused;
+}
+
+@keyframes logo-slide-anim {
+    from { transform: translateX(0); }
+    to { transform: translateX(-100%); }
+}
+
+@media (max-width: 767px) {
+    .logo-section { padding: 2rem 0; }
+    .logo-slide img { height: 36px; margin: 0 24px; }
+    .logo-carousel:before, .logo-carousel:after { width: 40px; }
+}
+
+@media (max-width: 480px) {
+    .logo-section { padding: 1.2rem 0; }
+    .logo-slide img { height: 28px; margin: 0 12px; }
+    .logo-carousel:before, .logo-carousel:after { width: 20px; }
 }
 
 /* Contact Section */
@@ -964,61 +982,5 @@ body {
     .navbar-link {
         font-size: 1.1rem;
         padding: 1rem 0;
-    }
-}
-
-/* --- Logo Carousel Gaps & Order --- */
-.logo-carousel {
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.logo-track {
-    display: flex;
-    align-items: center;
-    gap: 2.5rem;
-    animation: logo-scroll 14s linear infinite;
-    will-change: transform;
-}
-.logo-item img {
-    max-width: 120px;
-    height: auto;
-    filter: grayscale(100%);
-    opacity: 0.6;
-    transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
-    background: transparent;
-    margin: 0 0.25rem;
-    border-radius: 0;
-}
-.logo-item:hover img {
-    filter: grayscale(0%);
-    opacity: 1;
-    transform: scale(1.05);
-}
-@media (max-width: 767px) {
-    .logo-track {
-        gap: 1.5rem;
-    }
-    .logo-item img {
-        max-width: 80px;
-    }
-}
-@media (max-width: 480px) {
-    .logo-track {
-        gap: 1rem;
-    }
-    .logo-item img {
-        max-width: 60px;
-    }
-}
-@keyframes logo-scroll {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-50%);
     }
 } 
