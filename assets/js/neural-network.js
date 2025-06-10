@@ -130,33 +130,19 @@ class NeuralNetwork {
         requestAnimationFrame(() => this.animate());
         this.scene.rotation.y += 0.001;
         this.scene.rotation.x += 0.0005;
-
         this.connections.forEach((connection) => {
             const node1 = this.nodes[connection.userData.node1Idx];
             const node2 = this.nodes[connection.userData.node2Idx];
-            // Update geometry positions
-            const positions = [
-                node1.position.x, node1.position.y, node1.position.z,
-                node2.position.x, node2.position.y, node2.position.z
-            ];
-            connection.geometry.setPositions(positions);
-            connection.computeLineDistances();
-            connection.material.resolution.set(window.innerWidth, window.innerHeight);
-
-            // Animate synapse effect
             if (connection.userData.firing) {
-                connection.userData.pulse += 0.03; // slower
+                connection.userData.pulse += 0.03;
                 const t = Math.min(connection.userData.pulse, 1.0);
-                connection.material.linewidth = 3.0 - 2.0 * t; // pulse width
-                const color = new THREE.Color().setHSL(0.15 + 0.5 * Math.sin(t * Math.PI), 1, 0.7);
-                connection.material.color.copy(color);
-                // Animate a glowing sprite at the firing point
+                connection.material.linewidth = 3.0 - 2.0 * t;
+                connection.material.color.setHSL(0.15 + 0.5 * Math.sin(t * Math.PI), 1, 0.7);
                 const map = this.getGlowTexture();
                 const spriteMaterial = new THREE.SpriteMaterial({ map, color: 0xffff99, transparent: true, opacity: 0.7 * (1 - t) + 0.2 });
                 const sprite = new THREE.Sprite(spriteMaterial);
                 const size = 0.55 * (1 - t) + 0.08;
                 sprite.scale.set(size, size, size);
-                // Use world positions for accuracy
                 const pA = new THREE.Vector3();
                 const pB = new THREE.Vector3();
                 node1.getWorldPosition(pA);
@@ -174,7 +160,6 @@ class NeuralNetwork {
                 connection.material.linewidth = 1.0;
             }
         });
-
         if (this.firingSprites.length > 30) {
             const toRemove = this.firingSprites.splice(0, this.firingSprites.length - 30);
             toRemove.forEach(s => this.scene.remove(s));
