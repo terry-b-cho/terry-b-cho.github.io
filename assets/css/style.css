@@ -418,6 +418,18 @@ body {
         width: 20px;
         height: 20px;
     }
+
+    .logo-section {
+        padding: 3rem 0;
+    }
+
+    .logo-list {
+        gap: 2rem;
+    }
+
+    .logo-item img {
+        max-width: 100px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -448,6 +460,18 @@ body {
     .btn {
         width: 100%;
         padding: 0.875rem 1.5rem;
+    }
+
+    .logo-section {
+        padding: 2rem 0;
+    }
+
+    .logo-list {
+        gap: 1.5rem;
+    }
+
+    .logo-item img {
+        max-width: 80px;
     }
 }
 
@@ -524,49 +548,55 @@ body {
     margin-bottom: 0.5rem;
 }
 
-/* Logo Marquee Styles */
+/* Logo Section */
 .logo-section {
-    background-color: var(--accent-color);
-    padding: 3rem 0;
-    overflow: hidden;
-}
-
-.logo-marquee {
-    width: 100%;
-    overflow: hidden;
+    padding: 4rem 0;
+    background: var(--background-color);
     position: relative;
+    overflow: hidden;
 }
 
-.logo-track {
+.logo-list {
     display: flex;
-    animation: scroll 30s linear infinite;
-    width: max-content;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    opacity: 0;
+    transform: scale(0.8);
+    animation: fadeInScale 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .logo-item {
-    padding: 0 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 1rem;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .logo-item img {
-    height: 50px;
-    width: auto;
-    filter: grayscale(100%) brightness(200%);
-    transition: filter var(--transition-speed);
+    max-width: 120px;
+    height: auto;
+    filter: grayscale(100%);
+    opacity: 0.6;
+    transition: all 0.3s ease;
 }
 
-.logo-item img:hover {
-    filter: grayscale(0%) brightness(100%);
+.logo-item:hover img {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.05);
 }
 
-@keyframes scroll {
-    0% {
-        transform: translateX(0);
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
     }
-    100% {
-        transform: translateX(-50%);
+    to {
+        opacity: 1;
+        transform: scale(1);
     }
 }
 
