@@ -16,15 +16,16 @@ window.initDNAAnimation = function() {
 
     // Get theme colors from CSS variables
     const styles = getComputedStyle(document.documentElement);
-    const color1 = new THREE.Color(styles.getPropertyValue('--primary-color') || '#64ffda');
-    const color2 = new THREE.Color(styles.getPropertyValue('--secondary-color') || '#ff00ff');
-    const basePairColor = new THREE.Color(styles.getPropertyValue('--accent-color') || '#00ffff');
-    const bgColor = styles.getPropertyValue('--background-color') || '#000d0d';
+    const adenine = new THREE.Color('#EDD382');    // A: Yellow
+    const thymine = new THREE.Color('#717EC3');    // T: Blue
+    const cytosine = new THREE.Color('#FF6F59');   // C: Red
+    const guanine = new THREE.Color('#85FFC7');    // G: Green
+    const backbone = new THREE.Color(styles.getPropertyValue('--primary-color') || '#64ffda');
 
     // Scene setup
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 0, 7);
+    camera.position.set(0, 0, 15);
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000, 0);
@@ -32,58 +33,93 @@ window.initDNAAnimation = function() {
     container.appendChild(renderer.domElement);
 
     // DNA Parameters
-    const numRungs = 16;
-    const rungSpacing = 0.22;
-    const helixRadius = 1.1;
-    const helixHeight = rungSpacing * (numRungs - 1);
+    const numBasePairs = 24;
+    const basePairSpacing = 0.5;
+    const helixRadius = 2;
+    const helixHeight = basePairSpacing * (numBasePairs - 1);
     const turns = 2.5;
-    const phaseOffset = Math.PI / 8;
+    const baseSize = 0.3;
+    const backboneSize = 0.15;
 
     // Group for all DNA elements
     const dnaGroup = new THREE.Group();
 
-    // Create rungs (base pairs)
-    const rungMeshes = [];
-    for (let i = 0; i < numRungs; i++) {
-        const t = i / (numRungs - 1);
+    // Create base pairs
+    const basePairs = [];
+    for (let i = 0; i < numBasePairs; i++) {
+        const t = i / (numBasePairs - 1);
         const angle = t * Math.PI * 2 * turns;
         const y = (t - 0.5) * helixHeight;
+
         // Helix points
         const x1 = Math.cos(angle) * helixRadius;
         const z1 = Math.sin(angle) * helixRadius;
         const x2 = Math.cos(angle + Math.PI) * helixRadius;
         const z2 = Math.sin(angle + Math.PI) * helixRadius;
-        // Glowing spheres (ends)
-        const sphereGeo = new THREE.SphereGeometry(0.09, 24, 24);
-        const sphereMat1 = new THREE.MeshBasicMaterial({ color: color1, transparent: true, opacity: 0.95 });
-        const sphereMat2 = new THREE.MeshBasicMaterial({ color: color2, transparent: true, opacity: 0.95 });
-        const sphere1 = new THREE.Mesh(sphereGeo, sphereMat1);
-        const sphere2 = new THREE.Mesh(sphereGeo, sphereMat2);
-        sphere1.position.set(x1, y, z1);
-        sphere2.position.set(x2, y, z2);
-        // Glowing effect
-        const glowMat1 = new THREE.MeshBasicMaterial({ color: color1, transparent: true, opacity: 0.25 });
-        const glowMat2 = new THREE.MeshBasicMaterial({ color: color2, transparent: true, opacity: 0.25 });
-        const glow1 = new THREE.Mesh(new THREE.SphereGeometry(0.18, 16, 16), glowMat1);
-        const glow2 = new THREE.Mesh(new THREE.SphereGeometry(0.18, 16, 16), glowMat2);
-        glow1.position.copy(sphere1.position);
-        glow2.position.copy(sphere2.position);
-        // Rung (base pair line)
-        const rungGeo = new THREE.BufferGeometry().setFromPoints([
+
+        // Randomly choose base pair type
+        const basePairType = Math.floor(Math.random() * 4);
+        let base1Color, base2Color;
+        switch(basePairType) {
+            case 0: // A-T
+                base1Color = adenine;
+                base2Color = thymine;
+                break;
+            case 1: // T-A
+                base1Color = thymine;
+                base2Color = adenine;
+                break;
+            case 2: // C-G
+                base1Color = cytosine;
+                base2Color = guanine;
+                break;
+            case 3: // G-C
+                base1Color = guanine;
+                base2Color = cytosine;
+                break;
+        }
+
+        // Create base pair spheres
+        const base1Geo = new THREE.SphereGeometry(baseSize, 16, 16);
+        const base2Geo = new THREE.SphereGeometry(baseSize, 16, 16);
+        const base1Mat = new THREE.MeshBasicMaterial({ color: base1Color, transparent: true, opacity: 0.9 });
+        const base2Mat = new THREE.MeshBasicMaterial({ color: base2Color, transparent: true, opacity: 0.9 });
+        const base1 = new THREE.Mesh(base1Geo, base1Mat);
+        const base2 = new THREE.Mesh(base2Geo, base2Mat);
+        base1.position.set(x1, y, z1);
+        base2.position.set(x2, y, z2);
+
+        // Create base pair connection
+        const basePairGeo = new THREE.BufferGeometry().setFromPoints([
             new THREE.Vector3(x1, y, z1),
             new THREE.Vector3(x2, y, z2)
         ]);
-        const rungMat = new THREE.LineBasicMaterial({ color: basePairColor, transparent: true, opacity: 0.7 });
-        const rungLine = new THREE.Line(rungGeo, rungMat);
-        dnaGroup.add(sphere1, sphere2, glow1, glow2, rungLine);
-        rungMeshes.push({ sphere1, sphere2, glow1, glow2, rungLine, i });
+        const basePairMat = new THREE.LineBasicMaterial({ 
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.3
+        });
+        const basePairLine = new THREE.Line(basePairGeo, basePairMat);
+
+        // Add glowing effect
+        const glow1Geo = new THREE.SphereGeometry(baseSize * 1.5, 16, 16);
+        const glow2Geo = new THREE.SphereGeometry(baseSize * 1.5, 16, 16);
+        const glow1Mat = new THREE.MeshBasicMaterial({ color: base1Color, transparent: true, opacity: 0.2 });
+        const glow2Mat = new THREE.MeshBasicMaterial({ color: base2Color, transparent: true, opacity: 0.2 });
+        const glow1 = new THREE.Mesh(glow1Geo, glow1Mat);
+        const glow2 = new THREE.Mesh(glow2Geo, glow2Mat);
+        glow1.position.copy(base1.position);
+        glow2.position.copy(base2.position);
+
+        dnaGroup.add(base1, base2, basePairLine, glow1, glow2);
+        basePairs.push({ base1, base2, basePairLine, glow1, glow2, i });
     }
 
-    // Add vertical dotted lines for the helix backbone
+    // Create backbone strands
     function createBackbone(offset, color) {
         const points = [];
-        for (let i = 0; i < numRungs; i++) {
-            const t = i / (numRungs - 1);
+        for (let i = 0; i < numBasePairs; i++) {
+            const t = i / (numBasePairs - 1);
             const angle = t * Math.PI * 2 * turns + offset;
             const x = Math.cos(angle) * helixRadius;
             const y = (t - 0.5) * helixHeight;
@@ -91,13 +127,18 @@ window.initDNAAnimation = function() {
             points.push(new THREE.Vector3(x, y, z));
         }
         const geo = new THREE.BufferGeometry().setFromPoints(points);
-        const mat = new THREE.LineDashedMaterial({ color, dashSize: 0.13, gapSize: 0.09, linewidth: 2 });
+        const mat = new THREE.LineDashedMaterial({ 
+            color: color,
+            dashSize: 0.5,
+            gapSize: 0.3,
+            linewidth: 2
+        });
         const line = new THREE.Line(geo, mat);
         line.computeLineDistances();
         dnaGroup.add(line);
     }
-    createBackbone(0, color1);
-    createBackbone(Math.PI, color2);
+    createBackbone(0, backbone);
+    createBackbone(Math.PI, backbone);
 
     scene.add(dnaGroup);
 
@@ -106,28 +147,32 @@ window.initDNAAnimation = function() {
     function animate() {
         if (!container || container.style.display === 'none') return;
         requestAnimationFrame(animate);
-        theta += 0.012;
+        theta += 0.01;
+
         // DNA group rotation for 3D effect
-        dnaGroup.rotation.y = Math.sin(theta * 0.5) * 0.18 + theta * 0.08;
-        dnaGroup.rotation.x = Math.cos(theta * 0.3) * 0.08;
-        // Animate rungs with phase offset for cascading effect
-        rungMeshes.forEach(({ sphere1, sphere2, glow1, glow2, rungLine, i }) => {
-            const t = i / (numRungs - 1);
-            const angle = t * Math.PI * 2 * turns + Math.sin(theta + i * 0.18) * 0.18;
-            const y = (t - 0.5) * helixHeight + Math.sin(theta * 2 + i * 0.25) * 0.09;
+        dnaGroup.rotation.y = Math.sin(theta * 0.5) * 0.2 + theta * 0.1;
+        dnaGroup.rotation.x = Math.cos(theta * 0.3) * 0.1;
+
+        // Animate base pairs with phase offset for cascading effect
+        basePairs.forEach(({ base1, base2, basePairLine, glow1, glow2, i }) => {
+            const t = i / (numBasePairs - 1);
+            const angle = t * Math.PI * 2 * turns + Math.sin(theta + i * 0.2) * 0.2;
+            const y = (t - 0.5) * helixHeight + Math.sin(theta * 2 + i * 0.3) * 0.2;
             const x1 = Math.cos(angle) * helixRadius;
             const z1 = Math.sin(angle) * helixRadius;
             const x2 = Math.cos(angle + Math.PI) * helixRadius;
             const z2 = Math.sin(angle + Math.PI) * helixRadius;
-            sphere1.position.set(x1, y, z1);
-            sphere2.position.set(x2, y, z2);
-            glow1.position.copy(sphere1.position);
-            glow2.position.copy(sphere2.position);
-            rungLine.geometry.setFromPoints([
+
+            base1.position.set(x1, y, z1);
+            base2.position.set(x2, y, z2);
+            glow1.position.copy(base1.position);
+            glow2.position.copy(base2.position);
+            basePairLine.geometry.setFromPoints([
                 new THREE.Vector3(x1, y, z1),
                 new THREE.Vector3(x2, y, z2)
             ]);
         });
+
         renderer.render(scene, camera);
     }
     animate();

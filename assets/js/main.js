@@ -178,50 +178,96 @@ const initSmoothScroll = () => {
     });
 };
 
-// Neural Network & DNA Animation Crossfade
-const initNeuralNetworkDNATransition = () => {
-    const neural = document.getElementById('neuralNetwork');
-    const dna = document.getElementById('dnaAnimation');
-    if (!neural || !dna) return;
-    // Ensure both are visible and stacked
-    neural.style.display = 'block';
-    dna.style.display = 'block';
-    // Initialize DNA animation if not already
-    if (typeof window.initDNAAnimation === 'function') {
+// Initialize animations
+let neuralNetworkInitialized = false;
+let dnaAnimationInitialized = false;
+
+// Initialize neural network animation
+function initNeuralNetwork() {
+    if (!neuralNetworkInitialized) {
+        window.initNeuralNetwork();
+        neuralNetworkInitialized = true;
+    }
+}
+
+// Initialize DNA animation
+function initDNAAnimation() {
+    if (!dnaAnimationInitialized) {
         window.initDNAAnimation();
+        dnaAnimationInitialized = true;
     }
-    // Get About and Education sections
-    const about = document.getElementById('about');
-    const education = document.getElementById('education');
-    let lastProgress = -1;
-    function updateCrossfade() {
-        const scrollY = window.scrollY;
-        const windowH = window.innerHeight;
-        if (!about || !education) return;
-        const aboutRect = about.getBoundingClientRect();
-        const eduRect = education.getBoundingClientRect();
-        // Transition zone: from bottom of About leaving viewport to top of Education entering
-        const start = aboutRect.bottom + scrollY - windowH * 0.5;
-        const end = eduRect.top + scrollY - windowH * 0.5;
-        const progress = Math.min(1, Math.max(0, (scrollY - start) / (end - start)));
-        if (progress === lastProgress) return;
-        lastProgress = progress;
-        // Crossfade: neural fades out, dna fades in
-        neural.style.opacity = 1 - progress;
-        neural.style.filter = `blur(${progress * 8}px)`;
-        dna.style.opacity = progress;
-        dna.style.filter = `blur(${(1 - progress) * 8}px)`;
-        // For accessibility, keep both pointer-events none
+}
+
+// Initialize both animations on page load
+document.addEventListener('DOMContentLoaded', () => {
+    initPreloader();
+    initNavigation();
+    initSmoothScroll();
+    initNeuralNetwork();
+    initDNAAnimation();
+
+    // Add animation classes to elements
+    document.querySelectorAll('.hero-title, .hero-subtitle, .hero-location, .hero-description').forEach(element => {
+        element.classList.add('animate-on-scroll');
+    });
+});
+
+// Smooth transition between neural network and DNA animations
+let scrollDirection = 0;
+let transitionProgress = 0;
+const transitionSpeed = 0.05;
+const neuralNetwork = document.getElementById('neuralNetwork');
+const dnaAnimation = document.getElementById('dnaAnimation');
+
+function updateTransition() {
+    const aboutSection = document.getElementById('about');
+    if (!aboutSection) return;
+
+    const aboutRect = aboutSection.getBoundingClientRect();
+    const aboutTop = aboutRect.top;
+    const aboutBottom = aboutRect.bottom;
+    const viewportHeight = window.innerHeight;
+
+    // Calculate transition progress based on scroll position
+    let targetProgress;
+    if (aboutTop > viewportHeight) {
+        // Above About section - show neural network
+        targetProgress = 0;
+    } else if (aboutBottom < 0) {
+        // Below About section - show DNA
+        targetProgress = 1;
+    } else {
+        // During transition - calculate progress
+        const totalDistance = aboutRect.height + viewportHeight;
+        const scrolledDistance = viewportHeight - aboutTop;
+        targetProgress = Math.min(1, Math.max(0, scrolledDistance / totalDistance));
     }
-    // Use rAF for smoothness
-    function onScroll() {
-        requestAnimationFrame(updateCrossfade);
+
+    // Smoothly interpolate to target progress
+    const progressDiff = targetProgress - transitionProgress;
+    if (Math.abs(progressDiff) > 0.001) {
+        transitionProgress += progressDiff * transitionSpeed;
     }
-    window.addEventListener('scroll', onScroll);
-    window.addEventListener('resize', onScroll);
-    // Initial state
-    updateCrossfade();
-};
+
+    // Apply transitions with easing
+    const easeProgress = easeInOutCubic(transitionProgress);
+    neuralNetwork.style.opacity = 1 - easeProgress;
+    neuralNetwork.style.filter = `blur(${easeProgress * 10}px)`;
+    dnaAnimation.style.opacity = easeProgress;
+    dnaAnimation.style.filter = `blur(${(1 - easeProgress) * 10}px)`;
+
+    requestAnimationFrame(updateTransition);
+}
+
+// Easing function for smooth transitions
+function easeInOutCubic(t) {
+    return t < 0.5
+        ? 4 * t * t * t
+        : 1 - Math.pow(-2 * t + 2, 3) / 2;
+}
+
+// Start transition animation
+updateTransition();
 
 // Scroll Indicator
 const initScrollIndicator = () => {
@@ -251,23 +297,4 @@ function setupLogoCarousel() {
     carousel.appendChild(clone);
 }
 window.addEventListener('load', setupLogoCarousel);
-window.addEventListener('resize', setupLogoCarousel);
-
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    initPreloader();
-    initNavigation();
-    initSmoothScroll();
-    initNeuralNetworkDNATransition();
-    initScrollIndicator();
-
-    // Add animation classes to elements
-    document.querySelectorAll('.hero-title, .hero-subtitle, .hero-location, .hero-description').forEach(element => {
-        element.classList.add('animate-on-scroll');
-    });
-
-    // Initialize neural network animation
-    if (typeof initNeuralNetwork === 'function') {
-        initNeuralNetwork();
-    }
-}); 
+window.addEventListener('resize', setupLogoCarousel); 
