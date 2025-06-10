@@ -185,7 +185,10 @@ let dnaAnimationInitialized = false;
 // Initialize neural network animation
 function initNeuralNetwork() {
     if (!neuralNetworkInitialized) {
-        window.initNeuralNetwork();
+        // Prevent infinite recursion: only call window.initNeuralNetwork if it's not this function
+        if (window.initNeuralNetwork && window.initNeuralNetwork !== initNeuralNetwork) {
+            window.initNeuralNetwork();
+        }
         neuralNetworkInitialized = true;
     }
 }
