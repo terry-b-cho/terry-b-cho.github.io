@@ -1,5 +1,62 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Smooth scrolling for navigation links
+// DOM Elements
+const elements = {
+    preloader: document.querySelector('[data-preloader]'),
+    preloaderCircle: document.querySelector('.preloader-circle'),
+    preloaderText: document.querySelector('.preloader-text'),
+    header: document.querySelector('[data-header]'),
+    navToggleBtn: document.querySelector('[data-nav-toggle-btn]'),
+    navbar: document.querySelector('[data-navbar]'),
+    overlay: document.querySelector('[data-overlay]'),
+    neuralNetwork: document.getElementById('neuralNetwork')
+};
+
+let lastScrollY = window.scrollY;
+let isNeuralNetworkVisible = true;
+
+// Preloader
+const initPreloader = () => {
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            elements.preloader.classList.add('loaded');
+            document.body.classList.add('loaded');
+        }, 1000);
+    });
+};
+
+// Navigation
+const initNavigation = () => {
+    const toggleNav = () => {
+        elements.navbar.classList.toggle('active');
+        elements.navToggleBtn.classList.toggle('active');
+        elements.overlay.classList.toggle('active');
+        document.body.classList.toggle('nav-active');
+    };
+
+    elements.navToggleBtn.addEventListener('click', toggleNav);
+    elements.overlay.addEventListener('click', toggleNav);
+
+    // Sticky Header
+    const headerSticky = () => {
+        if (window.scrollY > 100) {
+            elements.header.classList.add('sticky');
+        } else {
+            elements.header.classList.remove('sticky');
+        }
+
+        if (window.scrollY > lastScrollY && window.scrollY > 100) {
+            elements.header.classList.add('hide');
+        } else {
+            elements.header.classList.remove('hide');
+        }
+
+        lastScrollY = window.scrollY;
+    };
+
+    window.addEventListener('scroll', headerSticky);
+};
+
+// Smooth Scroll
+const initSmoothScroll = () => {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -14,152 +71,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     behavior: 'smooth'
                 });
 
-                // Close mobile menu if open
-                if (navbar.classList.contains('active')) {
-                    toggleNav();
+                if (elements.navbar.classList.contains('active')) {
+                    elements.navbar.classList.remove('active');
+                    elements.navToggleBtn.classList.remove('active');
+                    elements.overlay.classList.remove('active');
+                    document.body.classList.remove('nav-active');
                 }
             }
         });
     });
+};
 
-    // Intersection Observer for fade-in animations
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    // Observe all sections
-    document.querySelectorAll('.section').forEach(section => {
-        section.style.opacity = '0';
-        section.style.transform = 'translateY(20px)';
-        observer.observe(section);
-    });
-
-    // Add visible class to sections
-    document.addEventListener('scroll', () => {
-        document.querySelectorAll('.section').forEach(section => {
-            if (isElementInViewport(section)) {
-                section.classList.add('visible');
-            }
-        });
-    });
-
-    // Helper function to check if element is in viewport
-    function isElementInViewport(el) {
-        const rect = el.getBoundingClientRect();
-        return (
-            rect.top <= window.innerHeight * 0.5 &&
-            rect.bottom >= window.innerHeight * 0.2
-        );
-    }
-
-    // Add CSS class for visible sections
-    const style = document.createElement('style');
-    style.textContent = `
-        .section {
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .section.visible {
-            opacity: 1 !important;
-            transform: translateY(0) !important;
-        }
-    `;
-    document.head.appendChild(style);
-
-    let dnaInitialized = false;
-    let lastState = null;
-
-    function showDNAAnimation() {
-        const neuralNetwork = document.getElementById('neuralNetwork');
-        const dnaAnimation = document.getElementById('dnaAnimation');
-        if (lastState === 'dna') return;
-        neuralNetwork.style.opacity = 0;
-        setTimeout(() => { neuralNetwork.style.display = 'none'; }, 800);
-        dnaAnimation.style.display = 'block';
-        setTimeout(() => { dnaAnimation.style.opacity = 1; }, 10);
-        if (!dnaInitialized) {
-            if (window.initDNAAnimation) window.initDNAAnimation();
-            dnaInitialized = true;
-        }
-        lastState = 'dna';
-    }
-
-    function showNeuralNetwork() {
-        const neuralNetwork = document.getElementById('neuralNetwork');
-        const dnaAnimation = document.getElementById('dnaAnimation');
-        if (lastState === 'neural') return;
-        neuralNetwork.style.display = 'block';
-        setTimeout(() => { neuralNetwork.style.opacity = 1; }, 10);
-        dnaAnimation.style.opacity = 0;
-        setTimeout(() => { dnaAnimation.style.display = 'none'; }, 800);
-        lastState = 'neural';
-    }
-
-    window.addEventListener('scroll', () => {
-        const publicationsSection = document.getElementById('publications');
-        if (isElementInViewport(publicationsSection)) {
-            showDNAAnimation();
-        } else {
-            showNeuralNetwork();
-        }
-    });
-
-    // Preloader
-    const preloader = document.querySelector('[data-preloader]');
-    const preloaderCircle = document.querySelector('.preloader-circle');
-    const preloaderText = document.querySelector('.preloader-text');
-
-    let lastScrollY = window.scrollY;
-
-    const toggleNav = () => {
-        navbar.classList.toggle('active');
-        navToggleBtn.classList.toggle('active');
-        overlay.classList.toggle('active');
-        document.body.classList.toggle('nav-active');
-    };
-
-    navToggleBtn.addEventListener('click', toggleNav);
-    overlay.addEventListener('click', toggleNav);
-
-    // Sticky Header
-    const headerSticky = () => {
-        if (window.scrollY > 100) {
-            header.classList.add('sticky');
-        } else {
-            header.classList.remove('sticky');
-        }
-
-        if (window.scrollY > lastScrollY && window.scrollY > 100) {
-            header.classList.add('hide');
-        } else {
-            header.classList.remove('hide');
-        }
-
-        lastScrollY = window.scrollY;
-    };
-
-    window.addEventListener('scroll', headerSticky);
-
-    // Mobile Navigation
-    const navTogglers = document.querySelectorAll("[data-nav-toggler]");
-    const navToggleBtn = document.querySelector("[data-nav-toggle-btn]");
-    const navbar = document.querySelector("[data-navbar]");
-    const overlay = document.querySelector("[data-overlay]");
-
-    // Neural Network Animation
-    const neuralNetwork = document.getElementById('neuralNetwork');
-    let isNeuralNetworkVisible = true;
-
+// Neural Network Animation
+const initNeuralNetworkTransition = () => {
     const handleScroll = () => {
         const scrollPosition = window.scrollY;
         const publicationsSection = document.getElementById('publications');
@@ -170,24 +94,26 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (scrollPosition > publicationsOffset - windowHeight * 0.5) {
                 if (isNeuralNetworkVisible) {
-                    neuralNetwork.style.opacity = '0';
+                    elements.neuralNetwork.style.opacity = '0';
                     setTimeout(() => {
-                        neuralNetwork.style.display = 'none';
-                        document.getElementById('dnaAnimation').style.display = 'block';
+                        elements.neuralNetwork.style.display = 'none';
+                        const dnaAnimation = document.getElementById('dnaAnimation');
+                        dnaAnimation.style.display = 'block';
                         setTimeout(() => {
-                            document.getElementById('dnaAnimation').style.opacity = '1';
+                            dnaAnimation.style.opacity = '1';
                         }, 50);
                     }, 800);
                     isNeuralNetworkVisible = false;
                 }
             } else {
                 if (!isNeuralNetworkVisible) {
-                    document.getElementById('dnaAnimation').style.opacity = '0';
+                    const dnaAnimation = document.getElementById('dnaAnimation');
+                    dnaAnimation.style.opacity = '0';
                     setTimeout(() => {
-                        document.getElementById('dnaAnimation').style.display = 'none';
-                        neuralNetwork.style.display = 'block';
+                        dnaAnimation.style.display = 'none';
+                        elements.neuralNetwork.style.display = 'block';
                         setTimeout(() => {
-                            neuralNetwork.style.opacity = '1';
+                            elements.neuralNetwork.style.opacity = '1';
                         }, 50);
                     }, 800);
                     isNeuralNetworkVisible = true;
@@ -197,17 +123,22 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     window.addEventListener('scroll', handleScroll);
+};
 
-    // Initialize
-    document.addEventListener('DOMContentLoaded', () => {
-        // Add animation classes to elements
-        document.querySelectorAll('.hero-title, .hero-subtitle, .hero-location, .hero-description').forEach(element => {
-            element.classList.add('animate-on-scroll');
-        });
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    initPreloader();
+    initNavigation();
+    initSmoothScroll();
+    initNeuralNetworkTransition();
 
-        // Initialize neural network animation
-        if (typeof initNeuralNetwork === 'function') {
-            initNeuralNetwork();
-        }
+    // Add animation classes to elements
+    document.querySelectorAll('.hero-title, .hero-subtitle, .hero-location, .hero-description').forEach(element => {
+        element.classList.add('animate-on-scroll');
     });
+
+    // Initialize neural network animation
+    if (typeof initNeuralNetwork === 'function') {
+        initNeuralNetwork();
+    }
 }); 
