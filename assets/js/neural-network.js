@@ -8,9 +8,6 @@ class NeuralNetwork {
         this.connections = [];
         this.firingConnections = [];
         this.firingSprites = [];
-        this.activeNodes = new Set(); // Track nodes with active firings
-        this.lastFireTime = 0;
-        this.fireInterval = 0.04; // seconds between firings
         this.init();
     }
 
@@ -43,6 +40,9 @@ class NeuralNetwork {
 
         // Handle window resize
         window.addEventListener('resize', () => this.onWindowResize(), false);
+
+        // Start synapse firing interval (reduced pause, more overlap)
+        this.firingInterval = setInterval(() => this.triggerRandomSynapses(), 350); // faster, less pause
 
         // Start animation
         this.animate();
@@ -91,32 +91,29 @@ class NeuralNetwork {
     }
 
     triggerRandomSynapses() {
-        // Reset all
-        this.connections.forEach(conn => {
-            conn.userData.firing = false;
-            conn.userData.pulse = 0;
-        });
-        this.firingSprites.forEach(s => this.scene.remove(s));
-        this.firingSprites = [];
-        for (let i = 0; i < 10; i++) {
+        // Only fire one connection per node at a time
+        const usedNodes = new Set();
+        let fired = 0;
+        const maxFirings = Math.min(this.nodes.length, 10);
+        while (fired < maxFirings) {
             const idx = Math.floor(Math.random() * this.connections.length);
             const conn = this.connections[idx];
-            conn.userData.firing = true;
-            conn.userData.pulse = 0;
+            const n1 = conn.userData.node1Idx;
+            const n2 = conn.userData.node2Idx;
+            if (!usedNodes.has(n1) && !usedNodes.has(n2) && !conn.userData.firing) {
+                conn.userData.firing = true;
+                conn.userData.pulse = 0;
+                usedNodes.add(n1);
+                usedNodes.add(n2);
+                fired++;
+            }
         }
     }
 
     animate() {
         requestAnimationFrame(() => this.animate());
-        this.scene.rotation.y += 0.0007;
-        this.scene.rotation.x += 0.00035;
-
-        // Fire new synapses as soon as possible (no pause)
-        const now = performance.now() / 1000;
-        if (now - this.lastFireTime > this.fireInterval) {
-            this.triggerRandomSynapses();
-            this.lastFireTime = now;
-        }
+        this.scene.rotation.y += 0.001;
+        this.scene.rotation.x += 0.0005;
 
         this.connections.forEach((connection) => {
             const positions = connection.geometry.attributes.position.array;
@@ -132,9 +129,10 @@ class NeuralNetwork {
 
             // Animate synapse effect
             if (connection.userData.firing) {
-                connection.userData.pulse += 0.06; // tuned for smoothness
-                const t = Math.min(connection.userData.pulse, 1);
-                const fade = 0.5 * (1 - Math.cos(Math.PI * t));
+                connection.userData.pulse += 0.09; // slightly slower for more overlap
+                // Smoother, more gradient transition
+                const t = connection.userData.pulse;
+                const fade = 0.5 * (1 - Math.cos(Math.PI * Math.min(t, 1))); // cosine for smooth in/out
                 const color = new THREE.Color().setHSL(0.15 + 0.5 * Math.sin(t * Math.PI), 1, 0.7);
                 connection.material.color.copy(color);
                 connection.material.opacity = 0.95 * (1 - fade) + 0.2;
@@ -145,11 +143,11 @@ class NeuralNetwork {
                     const sprite = new THREE.Sprite(spriteMaterial);
                     const size = 0.55 * (1 - fade) + 0.08;
                     sprite.scale.set(size, size, size);
-                    sprite.position.lerpVectors(node1.position, node2.position, t);
+                    sprite.position.lerpVectors(node1.position, node2.position, fade);
                     this.scene.add(sprite);
                     this.firingSprites.push(sprite);
                 }
-                if (connection.userData.pulse > 1.2) {
+                if (connection.userData.pulse > 1.2) { // allow overlap
                     connection.userData.firing = false;
                     connection.material.color.set(0x64ffda);
                     connection.material.opacity = 0.2;
