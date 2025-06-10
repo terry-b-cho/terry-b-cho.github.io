@@ -26,13 +26,26 @@ const initPreloader = () => {
 
 // Navigation
 const initNavigation = () => {
+    const closeNav = () => {
+        elements.navbar.classList.remove('active');
+        elements.navToggleBtn.classList.remove('active');
+        elements.overlay.classList.remove('active');
+        document.body.classList.remove('nav-active');
+        elements.navToggleBtn.setAttribute('aria-expanded', false);
+        elements.navbar.setAttribute('aria-hidden', true);
+        releaseFocusTrap();
+    };
     const toggleNav = () => {
-        elements.navbar.classList.toggle('active');
-        elements.navToggleBtn.classList.toggle('active');
-        elements.overlay.classList.toggle('active');
-        document.body.classList.toggle('nav-active');
+        const expanded = !elements.navbar.classList.contains('active');
+        if (expanded) {
+            elements.navbar.classList.add('active');
+            elements.navToggleBtn.classList.add('active');
+            elements.overlay.classList.add('active');
+            document.body.classList.add('nav-active');
+        } else {
+            closeNav();
+        }
         // Accessibility: ARIA
-        const expanded = elements.navbar.classList.contains('active');
         elements.navToggleBtn.setAttribute('aria-expanded', expanded);
         elements.navbar.setAttribute('aria-hidden', !expanded);
         // Focus trap
@@ -42,10 +55,34 @@ const initNavigation = () => {
             releaseFocusTrap();
         }
     };
-
     elements.navToggleBtn.addEventListener('click', toggleNav);
-    elements.overlay.addEventListener('click', toggleNav);
-
+    elements.overlay.addEventListener('click', closeNav);
+    // Close button
+    const closeBtn = document.querySelector('[data-nav-close-btn]');
+    if (closeBtn) closeBtn.addEventListener('click', closeNav);
+    // Close on link click (mobile)
+    document.querySelectorAll('.navbar-link').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth < 768) closeNav();
+        });
+    });
+    // Swipe-to-close gesture (mobile)
+    let touchStartX = null;
+    elements.navbar.addEventListener('touchstart', e => {
+        if (!elements.navbar.classList.contains('active')) return;
+        touchStartX = e.touches[0].clientX;
+    });
+    elements.navbar.addEventListener('touchmove', e => {
+        if (touchStartX === null) return;
+        const touchEndX = e.touches[0].clientX;
+        if (touchStartX - touchEndX > 60) {
+            closeNav();
+            touchStartX = null;
+        }
+    });
+    elements.navbar.addEventListener('touchend', () => {
+        touchStartX = null;
+    });
     // Sticky Header
     const headerSticky = () => {
         if (window.scrollY > 100) {
@@ -53,16 +90,13 @@ const initNavigation = () => {
         } else {
             elements.header.classList.remove('sticky');
         }
-
         if (window.scrollY > lastScrollY && window.scrollY > 100) {
             elements.header.classList.add('hide');
         } else {
             elements.header.classList.remove('hide');
         }
-
         lastScrollY = window.scrollY;
     };
-
     window.addEventListener('scroll', headerSticky);
 };
 

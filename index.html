@@ -35,7 +35,7 @@
             <div class="header-content">
                 <a href="#" class="nav-brand">TC</a>
                 
-                <button class="nav-toggle-btn" data-nav-toggler data-nav-toggle-btn aria-label="Toggle menu">
+                <button class="nav-toggle-btn" data-nav-toggler data-nav-toggle-btn aria-label="Open menu" aria-expanded="false">
                     <div class="hamburger">
                         <span class="line"></span>
                         <span class="line"></span>
@@ -43,7 +43,10 @@
                     </div>
                 </button>
 
-                <nav class="navbar" data-navbar>
+                <nav class="navbar" data-navbar aria-hidden="true">
+                    <button class="nav-close-btn" data-nav-close-btn aria-label="Close menu">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                     <ul class="navbar-list">
                         <li><a href="#about" class="navbar-link">About</a></li>
                         <li><a href="#education" class="navbar-link">Education</a></li>
@@ -173,14 +176,14 @@
             <div class="container">
                 <div class="logo-carousel" id="logoCarousel">
                     <div class="logo-track">
-                        <div class="logo-item"><img src="assets/images/logos/ucl_logo.png" alt="UCL" loading="lazy"></div>
                         <div class="logo-item"><img src="assets/images/logos/hms_logo.svg" alt="Harvard Medical School" loading="lazy"></div>
                         <div class="logo-item"><img src="assets/images/logos/joslin_diabetes_center_logo.svg" alt="Joslin Diabetes Center" loading="lazy"></div>
+                        <div class="logo-item"><img src="assets/images/logos/ucl_logo.png" alt="UCL" loading="lazy"></div>
                     </div>
                     <div class="logo-track">
-                        <div class="logo-item"><img src="assets/images/logos/ucl_logo.png" alt="UCL" loading="lazy"></div>
                         <div class="logo-item"><img src="assets/images/logos/hms_logo.svg" alt="Harvard Medical School" loading="lazy"></div>
                         <div class="logo-item"><img src="assets/images/logos/joslin_diabetes_center_logo.svg" alt="Joslin Diabetes Center" loading="lazy"></div>
+                        <div class="logo-item"><img src="assets/images/logos/ucl_logo.png" alt="UCL" loading="lazy"></div>
                     </div>
                 </div>
             </div>

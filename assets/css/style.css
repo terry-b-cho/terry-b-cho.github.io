@@ -258,10 +258,11 @@ body {
         align-items: center;
     }
     .navbar-link {
-        font-size: 1.5rem;
-        padding: 1rem 0;
+        font-size: 1.35rem;
+        padding: 1.1rem 0;
         width: 100vw;
         text-align: center;
+        letter-spacing: 0.12em;
     }
     .overlay {
         display: block;
@@ -283,6 +284,19 @@ body {
     body.nav-active {
         overflow: hidden;
         touch-action: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-close-btn {
+        top: 1rem;
+        right: 1rem;
+        font-size: 2rem;
+        padding: 0.5rem 0.8rem;
+    }
+    .navbar-link {
+        font-size: 1.1rem;
+        padding: 1rem 0;
     }
 }
 
@@ -494,7 +508,7 @@ body {
     }
 
     .logo-track {
-        gap: 2rem;
+        gap: 1.5rem !important;
     }
 
     .logo-item img {
@@ -537,7 +551,7 @@ body {
     }
 
     .logo-track {
-        gap: 1.2rem;
+        gap: 1rem !important;
     }
 
     .logo-item img {
@@ -638,7 +652,7 @@ body {
 .logo-track {
     display: flex;
     align-items: center;
-    gap: 3rem;
+    gap: 2.5rem !important;
     animation: logo-scroll 12s linear infinite;
 }
 
@@ -660,6 +674,9 @@ body {
     filter: grayscale(100%);
     opacity: 0.6;
     transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    background: transparent;
+    margin: 0 0.25rem;
+    border-radius: 8px;
 }
 
 .logo-item:hover img {
@@ -892,5 +909,93 @@ body {
     }
     60% {
         transform: translateY(-5px);
+    }
+}
+
+/* --- Navbar Close Button --- */
+.nav-close-btn {
+    display: none;
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    font-size: 2.5rem;
+    color: var(--text-color);
+    z-index: 1200;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+.nav-close-btn:active,
+.nav-close-btn:focus {
+    background: rgba(255,255,255,0.08);
+    outline: none;
+}
+
+@media (max-width: 767px) {
+    .nav-close-btn {
+        display: block;
+    }
+    .navbar {
+        padding-top: 3.5rem;
+    }
+    .navbar-list {
+        gap: 2.5rem;
+    }
+    .navbar-link {
+        font-size: 1.35rem;
+        padding: 1.1rem 0;
+        width: 100vw;
+        text-align: center;
+        letter-spacing: 0.12em;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-close-btn {
+        top: 1rem;
+        right: 1rem;
+        font-size: 2rem;
+        padding: 0.5rem 0.8rem;
+    }
+    .navbar-link {
+        font-size: 1.1rem;
+        padding: 1rem 0;
+    }
+}
+
+/* --- Logo Carousel Gaps & Order --- */
+.logo-track {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem !important;
+    animation: logo-scroll 12s linear infinite;
+}
+.logo-item img {
+    max-width: 120px;
+    height: auto;
+    filter: grayscale(100%);
+    opacity: 0.6;
+    transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    background: transparent;
+    margin: 0 0.25rem;
+    border-radius: 8px;
+}
+@media (max-width: 767px) {
+    .logo-track {
+        gap: 1.5rem !important;
+    }
+    .logo-item img {
+        max-width: 80px;
+    }
+}
+@media (max-width: 480px) {
+    .logo-track {
+        gap: 1rem !important;
+    }
+    .logo-item img {
+        max-width: 60px;
     }
 } 
