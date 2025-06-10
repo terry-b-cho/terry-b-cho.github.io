@@ -29,43 +29,34 @@ window.initDNAAnimation = function() {
     const color2 = 0xff00ff;
     const basePairColor = 0x00ffff;
 
-    // Create two helices as TubeGeometries for smoothness
-    function createHelix(offset, color) {
-        const curve = new THREE.Curve();
-        curve.getPoint = function(t) {
+    // Create two helices as dotted lines
+    function createDottedHelix(offset, color) {
+        const points = [];
+        for (let i = 0; i < totalPoints; i++) {
+            const t = i / totalPoints;
             const angle = t * Math.PI * 2 * turns + offset;
             const x = Math.cos(angle) * helixRadius;
             const y = (t - 0.5) * helixHeight;
             const z = Math.sin(angle) * helixRadius;
-            return new THREE.Vector3(x, y, z);
-        };
-        const geometry = new THREE.TubeGeometry(curve, totalPoints, 0.045, 8, false);
-        const material = new THREE.MeshBasicMaterial({ color });
-        const mesh = new THREE.Mesh(geometry, material);
-        scene.add(mesh);
-        return curve;
+            points.push(new THREE.Vector3(x, y, z));
+        }
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        const material = new THREE.LineDashedMaterial({ color, dashSize: 0.12, gapSize: 0.08, linewidth: 2 });
+        const line = new THREE.Line(geometry, material);
+        line.computeLineDistances();
+        scene.add(line);
+        return points;
     }
-    const curve1 = createHelix(0, color1);
-    const curve2 = createHelix(Math.PI, color2);
+    const helix1 = createDottedHelix(0, color1);
+    const helix2 = createDottedHelix(Math.PI, color2);
 
-    // Add base pairs (lines connecting the two helices)
+    // Add glowing base pairs (spheres) between helices
     const basePairs = [];
     for (let i = 0; i < totalPoints; i += 4) {
-        const t = i / totalPoints;
-        const p1 = curve1.getPoint(t);
-        const p2 = curve2.getPoint(t);
-        const geometry = new THREE.BufferGeometry().setFromPoints([p1, p2]);
-        const material = new THREE.LineBasicMaterial({ color: basePairColor, transparent: true, opacity: 0.5 });
-        const line = new THREE.Line(geometry, material);
-        scene.add(line);
-        basePairs.push({ line, t });
-    }
-
-    // Add glowing spheres for base pairs
-    for (let i = 0; i < totalPoints; i += 8) {
-        const t = i / totalPoints;
-        [curve1, curve2].forEach((curve, idx) => {
-            const p = curve.getPoint(t);
+        const p1 = helix1[i];
+        const p2 = helix2[i];
+        // Glowing spheres at each end
+        [p1, p2].forEach((p, idx) => {
             const color = idx === 0 ? color1 : color2;
             const geometry = new THREE.SphereGeometry(0.07, 24, 24);
             const material = new THREE.MeshBasicMaterial({ color });
@@ -73,6 +64,12 @@ window.initDNAAnimation = function() {
             sphere.position.copy(p);
             scene.add(sphere);
         });
+        // Glowing line (base pair)
+        const geometry = new THREE.BufferGeometry().setFromPoints([p1, p2]);
+        const material = new THREE.LineBasicMaterial({ color: basePairColor, transparent: true, opacity: 0.7 });
+        const line = new THREE.Line(geometry, material);
+        scene.add(line);
+        basePairs.push({ line, i });
     }
 
     camera.position.z = 5;
@@ -84,18 +81,20 @@ window.initDNAAnimation = function() {
     function animate() {
         if (!container || container.style.display === 'none') return;
         requestAnimationFrame(animate);
-        theta += 0.01;
+        theta += 0.012;
         scene.rotation.y = Math.sin(theta * 0.5) * 0.2 + theta * 0.1;
         scene.rotation.x = Math.cos(theta * 0.3) * 0.1;
-        // Animate base pairs to undulate
-        basePairs.forEach(({ line, t }) => {
-            const phase = theta + t * Math.PI * 2 * turns;
-            const yOffset = Math.sin(phase * 2) * 0.08;
-            const p1 = curve1.getPoint(t);
-            const p2 = curve2.getPoint(t);
-            p1.y += yOffset;
-            p2.y += yOffset;
-            line.geometry.setFromPoints([p1, p2]);
+        // Undulate the helices
+        for (let i = 0; i < totalPoints; i++) {
+            const t = i / totalPoints;
+            const angle = t * Math.PI * 2 * turns;
+            const yOffset = Math.sin(theta * 2 + angle * 2) * 0.08;
+            helix1[i].y = (t - 0.5) * helixHeight + yOffset;
+            helix2[i].y = (t - 0.5) * helixHeight - yOffset;
+        }
+        // Update base pairs
+        basePairs.forEach(({ line, i }) => {
+            line.geometry.setFromPoints([helix1[i], helix2[i]]);
         });
         renderer.render(scene, camera);
     }

@@ -120,21 +120,23 @@ class NeuralNetwork {
 
             // Animate synapse effect
             if (connection.userData.firing) {
-                connection.userData.pulse += 0.04;
+                connection.userData.pulse += 0.09; // Faster
                 // Animate color and opacity
                 const t = connection.userData.pulse;
-                const color = new THREE.Color().setHSL(0.55 + 0.25 * Math.sin(t * Math.PI), 1, 0.6);
+                const color = new THREE.Color().setHSL(0.55 + 0.25 * Math.sin(t * Math.PI), 1, 0.7);
                 connection.material.color.copy(color);
-                connection.material.opacity = 0.7 + 0.3 * Math.sin(t * Math.PI);
-                // Animate a glowing sphere along the connection
+                connection.material.opacity = 0.8 + 0.2 * Math.sin(t * Math.PI);
+                // Animate a glowing sprite along the connection
                 if (t <= 1) {
-                    const sphereGeometry = new THREE.SphereGeometry(0.06, 16, 16);
-                    const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-                    const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-                    // Interpolate position
-                    sphere.position.lerpVectors(node1.position, node2.position, t);
-                    this.scene.add(sphere);
-                    this.firingSpheres.push(sphere);
+                    const map = this.getGlowTexture();
+                    const spriteMaterial = new THREE.SpriteMaterial({ map, color: 0xffff99, transparent: true, opacity: 0.7 });
+                    const sprite = new THREE.Sprite(spriteMaterial);
+                    // Glow size: large at start, small at end
+                    const size = 0.35 * (1 - t) + 0.08;
+                    sprite.scale.set(size, size, size);
+                    sprite.position.lerpVectors(node1.position, node2.position, t);
+                    this.scene.add(sprite);
+                    this.firingSpheres.push(sprite);
                 }
                 if (connection.userData.pulse > 1) {
                     connection.userData.firing = false;
@@ -147,13 +149,31 @@ class NeuralNetwork {
             }
         });
 
-        // Remove old firing spheres
+        // Remove old firing sprites
         if (this.firingSpheres.length > 30) {
             const toRemove = this.firingSpheres.splice(0, this.firingSpheres.length - 30);
             toRemove.forEach(s => this.scene.remove(s));
         }
 
         this.renderer.render(this.scene, this.camera);
+    }
+
+    getGlowTexture() {
+        if (!this._glowTexture) {
+            const size = 64;
+            const canvas = document.createElement('canvas');
+            canvas.width = canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            const gradient = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+            gradient.addColorStop(0, 'rgba(255,255,200,1)');
+            gradient.addColorStop(0.2, 'rgba(255,255,200,0.7)');
+            gradient.addColorStop(0.4, 'rgba(255,255,200,0.3)');
+            gradient.addColorStop(1, 'rgba(255,255,200,0)');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            this._glowTexture = new THREE.CanvasTexture(canvas);
+        }
+        return this._glowTexture;
     }
 
     onWindowResize() {
