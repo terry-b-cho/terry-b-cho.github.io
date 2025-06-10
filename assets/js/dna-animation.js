@@ -90,16 +90,45 @@ window.initDNAAnimation = function() {
         base2.position.set(x2, y, z2);
 
         // Create base pair connection
+        let basePairLineColor, basePairLineGlow;
+        switch(basePairType) {
+            case 0: // A-T
+                basePairLineColor = 0x717EC3; // thymine
+                basePairLineGlow = 0xEDD382; // adenine
+                break;
+            case 1: // T-A
+                basePairLineColor = 0xEDD382; // adenine
+                basePairLineGlow = 0x717EC3; // thymine
+                break;
+            case 2: // C-G
+                basePairLineColor = 0x85FFC7; // guanine
+                basePairLineGlow = 0xFF6F59; // cytosine
+                break;
+            case 3: // G-C
+                basePairLineColor = 0xFF6F59; // cytosine
+                basePairLineGlow = 0x85FFC7; // guanine
+                break;
+        }
         const basePairGeo = new THREE.BufferGeometry().setFromPoints([
             new THREE.Vector3(x1, y, z1),
             new THREE.Vector3(x2, y, z2)
         ]);
+        // Main colored line
         const basePairMat = new THREE.LineBasicMaterial({ 
-            color: 0xffffff,
+            color: basePairLineColor,
             transparent: true,
-            opacity: 0.3
+            opacity: 0.7,
+            linewidth: 3
         });
         const basePairLine = new THREE.Line(basePairGeo, basePairMat);
+        // Subtle glow (wider, more transparent line)
+        const glowMat = new THREE.LineBasicMaterial({
+            color: basePairLineGlow,
+            transparent: true,
+            opacity: 0.18,
+            linewidth: 8
+        });
+        const basePairGlow = new THREE.Line(basePairGeo, glowMat);
 
         // Add glowing effect
         const glow1Geo = new THREE.SphereGeometry(baseSize * 1.5, 16, 16);
@@ -111,8 +140,8 @@ window.initDNAAnimation = function() {
         glow1.position.copy(base1.position);
         glow2.position.copy(base2.position);
 
-        dnaGroup.add(base1, base2, basePairLine, glow1, glow2);
-        basePairs.push({ base1, base2, basePairLine, glow1, glow2, i });
+        dnaGroup.add(base1, base2, basePairGlow, basePairLine, glow1, glow2);
+        basePairs.push({ base1, base2, basePairLine, basePairGlow, glow1, glow2, i });
     }
 
     // Create backbone strands
@@ -154,7 +183,7 @@ window.initDNAAnimation = function() {
         dnaGroup.rotation.x = Math.cos(theta * 0.3) * 0.1;
 
         // Animate base pairs with phase offset for cascading effect
-        basePairs.forEach(({ base1, base2, basePairLine, glow1, glow2, i }) => {
+        basePairs.forEach(({ base1, base2, basePairLine, basePairGlow, glow1, glow2, i }) => {
             const t = i / (numBasePairs - 1);
             const angle = t * Math.PI * 2 * turns + Math.sin(theta + i * 0.2) * 0.2;
             const y = (t - 0.5) * helixHeight + Math.sin(theta * 2 + i * 0.3) * 0.2;
@@ -168,6 +197,10 @@ window.initDNAAnimation = function() {
             glow1.position.copy(base1.position);
             glow2.position.copy(base2.position);
             basePairLine.geometry.setFromPoints([
+                new THREE.Vector3(x1, y, z1),
+                new THREE.Vector3(x2, y, z2)
+            ]);
+            basePairGlow.geometry.setFromPoints([
                 new THREE.Vector3(x1, y, z1),
                 new THREE.Vector3(x2, y, z2)
             ]);

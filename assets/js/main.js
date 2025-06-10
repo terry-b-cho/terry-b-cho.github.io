@@ -216,51 +216,32 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Smooth transition between neural network and DNA animations
-let scrollDirection = 0;
-let transitionProgress = 0;
-const transitionSpeed = 0.05;
-const neuralNetwork = document.getElementById('neuralNetwork');
-const dnaAnimation = document.getElementById('dnaAnimation');
-
 function updateTransition() {
     const aboutSection = document.getElementById('about');
     if (!aboutSection) return;
-
     const aboutRect = aboutSection.getBoundingClientRect();
     const aboutTop = aboutRect.top;
     const aboutBottom = aboutRect.bottom;
     const viewportHeight = window.innerHeight;
-
-    // Calculate transition progress based on scroll position
     let targetProgress;
     if (aboutTop > viewportHeight) {
-        // Above About section - show neural network
         targetProgress = 0;
     } else if (aboutBottom < 0) {
-        // Below About section - show DNA
         targetProgress = 1;
     } else {
-        // During transition - calculate progress
         const totalDistance = aboutRect.height + viewportHeight;
         const scrolledDistance = viewportHeight - aboutTop;
         targetProgress = Math.min(1, Math.max(0, scrolledDistance / totalDistance));
     }
-
-    // Smoothly interpolate to target progress
-    const progressDiff = targetProgress - transitionProgress;
-    if (Math.abs(progressDiff) > 0.001) {
-        transitionProgress += progressDiff * transitionSpeed;
-    }
-
-    // Apply transitions with easing
-    const easeProgress = easeInOutCubic(transitionProgress);
+    const easeProgress = easeInOutCubic(targetProgress);
     neuralNetwork.style.opacity = 1 - easeProgress;
     neuralNetwork.style.filter = `blur(${easeProgress * 10}px)`;
     dnaAnimation.style.opacity = easeProgress;
     dnaAnimation.style.filter = `blur(${(1 - easeProgress) * 10}px)`;
-
-    requestAnimationFrame(updateTransition);
 }
+window.addEventListener('scroll', updateTransition);
+window.addEventListener('resize', updateTransition);
+updateTransition();
 
 // Easing function for smooth transitions
 function easeInOutCubic(t) {
@@ -268,9 +249,6 @@ function easeInOutCubic(t) {
         ? 4 * t * t * t
         : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
-
-// Start transition animation
-updateTransition();
 
 // Scroll Indicator
 const initScrollIndicator = () => {
