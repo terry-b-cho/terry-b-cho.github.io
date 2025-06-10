@@ -3,6 +3,15 @@ window.initDNAAnimation = function() {
     if (window.dnaScene) return; // Prevent re-initialization
     const container = document.getElementById('dnaAnimation');
     container.innerHTML = '';
+    container.style.position = 'fixed';
+    container.style.top = '0';
+    container.style.left = '0';
+    container.style.width = '100vw';
+    container.style.height = '100vh';
+    container.style.zIndex = '-1';
+    container.style.pointerEvents = 'none';
+    container.style.background = 'transparent';
+
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -20,54 +29,48 @@ window.initDNAAnimation = function() {
     const color2 = 0xff00ff;
     const basePairColor = 0x00ffff;
 
-    // Create two helices
+    // Create two helices as TubeGeometries for smoothness
     function createHelix(offset, color) {
-        const geometry = new THREE.BufferGeometry();
-        const positions = [];
-        for (let i = 0; i < totalPoints; i++) {
-            const t = (i / pointsPerTurn) * Math.PI * 2;
-            const x = Math.cos(t + offset) * helixRadius;
-            const y = (i / totalPoints - 0.5) * helixHeight;
-            const z = Math.sin(t + offset) * helixRadius;
-            positions.push(x, y, z);
-        }
-        geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-        const material = new THREE.LineBasicMaterial({ color, linewidth: 2 });
-        const line = new THREE.Line(geometry, material);
-        scene.add(line);
+        const curve = new THREE.Curve();
+        curve.getPoint = function(t) {
+            const angle = t * Math.PI * 2 * turns + offset;
+            const x = Math.cos(angle) * helixRadius;
+            const y = (t - 0.5) * helixHeight;
+            const z = Math.sin(angle) * helixRadius;
+            return new THREE.Vector3(x, y, z);
+        };
+        const geometry = new THREE.TubeGeometry(curve, totalPoints, 0.045, 8, false);
+        const material = new THREE.MeshBasicMaterial({ color });
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+        return curve;
     }
-    createHelix(0, color1);
-    createHelix(Math.PI, color2);
+    const curve1 = createHelix(0, color1);
+    const curve2 = createHelix(Math.PI, color2);
 
     // Add base pairs (lines connecting the two helices)
+    const basePairs = [];
     for (let i = 0; i < totalPoints; i += 4) {
-        const t = (i / pointsPerTurn) * Math.PI * 2;
-        const x1 = Math.cos(t) * helixRadius;
-        const y = (i / totalPoints - 0.5) * helixHeight;
-        const z1 = Math.sin(t) * helixRadius;
-        const x2 = Math.cos(t + Math.PI) * helixRadius;
-        const z2 = Math.sin(t + Math.PI) * helixRadius;
-        const geometry = new THREE.BufferGeometry().setFromPoints([
-            new THREE.Vector3(x1, y, z1),
-            new THREE.Vector3(x2, y, z2)
-        ]);
+        const t = i / totalPoints;
+        const p1 = curve1.getPoint(t);
+        const p2 = curve2.getPoint(t);
+        const geometry = new THREE.BufferGeometry().setFromPoints([p1, p2]);
         const material = new THREE.LineBasicMaterial({ color: basePairColor, transparent: true, opacity: 0.5 });
         const line = new THREE.Line(geometry, material);
         scene.add(line);
+        basePairs.push({ line, t });
     }
 
     // Add glowing spheres for base pairs
     for (let i = 0; i < totalPoints; i += 8) {
-        const t = (i / pointsPerTurn) * Math.PI * 2;
-        const y = (i / totalPoints - 0.5) * helixHeight;
-        [0, Math.PI].forEach((offset, idx) => {
-            const x = Math.cos(t + offset) * helixRadius;
-            const z = Math.sin(t + offset) * helixRadius;
+        const t = i / totalPoints;
+        [curve1, curve2].forEach((curve, idx) => {
+            const p = curve.getPoint(t);
             const color = idx === 0 ? color1 : color2;
             const geometry = new THREE.SphereGeometry(0.07, 24, 24);
             const material = new THREE.MeshBasicMaterial({ color });
             const sphere = new THREE.Mesh(geometry, material);
-            sphere.position.set(x, y, z);
+            sphere.position.copy(p);
             scene.add(sphere);
         });
     }
@@ -77,11 +80,23 @@ window.initDNAAnimation = function() {
     window.dnaRenderer = renderer;
     window.dnaCamera = camera;
 
+    let theta = 0;
     function animate() {
         if (!container || container.style.display === 'none') return;
         requestAnimationFrame(animate);
-        scene.rotation.y += 0.003;
-        scene.rotation.x += 0.001;
+        theta += 0.01;
+        scene.rotation.y = Math.sin(theta * 0.5) * 0.2 + theta * 0.1;
+        scene.rotation.x = Math.cos(theta * 0.3) * 0.1;
+        // Animate base pairs to undulate
+        basePairs.forEach(({ line, t }) => {
+            const phase = theta + t * Math.PI * 2 * turns;
+            const yOffset = Math.sin(phase * 2) * 0.08;
+            const p1 = curve1.getPoint(t);
+            const p2 = curve2.getPoint(t);
+            p1.y += yOffset;
+            p2.y += yOffset;
+            line.geometry.setFromPoints([p1, p2]);
+        });
         renderer.render(scene, camera);
     }
     animate();
