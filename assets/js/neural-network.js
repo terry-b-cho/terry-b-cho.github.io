@@ -91,31 +91,25 @@ class NeuralNetwork {
     }
 
     triggerRandomSynapses() {
-        // Only fire one connection per node at a time
-        const usedNodes = new Set(this.activeNodes);
-        let fired = 0;
-        const maxFirings = Math.min(this.nodes.length, 10);
-        while (fired < maxFirings) {
+        // Reset all
+        this.connections.forEach(conn => {
+            conn.userData.firing = false;
+            conn.userData.pulse = 0;
+        });
+        this.firingSprites.forEach(s => this.scene.remove(s));
+        this.firingSprites = [];
+        for (let i = 0; i < 10; i++) {
             const idx = Math.floor(Math.random() * this.connections.length);
             const conn = this.connections[idx];
-            const n1 = conn.userData.node1Idx;
-            const n2 = conn.userData.node2Idx;
-            if (!usedNodes.has(n1) && !usedNodes.has(n2) && !conn.userData.firing) {
-                conn.userData.firing = true;
-                conn.userData.pulse = 0;
-                this.activeNodes.add(n1);
-                this.activeNodes.add(n2);
-                usedNodes.add(n1);
-                usedNodes.add(n2);
-                fired++;
-            }
+            conn.userData.firing = true;
+            conn.userData.pulse = 0;
         }
     }
 
     animate() {
         requestAnimationFrame(() => this.animate());
-        this.scene.rotation.y += 0.0005; // slower rotation
-        this.scene.rotation.x += 0.00025; // slower rotation
+        this.scene.rotation.y += 0.0007;
+        this.scene.rotation.x += 0.00035;
 
         // Fire new synapses as soon as possible (no pause)
         const now = performance.now() / 1000;
@@ -123,9 +117,6 @@ class NeuralNetwork {
             this.triggerRandomSynapses();
             this.lastFireTime = now;
         }
-
-        // Track nodes that are still firing
-        const stillActiveNodes = new Set();
 
         this.connections.forEach((connection) => {
             const positions = connection.geometry.attributes.position.array;
@@ -141,21 +132,20 @@ class NeuralNetwork {
 
             // Animate synapse effect
             if (connection.userData.firing) {
-                connection.userData.pulse += 0.045; // slower firing
+                connection.userData.pulse += 0.06; // tuned for smoothness
                 const t = Math.min(connection.userData.pulse, 1);
                 const fade = 0.5 * (1 - Math.cos(Math.PI * t));
                 const color = new THREE.Color().setHSL(0.15 + 0.5 * Math.sin(t * Math.PI), 1, 0.7);
                 connection.material.color.copy(color);
                 connection.material.opacity = 0.95 * (1 - fade) + 0.2;
                 connection.scale.setScalar(1.5 * (1 - fade) + 1);
-                // Animate sprite from node1 to node2 using t
                 if (t <= 1) {
                     const map = this.getGlowTexture();
                     const spriteMaterial = new THREE.SpriteMaterial({ map, color: 0xffff99, transparent: true, opacity: 0.7 * (1 - fade) + 0.2 });
                     const sprite = new THREE.Sprite(spriteMaterial);
                     const size = 0.55 * (1 - fade) + 0.08;
                     sprite.scale.set(size, size, size);
-                    sprite.position.lerpVectors(node1.position, node2.position, t); // t for node-to-node
+                    sprite.position.lerpVectors(node1.position, node2.position, t);
                     this.scene.add(sprite);
                     this.firingSprites.push(sprite);
                 }
@@ -164,9 +154,6 @@ class NeuralNetwork {
                     connection.material.color.set(0x64ffda);
                     connection.material.opacity = 0.2;
                     connection.scale.setScalar(1);
-                } else {
-                    stillActiveNodes.add(connection.userData.node1Idx);
-                    stillActiveNodes.add(connection.userData.node2Idx);
                 }
             } else {
                 connection.material.color.set(0x64ffda);
@@ -174,7 +161,6 @@ class NeuralNetwork {
                 connection.scale.setScalar(1);
             }
         });
-        this.activeNodes = stillActiveNodes;
 
         if (this.firingSprites.length > 30) {
             const toRemove = this.firingSprites.splice(0, this.firingSprites.length - 30);
