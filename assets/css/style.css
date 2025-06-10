@@ -517,45 +517,83 @@ body {
 }
 
 @media (max-width: 480px) {
-    .container {
-        padding: 0 1rem;
+    .profile-headshot-hex-minimal {
+        width: 48px;
+        height: 48px;
+        margin-bottom: 1.2rem;
+        margin-top: 0.5rem;
     }
-
     .hero-content {
-        padding: 0 1rem;
+        gap: 0.5rem;
+        padding: 0;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
-
-    .hero-title {
-        font-size: clamp(1.75rem, 4vw, 2rem);
+    .hero-description {
+        margin-top: 1.2rem;
+        margin-bottom: 1.2rem;
+        text-align: center;
     }
-
-    .hero-subtitle {
-        font-size: clamp(0.875rem, 1.5vw, 1rem);
-    }
-
-    .hero-location {
-        font-size: 0.75rem;
-    }
-
-    .section-text {
-        font-size: 0.875rem;
-    }
-
     .btn {
+        margin-bottom: 1.5rem;
+        margin-top: 0.5rem;
         width: 100%;
-        padding: 0.875rem 1.5rem;
+        max-width: 320px;
+        margin-left: auto;
+        margin-right: auto;
     }
-
-    .logo-section {
-        padding: 2rem 0;
+    .scroll-indicator {
+        position: static;
+        margin: 1.2rem auto 1.2rem auto;
+        display: block;
     }
-
-    .logo-track {
-        gap: 1rem !important;
+    .hero-description + .btn {
+        margin-top: 0.5rem;
     }
-
-    .logo-item img {
-        max-width: 60px;
+    .hero-description, .btn, .scroll-indicator {
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+    .hero {
+        padding: 2.5rem 0 1.5rem 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .section {
+        padding: 2.5rem 0 2.5rem 0;
+        margin: 0 auto;
+        max-width: 100vw;
+    }
+    .timeline, .timeline-content {
+        max-width: 100%;
+        width: 100%;
+        margin: 0 auto;
+        padding: 1.2rem 0;
+    }
+    .timeline {
+        left: 0;
+        transform: none;
+    }
+    .timeline-content {
+        width: 100%;
+        margin: 0 auto 2rem auto;
+        padding: 1.2rem 0.5rem;
+        border-radius: 8px;
+        text-align: left;
+    }
+    .timeline-item:nth-child(even) .timeline-content {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .container {
+        padding: 0;
+        margin: 0 auto;
+        max-width: 100vw;
     }
 }
 
@@ -1013,22 +1051,32 @@ body {
     .profile-headshot-hex-minimal {
         width: 48px;
         height: 48px;
-        margin-bottom: 0.5rem;
+        margin-bottom: 1.2rem;
+        margin-top: 0.5rem;
     }
     .hero-content {
-        gap: 1.2rem;
-        padding: 0.5rem 0.5rem;
+        gap: 0.5rem;
+        padding: 0;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
     .hero-description {
-        margin-top: 1.5rem;
-        margin-bottom: 0.5rem;
+        margin-top: 1.2rem;
+        margin-bottom: 1.2rem;
+        text-align: center;
     }
     .btn {
-        margin-bottom: 1.2rem;
+        margin-bottom: 1.5rem;
+        margin-top: 0.5rem;
+        width: 100%;
+        max-width: 320px;
+        margin-left: auto;
+        margin-right: auto;
     }
     .scroll-indicator {
         position: static;
-        margin: 0 auto 1.2rem auto;
+        margin: 1.2rem auto 1.2rem auto;
         display: block;
     }
     .hero-description + .btn {
@@ -1040,16 +1088,23 @@ body {
         text-align: center;
     }
     .hero {
-        padding-bottom: 0.5rem;
+        padding: 2.5rem 0 1.5rem 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
     .section {
-        padding: 2.5rem 0.5rem;
+        padding: 2.5rem 0 2.5rem 0;
+        margin: 0 auto;
+        max-width: 100vw;
     }
     .timeline, .timeline-content {
         max-width: 100%;
         width: 100%;
         margin: 0 auto;
-        padding: 1.2rem 0.5rem;
+        padding: 1.2rem 0;
     }
     .timeline {
         left: 0;
@@ -1057,13 +1112,19 @@ body {
     }
     .timeline-content {
         width: 100%;
-        margin: 0 auto 1.5rem auto;
+        margin: 0 auto 2rem auto;
         padding: 1.2rem 0.5rem;
         border-radius: 8px;
+        text-align: left;
     }
     .timeline-item:nth-child(even) .timeline-content {
         margin-left: 0;
         margin-right: 0;
+    }
+    .container {
+        padding: 0;
+        margin: 0 auto;
+        max-width: 100vw;
     }
 }
 @media (max-width: 767px) {
