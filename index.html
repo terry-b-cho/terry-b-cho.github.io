@@ -7,8 +7,11 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Three.js postprocessing dependencies for EffectComposer -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
 </head>
 <body class="dark-theme">
@@ -31,17 +34,21 @@
     <main>
         <section class="hero">
             <div class="hero-content">
-                <h1 style="font-size: 3.5rem; font-weight: 800; color: #64FFDA; margin-bottom: 0.5rem;">Terry Byeongyeon Cho</h1>
-                <p class="subtitle" style="font-size: 1.3rem; color: #cfd8dc; margin-bottom: 0.5rem;">PhD Candidate, Bioinformatics & Integrative Genomics</p>
-                <p class="location" style="font-size: 1.1rem; color: #8892b0;">Harvard Medical School</p>
+                <h1 style="font-size: 3.5rem; color: #64FFDA; margin-bottom: 0.5rem;">Terry Byeongyeon Cho</h1>
+                <p class="subtitle" style="font-size: 1.3rem; color: #cfd8dc; margin-bottom: 2.5rem;">PhD Candidate, Bioinformatics & Integrative Genomics</p>
+                <div class="scroll-indicator">
+                    <span>Scroll to explore</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
             </div>
         </section>
 
         <section id="about" class="section" style="display: flex; justify-content: center; align-items: center; min-height: 60vh; background: none;">
             <div class="about-card" style="background: rgba(255,255,255,0.04); border-radius: 1.5rem; box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18); padding: 2.5rem 2rem; max-width: 420px; width: 100%; display: flex; flex-direction: column; align-items: center;">
                 <img src="assets/images/profile/headshot_profile.png" alt="Terry Byeongyeon Cho" style="width: 96px; height: 96px; object-fit: cover; border-radius: 50%; border: 2.5px solid #64FFDA; box-shadow: 0 2px 16px 0 rgba(100,255,218,0.18); margin-bottom: 1.2rem; background: #fff;">
-                <h2 style="font-size: 1.5rem; font-weight: 700; margin: 0 0 0.5rem 0; letter-spacing: -1px; color: #fff;">About Me</h2>
-                <div style="font-size: 1rem; color: #cfd8dc; text-align: center; line-height: 1.6;">Driven by curiosity and a passion for discovery, I blend computational science and medicine to unravel the complexities of biology. My journey has taken me from economics to biomedical informatics, and now to the frontiers of genomics at Harvard. I thrive on building tools and insights that empower others, and I'm always seeking new ways to bridge disciplines and make a positive impact.</div>
+                <h2 style="font-size: 2rem; font-weight: 700; margin: 0 0 0.5rem 0; letter-spacing: -1px; color: #fff;">Terry Byeongyeon Cho</h2>
+                <div style="font-size: 1.1rem; color: #64FFDA; font-weight: 500; margin-bottom: 1.1rem;">PhD Candidate, Bioinformatics & Integrative Genomics</div>
+                <div style="font-size: 1rem; color: #cfd8dc; text-align: center; line-height: 1.6;">I am a PhD candidate at Harvard Medical School, with a background in Biomedical Informatics and Economics. My research focuses on leveraging computational methods to understand complex biological systems and develop innovative solutions in medicine.</div>
             </div>
         </section>
 
