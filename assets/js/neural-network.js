@@ -1,3 +1,4 @@
+// Neural Network with Bloom Glowing Synapse Effect
 class NeuralNetwork {
     constructor() {
         this.scene = new THREE.Scene();
@@ -6,7 +7,7 @@ class NeuralNetwork {
         this.nodes = [];
         this.connections = [];
         this.firingConnections = [];
-        this.firingSpheres = [];
+        this.firingSprites = [];
         this.init();
     }
 
@@ -18,6 +19,18 @@ class NeuralNetwork {
 
         // Setup camera
         this.camera.position.z = 5;
+
+        // Postprocessing: Bloom
+        this.composer = new THREE.EffectComposer(this.renderer);
+        this.renderScene = new THREE.RenderPass(this.scene, this.camera);
+        this.bloomPass = new THREE.UnrealBloomPass(
+            new THREE.Vector2(window.innerWidth, window.innerHeight),
+            1.5, // strength
+            0.4, // radius
+            0.85 // threshold
+        );
+        this.composer.addPass(this.renderScene);
+        this.composer.addPass(this.bloomPass);
 
         // Create nodes
         this.createNodes();
@@ -38,8 +51,6 @@ class NeuralNetwork {
     createNodes() {
         const geometry = new THREE.SphereGeometry(0.05, 32, 32);
         const material = new THREE.MeshBasicMaterial({ color: 0x64ffda });
-
-        // Create a grid of nodes
         for (let x = -2; x <= 2; x += 1) {
             for (let y = -2; y <= 2; y += 1) {
                 for (let z = -2; z <= 2; z += 1) {
@@ -53,8 +64,6 @@ class NeuralNetwork {
     }
 
     createConnections() {
-        // Each connection gets its own material for animation
-        // Store extra state for synapse effect
         for (let i = 0; i < this.nodes.length; i++) {
             for (let j = i + 1; j < this.nodes.length; j++) {
                 const node1 = this.nodes[i];
@@ -64,13 +73,15 @@ class NeuralNetwork {
                         node1.position,
                         node2.position
                     ]);
+                    // Use MeshLine for width animation, fallback to LineBasicMaterial for simplicity
                     const material = new THREE.LineBasicMaterial({ color: 0x64ffda, transparent: true, opacity: 0.2 });
                     const line = new THREE.Line(geometry, material);
                     line.userData = {
                         firing: false,
                         pulse: 0,
                         node1Idx: i,
-                        node2Idx: j
+                        node2Idx: j,
+                        width: 1
                     };
                     this.connections.push(line);
                     this.scene.add(line);
@@ -80,15 +91,13 @@ class NeuralNetwork {
     }
 
     triggerRandomSynapses() {
-        // Reset all
         this.connections.forEach(conn => {
             conn.userData.firing = false;
             conn.userData.pulse = 0;
         });
         this.firingConnections = [];
-        this.firingSpheres.forEach(s => this.scene.remove(s));
-        this.firingSpheres = [];
-        // Pick a few random connections to fire
+        this.firingSprites.forEach(s => this.scene.remove(s));
+        this.firingSprites = [];
         for (let i = 0; i < 10; i++) {
             const idx = Math.floor(Math.random() * this.connections.length);
             const conn = this.connections[idx];
@@ -100,13 +109,10 @@ class NeuralNetwork {
 
     animate() {
         requestAnimationFrame(() => this.animate());
-
-        // Rotate the entire network
         this.scene.rotation.y += 0.001;
         this.scene.rotation.x += 0.0005;
 
-        // Update connections
-        this.connections.forEach((connection, index) => {
+        this.connections.forEach((connection) => {
             const positions = connection.geometry.attributes.position.array;
             const node1 = this.nodes[connection.userData.node1Idx];
             const node2 = this.nodes[connection.userData.node2Idx];
@@ -120,42 +126,46 @@ class NeuralNetwork {
 
             // Animate synapse effect
             if (connection.userData.firing) {
-                connection.userData.pulse += 0.09; // Faster
-                // Animate color and opacity
+                connection.userData.pulse += 0.13; // Even faster
                 const t = connection.userData.pulse;
-                const color = new THREE.Color().setHSL(0.55 + 0.25 * Math.sin(t * Math.PI), 1, 0.7);
+                // Animate color and opacity
+                const color = new THREE.Color().setHSL(0.15 + 0.5 * Math.sin(t * Math.PI), 1, 0.7);
                 connection.material.color.copy(color);
-                connection.material.opacity = 0.8 + 0.2 * Math.sin(t * Math.PI);
-                // Animate a glowing sprite along the connection
+                connection.material.opacity = 0.95 * (1 - t) + 0.2;
+                // Animate line width (simulate with scale)
+                connection.scale.setScalar(1.5 * (1 - t) + 1);
+                // Animate a glowing sprite at the firing point
                 if (t <= 1) {
                     const map = this.getGlowTexture();
-                    const spriteMaterial = new THREE.SpriteMaterial({ map, color: 0xffff99, transparent: true, opacity: 0.7 });
+                    const spriteMaterial = new THREE.SpriteMaterial({ map, color: 0xffff99, transparent: true, opacity: 0.7 * (1 - t) + 0.2 });
                     const sprite = new THREE.Sprite(spriteMaterial);
-                    // Glow size: large at start, small at end
-                    const size = 0.35 * (1 - t) + 0.08;
+                    const size = 0.55 * (1 - t) + 0.08;
                     sprite.scale.set(size, size, size);
                     sprite.position.lerpVectors(node1.position, node2.position, t);
                     this.scene.add(sprite);
-                    this.firingSpheres.push(sprite);
+                    this.firingSprites.push(sprite);
                 }
                 if (connection.userData.pulse > 1) {
                     connection.userData.firing = false;
                     connection.material.color.set(0x64ffda);
                     connection.material.opacity = 0.2;
+                    connection.scale.setScalar(1);
                 }
             } else {
                 connection.material.color.set(0x64ffda);
                 connection.material.opacity = 0.2;
+                connection.scale.setScalar(1);
             }
         });
 
         // Remove old firing sprites
-        if (this.firingSpheres.length > 30) {
-            const toRemove = this.firingSpheres.splice(0, this.firingSpheres.length - 30);
+        if (this.firingSprites.length > 30) {
+            const toRemove = this.firingSprites.splice(0, this.firingSprites.length - 30);
             toRemove.forEach(s => this.scene.remove(s));
         }
 
-        this.renderer.render(this.scene, this.camera);
+        // Render with bloom
+        this.composer.render();
     }
 
     getGlowTexture() {
@@ -180,6 +190,8 @@ class NeuralNetwork {
         this.camera.aspect = window.innerWidth / window.innerHeight;
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.composer.setSize(window.innerWidth, window.innerHeight);
+        this.bloomPass.setSize(window.innerWidth, window.innerHeight);
     }
 }
 
