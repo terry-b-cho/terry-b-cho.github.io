@@ -41,8 +41,8 @@ class NeuralNetwork {
         // Handle window resize
         window.addEventListener('resize', () => this.onWindowResize(), false);
 
-        // Start synapse firing interval
-        setInterval(() => this.triggerRandomSynapses(), 1200);
+        // Start synapse firing interval (reduced pause, more overlap)
+        this.firingInterval = setInterval(() => this.triggerRandomSynapses(), 350); // faster, less pause
 
         // Start animation
         this.animate();
@@ -91,19 +91,22 @@ class NeuralNetwork {
     }
 
     triggerRandomSynapses() {
-        this.connections.forEach(conn => {
-            conn.userData.firing = false;
-            conn.userData.pulse = 0;
-        });
-        this.firingConnections = [];
-        this.firingSprites.forEach(s => this.scene.remove(s));
-        this.firingSprites = [];
-        for (let i = 0; i < 10; i++) {
+        // Only fire one connection per node at a time
+        const usedNodes = new Set();
+        let fired = 0;
+        const maxFirings = Math.min(this.nodes.length, 10);
+        while (fired < maxFirings) {
             const idx = Math.floor(Math.random() * this.connections.length);
             const conn = this.connections[idx];
-            conn.userData.firing = true;
-            conn.userData.pulse = 0;
-            this.firingConnections.push(conn);
+            const n1 = conn.userData.node1Idx;
+            const n2 = conn.userData.node2Idx;
+            if (!usedNodes.has(n1) && !usedNodes.has(n2) && !conn.userData.firing) {
+                conn.userData.firing = true;
+                conn.userData.pulse = 0;
+                usedNodes.add(n1);
+                usedNodes.add(n2);
+                fired++;
+            }
         }
     }
 
@@ -126,26 +129,25 @@ class NeuralNetwork {
 
             // Animate synapse effect
             if (connection.userData.firing) {
-                connection.userData.pulse += 0.13; // Even faster
+                connection.userData.pulse += 0.09; // slightly slower for more overlap
+                // Smoother, more gradient transition
                 const t = connection.userData.pulse;
-                // Animate color and opacity
+                const fade = 0.5 * (1 - Math.cos(Math.PI * Math.min(t, 1))); // cosine for smooth in/out
                 const color = new THREE.Color().setHSL(0.15 + 0.5 * Math.sin(t * Math.PI), 1, 0.7);
                 connection.material.color.copy(color);
-                connection.material.opacity = 0.95 * (1 - t) + 0.2;
-                // Animate line width (simulate with scale)
-                connection.scale.setScalar(1.5 * (1 - t) + 1);
-                // Animate a glowing sprite at the firing point
+                connection.material.opacity = 0.95 * (1 - fade) + 0.2;
+                connection.scale.setScalar(1.5 * (1 - fade) + 1);
                 if (t <= 1) {
                     const map = this.getGlowTexture();
-                    const spriteMaterial = new THREE.SpriteMaterial({ map, color: 0xffff99, transparent: true, opacity: 0.7 * (1 - t) + 0.2 });
+                    const spriteMaterial = new THREE.SpriteMaterial({ map, color: 0xffff99, transparent: true, opacity: 0.7 * (1 - fade) + 0.2 });
                     const sprite = new THREE.Sprite(spriteMaterial);
-                    const size = 0.55 * (1 - t) + 0.08;
+                    const size = 0.55 * (1 - fade) + 0.08;
                     sprite.scale.set(size, size, size);
-                    sprite.position.lerpVectors(node1.position, node2.position, t);
+                    sprite.position.lerpVectors(node1.position, node2.position, fade);
                     this.scene.add(sprite);
                     this.firingSprites.push(sprite);
                 }
-                if (connection.userData.pulse > 1) {
+                if (connection.userData.pulse > 1.2) { // allow overlap
                     connection.userData.firing = false;
                     connection.material.color.set(0x64ffda);
                     connection.material.opacity = 0.2;
@@ -158,13 +160,10 @@ class NeuralNetwork {
             }
         });
 
-        // Remove old firing sprites
         if (this.firingSprites.length > 30) {
             const toRemove = this.firingSprites.splice(0, this.firingSprites.length - 30);
             toRemove.forEach(s => this.scene.remove(s));
         }
-
-        // Render with bloom
         this.composer.render();
     }
 
