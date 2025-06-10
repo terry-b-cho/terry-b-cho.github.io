@@ -147,10 +147,11 @@ class NeuralNetwork {
                     const sprite = new THREE.Sprite(spriteMaterial);
                     const size = 0.55 * (1 - fade) + 0.08;
                     sprite.scale.set(size, size, size);
-                    // Use the actual edge from the connection's geometry
-                    const posAttr = connection.geometry.getAttribute('position');
-                    const pA = new THREE.Vector3().fromBufferAttribute(posAttr, 0);
-                    const pB = new THREE.Vector3().fromBufferAttribute(posAttr, 1);
+                    // Use the world positions of the nodes for accurate edge following
+                    const pA = new THREE.Vector3();
+                    const pB = new THREE.Vector3();
+                    node1.getWorldPosition(pA);
+                    node2.getWorldPosition(pB);
                     sprite.position.lerpVectors(pA, pB, fade);
                     this.scene.add(sprite);
                     this.firingSprites.push(sprite);
