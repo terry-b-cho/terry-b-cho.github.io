@@ -57,9 +57,6 @@ const initNavigation = () => {
     };
     elements.navToggleBtn.addEventListener('click', toggleNav);
     elements.overlay.addEventListener('click', closeNav);
-    // Close button
-    const closeBtn = document.querySelector('[data-nav-close-btn]');
-    if (closeBtn) closeBtn.addEventListener('click', closeNav);
     // Close on link click (mobile) and smooth scroll
     document.querySelectorAll('.navbar-link').forEach(link => {
         link.addEventListener('click', function(e) {
@@ -79,7 +76,7 @@ const initNavigation = () => {
                         });
                     }, 350); // Wait for menu to close
                 }
-            } else if (window.innerWidth < 768) {
+            } else {
                 closeNav();
             }
         });
