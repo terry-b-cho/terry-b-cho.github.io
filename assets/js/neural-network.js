@@ -114,8 +114,8 @@ class NeuralNetwork {
 
     animate() {
         requestAnimationFrame(() => this.animate());
-        this.scene.rotation.y += 0.001;
-        this.scene.rotation.x += 0.0005;
+        this.scene.rotation.y += 0.0005; // slower rotation
+        this.scene.rotation.x += 0.00025; // slower rotation
 
         // Fire new synapses as soon as possible (no pause)
         const now = performance.now() / 1000;
@@ -141,20 +141,21 @@ class NeuralNetwork {
 
             // Animate synapse effect
             if (connection.userData.firing) {
-                connection.userData.pulse += 0.09;
-                const t = connection.userData.pulse;
-                const fade = 0.5 * (1 - Math.cos(Math.PI * Math.min(t, 1)));
+                connection.userData.pulse += 0.045; // slower firing
+                const t = Math.min(connection.userData.pulse, 1);
+                const fade = 0.5 * (1 - Math.cos(Math.PI * t));
                 const color = new THREE.Color().setHSL(0.15 + 0.5 * Math.sin(t * Math.PI), 1, 0.7);
                 connection.material.color.copy(color);
                 connection.material.opacity = 0.95 * (1 - fade) + 0.2;
                 connection.scale.setScalar(1.5 * (1 - fade) + 1);
+                // Animate sprite from node1 to node2 using t
                 if (t <= 1) {
                     const map = this.getGlowTexture();
                     const spriteMaterial = new THREE.SpriteMaterial({ map, color: 0xffff99, transparent: true, opacity: 0.7 * (1 - fade) + 0.2 });
                     const sprite = new THREE.Sprite(spriteMaterial);
                     const size = 0.55 * (1 - fade) + 0.08;
                     sprite.scale.set(size, size, size);
-                    sprite.position.lerpVectors(node1.position, node2.position, fade);
+                    sprite.position.lerpVectors(node1.position, node2.position, t); // t for node-to-node
                     this.scene.add(sprite);
                     this.firingSprites.push(sprite);
                 }
