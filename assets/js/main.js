@@ -57,16 +57,17 @@ const initNavigation = () => {
     };
     elements.navToggleBtn.addEventListener('click', toggleNav);
     elements.overlay.addEventListener('click', closeNav);
-    // Close on link click (mobile) and smooth scroll
-    document.querySelectorAll('.navbar-link').forEach(link => {
-        link.addEventListener('click', function(e) {
-            const href = this.getAttribute('href');
+    // Use event delegation for navbar links
+    elements.navbar.addEventListener('click', function(e) {
+        const link = e.target.closest('.navbar-link');
+        if (link) {
+            const href = link.getAttribute('href');
             if (href && href.startsWith('#')) {
                 const target = document.querySelector(href);
                 if (target) {
                     e.preventDefault();
                     closeNav();
-                    requestAnimationFrame(() => {
+                    setTimeout(() => {
                         const headerOffset = document.querySelector('.header').offsetHeight || 0;
                         const elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
                         const offsetPosition = elementPosition - headerOffset;
@@ -74,12 +75,12 @@ const initNavigation = () => {
                             top: offsetPosition,
                             behavior: 'smooth'
                         });
-                    });
+                    }, 10); // Short delay to allow nav to close
                 }
             } else {
                 closeNav();
             }
-        });
+        }
     });
     // Swipe-to-close gesture (mobile)
     let touchStartX = null;

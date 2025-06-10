@@ -1007,4 +1007,92 @@ body {
         font-size: 1.1rem;
         padding: 1rem 0;
     }
+}
+
+@media (max-width: 480px) {
+    .profile-headshot-hex-minimal {
+        width: 48px;
+        height: 48px;
+        margin-bottom: 0.5rem;
+    }
+    .hero-content {
+        gap: 1.2rem;
+        padding: 0.5rem 0.5rem;
+    }
+    .hero-description {
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    .btn {
+        margin-bottom: 1.2rem;
+    }
+    .scroll-indicator {
+        position: static;
+        margin: 0 auto 1.2rem auto;
+        display: block;
+    }
+    .hero-description + .btn {
+        margin-top: 0.5rem;
+    }
+    .hero-description, .btn, .scroll-indicator {
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+    .hero {
+        padding-bottom: 0.5rem;
+    }
+    .section {
+        padding: 2.5rem 0.5rem;
+    }
+    .timeline, .timeline-content {
+        max-width: 100%;
+        width: 100%;
+        margin: 0 auto;
+        padding: 1.2rem 0.5rem;
+    }
+    .timeline {
+        left: 0;
+        transform: none;
+    }
+    .timeline-content {
+        width: 100%;
+        margin: 0 auto 1.5rem auto;
+        padding: 1.2rem 0.5rem;
+        border-radius: 8px;
+    }
+    .timeline-item:nth-child(even) .timeline-content {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+@media (max-width: 767px) {
+    .timeline, .timeline-content {
+        max-width: 100%;
+        width: 100%;
+        margin: 0 auto;
+        padding: 1.5rem 1rem;
+    }
+    .timeline {
+        left: 0;
+        transform: none;
+    }
+    .timeline-content {
+        width: 100%;
+        margin: 0 auto 2rem auto;
+        padding: 1.5rem 1rem;
+        border-radius: 8px;
+    }
+    .timeline-item:nth-child(even) .timeline-content {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+.overlay.active {
+    z-index: 1201;
+    pointer-events: auto;
+}
+.navbar.active {
+    z-index: 1202;
+    pointer-events: auto;
 } 
