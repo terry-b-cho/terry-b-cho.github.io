@@ -107,6 +107,8 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     min-height: 56px;
+    position: relative;
+    z-index: 1002;
 }
 
 .nav-brand {
@@ -219,10 +221,10 @@ body {
 .overlay {
     display: none;
     position: fixed;
-    top: 0;
+    top: 56px; /* Height of header-content */
     left: 0;
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - 56px); /* Subtract header height from viewport height */
     background: rgba(0,0,0,0.3);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
