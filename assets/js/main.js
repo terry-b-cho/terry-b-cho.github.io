@@ -269,21 +269,67 @@ const initScrollIndicator = () => {
     handleScroll(); // Initial check
 };
 
-// Logo Carousel: Single .logo-slide with duplicated logos for seamless animation
-// No JS manipulation needed 
+// --- Seamless Logo Carousel Duplication & Dynamic Animation Duration ---
+(function() {
+    const SPEED_PX_PER_SEC = 80; // Apple-level smoothness
+    let lastSlideWidth = 0;
+    let lastDuration = 0;
+    let observer = null;
 
-// --- Seamless Logo Carousel Duplication ---
-document.addEventListener('DOMContentLoaded', () => {
-    const carousel = document.querySelector('.logo-carousel');
-    const slide = document.querySelector('.logo-slide');
-    if (!carousel || !slide) return;
-    const minWidth = carousel.offsetWidth * 2;
-    let currentWidth = slide.scrollWidth;
-    const logos = Array.from(slide.children);
-    while (currentWidth < minWidth) {
-        logos.forEach(logo => {
-            slide.appendChild(logo.cloneNode(true));
-        });
-        currentWidth = slide.scrollWidth;
+    function setupCarousel() {
+        const carousel = document.querySelector('.logo-carousel');
+        const slide = document.querySelector('.logo-slide');
+        if (!carousel || !slide) return;
+
+        // 1. Duplicate logos until slide is at least 2x carousel width
+        const minWidth = carousel.offsetWidth * 2;
+        let currentWidth = slide.scrollWidth;
+        const logos = Array.from(slide.children);
+        // Remove all clones (keep only the first set)
+        while (slide.children.length > logos.length) {
+            slide.removeChild(slide.lastChild);
+        }
+        // Duplicate as needed
+        while (slide.scrollWidth < minWidth) {
+            logos.forEach(logo => {
+                slide.appendChild(logo.cloneNode(true));
+            });
+        }
+
+        // 2. Set animation duration based on slide width
+        const slideWidth = slide.scrollWidth / 2; // Only animate one set
+        if (slideWidth !== lastSlideWidth) {
+            lastSlideWidth = slideWidth;
+            const duration = slideWidth / SPEED_PX_PER_SEC;
+            lastDuration = duration;
+            slide.style.animationDuration = duration + 's';
+        }
     }
-}); 
+
+    // 3. Pause/resume animation on page visibility
+    function handleVisibility() {
+        const slide = document.querySelector('.logo-slide');
+        if (!slide) return;
+        if (document.hidden) {
+            slide.style.animationPlayState = 'paused';
+        } else {
+            slide.style.animationPlayState = 'running';
+        }
+    }
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    // 4. Update on resize
+    window.addEventListener('resize', setupCarousel);
+    document.addEventListener('DOMContentLoaded', () => {
+        setupCarousel();
+        handleVisibility();
+    });
+
+    // 5. MutationObserver for dynamic logo changes (robustness)
+    if (observer) observer.disconnect();
+    observer = new MutationObserver(setupCarousel);
+    document.addEventListener('DOMContentLoaded', () => {
+        const slide = document.querySelector('.logo-slide');
+        if (slide) observer.observe(slide, { childList: true });
+    });
+})(); 
