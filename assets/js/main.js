@@ -271,3 +271,19 @@ const initScrollIndicator = () => {
 
 // Logo Carousel: Single .logo-slide with duplicated logos for seamless animation
 // No JS manipulation needed 
+
+// --- Seamless Logo Carousel Duplication ---
+document.addEventListener('DOMContentLoaded', () => {
+    const carousel = document.querySelector('.logo-carousel');
+    const slide = document.querySelector('.logo-slide');
+    if (!carousel || !slide) return;
+    const minWidth = carousel.offsetWidth * 2;
+    let currentWidth = slide.scrollWidth;
+    const logos = Array.from(slide.children);
+    while (currentWidth < minWidth) {
+        logos.forEach(logo => {
+            slide.appendChild(logo.cloneNode(true));
+        });
+        currentWidth = slide.scrollWidth;
+    }
+}); 
