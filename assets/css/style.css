@@ -258,6 +258,7 @@ body {
         background: rgba(20,20,20,0.97);
         backdrop-filter: blur(24px);
         -webkit-backdrop-filter: blur(24px);
+        display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -273,15 +274,18 @@ body {
     .navbar-list {
         position: relative;
         z-index: 1002;
-    }
-    .navbar-link {
-        position: relative;
-        z-index: 1002;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2.5rem;
+        width: 100%;
+        padding: 0;
+        margin: 0;
     }
     .navbar-link {
         font-size: 1.35rem;
         padding: 1.1rem 0;
-        width: 100vw;
+        width: 100%;
         text-align: center;
         letter-spacing: 0.12em;
     }
