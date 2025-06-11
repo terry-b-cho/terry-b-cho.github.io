@@ -85,18 +85,42 @@ body {
     50% { opacity: 0.5; }
 }
 
-/* Header & Navbar - Apple-like Mobile Experience */
-.header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(20, 20, 20, 0.85);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    z-index: 1000;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    transition: background 0.3s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s cubic-bezier(0.4,0,0.2,1), transform 0.3s cubic-bezier(0.4,0,0.2,1);
+/* Desktop Header: Always fixed and visible */
+@media (min-width: 768px) {
+    .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1200;
+        background: rgba(20, 20, 20, 0.85);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        transition: background 0.3s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s cubic-bezier(0.4,0,0.2,1), transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    .header-content {
+        z-index: 1201;
+    }
+}
+
+/* Mobile Header: Only apply mobile-specific header styles below 768px */
+@media (max-width: 767px) {
+    .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        background: rgba(20, 20, 20, 0.85);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        transition: background 0.3s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s cubic-bezier(0.4,0,0.2,1), transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    .header-content {
+        z-index: 1002;
+    }
 }
 
 .header-content {
@@ -108,7 +132,6 @@ body {
     margin: 0 auto;
     min-height: 56px;
     position: relative;
-    z-index: 1002;
 }
 
 .nav-brand {
@@ -118,7 +141,6 @@ body {
     color: var(--text-color);
     text-decoration: none;
     letter-spacing: -0.02em;
-    z-index: 1101;
 }
 
 .nav-toggle-btn {
@@ -127,7 +149,6 @@ body {
     border: none;
     padding: 0.75rem;
     cursor: pointer;
-    z-index: 1101;
     border-radius: 50%;
     transition: background 0.2s;
 }
@@ -145,7 +166,6 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    z-index: 1101;
 }
 
 .hamburger .line {
