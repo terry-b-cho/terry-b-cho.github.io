@@ -128,9 +128,16 @@ body {
         z-index: 1201;
     }
     .nav-toggle-btn {
-        display: block;
+        display: block !important;
         z-index: 1300;
         position: relative;
+        background: none;
+        border: none;
+        padding: 0.75rem;
+        cursor: pointer;
+        border-radius: 50%;
+        transition: background 0.2s;
+        color: var(--text-color);
     }
     .overlay {
         display: block;
