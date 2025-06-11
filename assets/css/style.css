@@ -218,6 +218,18 @@ body {
 
 .overlay {
     display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.4,0,0.2,1);
 }
 
 @media (max-width: 900px) {
@@ -229,6 +241,13 @@ body {
 @media (max-width: 767px) {
     .nav-toggle-btn {
         display: block;
+    }
+    .overlay {
+        display: block;
+    }
+    .overlay.active {
+        opacity: 1;
+        pointer-events: auto;
     }
     .navbar {
         position: fixed;
@@ -243,6 +262,7 @@ body {
         justify-content: center;
         align-items: center;
         gap: 0;
+        z-index: 1001;
         transform: translateX(100vw);
         transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
         box-shadow: 0 8px 32px rgba(0,0,0,0.18);
@@ -251,10 +271,12 @@ body {
         transform: translateX(0);
     }
     .navbar-list {
-        flex-direction: column;
-        gap: 2.5rem;
-        width: 100vw;
-        align-items: center;
+        position: relative;
+        z-index: 1002;
+    }
+    .navbar-link {
+        position: relative;
+        z-index: 1002;
     }
     .navbar-link {
         font-size: 1.35rem;
@@ -263,26 +285,29 @@ body {
         text-align: center;
         letter-spacing: 0.12em;
     }
-    .overlay {
+    .timeline {
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0 0.5rem;
+    }
+    .timeline-item {
+        margin-bottom: 2.2rem;
+        width: 100%;
         display: block;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(0,0,0,0.3);
-        z-index: 1100;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s cubic-bezier(0.4,0,0.2,1);
     }
-    .overlay.active {
-        opacity: 1;
-        pointer-events: auto;
+    .timeline-content {
+        width: 100%;
+        margin: 0;
+        text-align: left;
+        padding: 1.2rem 1rem;
     }
-    body.nav-active {
-        overflow: hidden;
-        touch-action: none;
+    .timeline::before {
+        left: 24px;
+        width: 2px;
+    }
+    .timeline-item:nth-child(even) .timeline-content {
+        margin-left: 0;
+        margin-right: 0;
     }
 }
 
@@ -868,49 +893,6 @@ body {
 .nav-close-btn:focus {
     background: rgba(255,255,255,0.08);
     outline: none;
-}
-
-@media (max-width: 767px) {
-    .nav-close-btn {
-        display: block;
-    }
-    .navbar {
-        padding-top: 3.5rem;
-    }
-    .navbar-list {
-        gap: 2.5rem;
-    }
-    .navbar-link {
-        font-size: 1.35rem;
-        padding: 1.1rem 0;
-        width: 100vw;
-        text-align: center;
-        letter-spacing: 0.12em;
-    }
-    .timeline {
-        max-width: 100%;
-        margin: 0 auto;
-        padding: 0 0.5rem;
-    }
-    .timeline-item {
-        margin-bottom: 2.2rem;
-        width: 100%;
-        display: block;
-    }
-    .timeline-content {
-        width: 100%;
-        margin: 0;
-        text-align: left;
-        padding: 1.2rem 1rem;
-    }
-    .timeline::before {
-        left: 24px;
-        width: 2px;
-    }
-    .timeline-item:nth-child(even) .timeline-content {
-        margin-left: 0;
-        margin-right: 0;
-    }
 }
 
 @media (max-width: 480px) {
