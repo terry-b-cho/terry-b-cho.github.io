@@ -27,13 +27,15 @@ const initPreloader = () => {
 // Navigation
 const initNavigation = () => {
     const closeNav = () => {
+        elements.overlay.classList.remove('active');
         elements.navbar.classList.remove('active');
         elements.navToggleBtn.classList.remove('active');
-        elements.overlay.classList.remove('active');
         document.body.classList.remove('nav-active');
         elements.navToggleBtn.setAttribute('aria-expanded', false);
         elements.navbar.setAttribute('aria-hidden', true);
+        elements.overlay.style.pointerEvents = 'none';
         releaseFocusTrap();
+        setTimeout(() => { elements.overlay.style.pointerEvents = ''; }, 400);
     };
     const toggleNav = () => {
         const expanded = !elements.navbar.classList.contains('active');
@@ -57,17 +59,16 @@ const initNavigation = () => {
     };
     elements.navToggleBtn.addEventListener('click', toggleNav);
     elements.overlay.addEventListener('click', closeNav);
-    // Use event delegation for navbar links
-    elements.navbar.addEventListener('click', function(e) {
-        const link = e.target.closest('.navbar-link');
-        if (link) {
-            const href = link.getAttribute('href');
+    // Close on link click (mobile) and smooth scroll
+    document.querySelectorAll('.navbar-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
             if (href && href.startsWith('#')) {
                 const target = document.querySelector(href);
                 if (target) {
                     e.preventDefault();
                     closeNav();
-                    setTimeout(() => {
+                    requestAnimationFrame(() => {
                         const headerOffset = document.querySelector('.header').offsetHeight || 0;
                         const elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
                         const offsetPosition = elementPosition - headerOffset;
@@ -75,12 +76,12 @@ const initNavigation = () => {
                             top: offsetPosition,
                             behavior: 'smooth'
                         });
-                    }, 10); // Short delay to allow nav to close
+                    });
                 }
             } else {
                 closeNav();
             }
-        }
+        });
     });
     // Swipe-to-close gesture (mobile)
     let touchStartX = null;
@@ -212,8 +213,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add animation classes to elements
     document.querySelectorAll('.hero-title, .hero-subtitle, .hero-location, .hero-description').forEach(element => {
         element.classList.add('animate-on-scroll');
+        });
     });
-});
 
 // Smooth transition between neural network and DNA animations
 function updateTransition() {

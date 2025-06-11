@@ -94,7 +94,7 @@ window.initDNAAnimation = function () {
     }
     const curve = new THREE.CatmullRomCurve3(pathPts);
     const geom = new THREE.TubeGeometry(curve, 200, 0.15, 16, false);
-    const mat = new THREE.MeshPhysicalMaterial({ color: 0xffffff, opacity: 0.45, transparent: true, roughness: 0.2, metalness: 0.5, clearcoat: 0.7, clearcoatRoughness: 0.1 });
+    const mat = new THREE.MeshPhysicalMaterial({ color: 0xffffff, opacity: 0.28, transparent: true, roughness: 0.2, metalness: 0.5, clearcoat: 0.7, clearcoatRoughness: 0.1, emissive: 0x222222 });
     return new THREE.Mesh(geom, mat);
   }
   dnaGroup.add(buildBackbone(0));         // strand 1
@@ -121,13 +121,13 @@ window.initDNAAnimation = function () {
       sphereGeom,
       new THREE.MeshPhysicalMaterial({
         color: colours[base1],
-        opacity: 0.82,
+        opacity: 0.6,
         transparent: true,
         roughness: 0.18,
         metalness: 0.55,
         clearcoat: 0.7,
         clearcoatRoughness: 0.08,
-        emissive: colours[base1],
+        emissive: colours[base1] * 0.3,
         emissiveIntensity: 0.13
       })
     );
@@ -135,13 +135,13 @@ window.initDNAAnimation = function () {
       sphereGeom,
       new THREE.MeshPhysicalMaterial({
         color: colours[base2],
-        opacity: 0.82,
+        opacity: 0.6,
         transparent: true,
         roughness: 0.18,
         metalness: 0.55,
         clearcoat: 0.7,
         clearcoatRoughness: 0.08,
-        emissive: colours[base2],
+        emissive: colours[base2] * 0.3,
         emissiveIntensity: 0.13
       })
     );
@@ -152,13 +152,13 @@ window.initDNAAnimation = function () {
     const bondColour = (base1 === 'A' || base1 === 'T') ? 0xffffff : 0xbbbbbb;
     const bondMat = new THREE.MeshPhysicalMaterial({
       color: bondColour,
-      opacity: 0.38,
+      opacity: 0.22,
       transparent: true,
       roughness: 0.22,
       metalness: 0.45,
       clearcoat: 0.6,
       clearcoatRoughness: 0.12,
-      emissive: bondColour,
+      emissive: 0x222222,
       emissiveIntensity: 0.08
     });
     const bond = cylinderBetween(p1, p2, 0.08, bondColour);

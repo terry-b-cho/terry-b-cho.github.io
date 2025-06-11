@@ -31,7 +31,7 @@ class NeuralNetwork {
     /* ────────── nodes ────────── */
     createNodes() {
         const g = new THREE.SphereGeometry(0.05, 32, 32);
-        const m = new THREE.MeshBasicMaterial({ color:0x64ffda, transparent: true, opacity: 0.28 });
+        const m = new THREE.MeshBasicMaterial({ color:0x1e3a36, transparent:true, opacity:0.45 });
 
         for (let x=-2;x<=2;x++)
             for (let y=-2;y<=2;y++)
@@ -45,7 +45,7 @@ class NeuralNetwork {
 
     /* ────────── edges ────────── */
     createConnections() {
-        const mat = new THREE.LineBasicMaterial({ color:0x64ffda, transparent:true, opacity:0.07 });
+        const mat = new THREE.LineBasicMaterial({ color:0x64ffda, transparent:true, opacity:0.08 });
 
         for (let i=0;i<this.nodes.length;i++){
             for (let j=i+1;j<this.nodes.length;j++){
@@ -81,8 +81,8 @@ class NeuralNetwork {
     /* ────────── build / recycle sprite ────────── */
     makeGlowSprite() {
         if (!this._glowTex) this._glowTex = this.buildGlowTexture();
-        const mat = new THREE.SpriteMaterial({ map:this._glowTex, color:0xffff99,
-                                               transparent:true, opacity:1, depthWrite:false });
+        const mat = new THREE.SpriteMaterial({ map:this._glowTex, color:0x888866,
+                                               transparent:true, opacity:0.3, depthWrite:false });
         const s   = new THREE.Sprite(mat);
         s.scale.set(0.25,0.25,0.25);
         this.scene.add(s);
