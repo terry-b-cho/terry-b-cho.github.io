@@ -59,6 +59,10 @@ const initNavigation = () => {
     };
     elements.navToggleBtn.addEventListener('click', toggleNav);
     elements.overlay.addEventListener('click', closeNav);
+    // Prevent overlay click from propagating to navbar
+    elements.navbar.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
     // Close on link click (mobile) and smooth scroll
     document.querySelectorAll('.navbar-link').forEach(link => {
         link.addEventListener('click', function(e) {
