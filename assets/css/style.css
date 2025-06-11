@@ -912,4 +912,96 @@ body {
         font-size: 1.1rem;
         padding: 1rem 0;
     }
+}
+
+/* Desktop Navigation */
+@media (min-width: 768px) {
+    .navbar {
+        position: static;
+        transform: none;
+        background: transparent;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+    .navbar-list {
+        flex-direction: row;
+        gap: 2rem;
+    }
+    .navbar-link {
+        font-size: 1rem;
+        padding: 0.5rem 0;
+        width: auto;
+        text-align: left;
+    }
+}
+
+/* Mobile Navigation and Education */
+@media (max-width: 767px) {
+    .navbar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(20,20,20,0.97);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 0;
+        z-index: 1001;
+        transform: translateX(100vw);
+        transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    }
+    .navbar-list {
+        position: relative;
+        z-index: 1002;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2.5rem;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+    .navbar-link {
+        font-size: 1.35rem;
+        padding: 1.1rem 0;
+        width: 100%;
+        text-align: center;
+        letter-spacing: 0.12em;
+    }
+
+    /* Mobile Education Section */
+    .timeline {
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+    .timeline::before {
+        left: 24px;
+        width: 2px;
+    }
+    .timeline-item {
+        margin-bottom: 2.2rem;
+        width: 100%;
+        display: block;
+    }
+    .timeline-content {
+        width: calc(100% - 48px);
+        margin-left: 48px;
+        text-align: left;
+        padding: 1.2rem 1rem;
+        background: var(--accent-color);
+        border-radius: 8px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+    .timeline-item:nth-child(even) .timeline-content {
+        margin-left: 48px;
+        margin-right: 0;
+    }
 } 
