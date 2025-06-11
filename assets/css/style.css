@@ -243,7 +243,6 @@ body {
         justify-content: center;
         align-items: center;
         gap: 0;
-        z-index: 1200;
         transform: translateX(100vw);
         transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
         box-shadow: 0 8px 32px rgba(0,0,0,0.18);
@@ -542,6 +541,7 @@ body {
     position: relative;
     white-space: nowrap;
     padding: 2rem 0;
+    pointer-events: none;
 }
 
 .logo-carousel:before,
@@ -569,6 +569,7 @@ body {
     display: inline-block;
     animation: logo-slide-anim 12.5s linear infinite;
     white-space: nowrap;
+    pointer-events: none;
 }
 
 .logo-slide img {
@@ -586,10 +587,6 @@ body {
     filter: grayscale(0%);
     opacity: 1;
     transform: scale(1.05);
-}
-
-.logo-carousel:hover .logo-slide {
-    animation-play-state: paused;
 }
 
 @keyframes logo-slide-anim {
