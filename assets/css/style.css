@@ -460,9 +460,20 @@ body {
 }
 
 .section h2 {
+    font-family: var(--font-family);
     font-size: 2.5rem;
     color: var(--primary-color);
     margin-bottom: 2rem;
+    text-align: left;
+}
+
+.about-content {
+    max-width: 700px;
+    margin: 0 auto 0 0;
+    text-align: left;
+    font-size: 1.1rem;
+    color: var(--text-color);
+    line-height: 1.7;
 }
 
 /* Timeline Styles */
@@ -878,6 +889,30 @@ body {
         width: 100vw;
         text-align: center;
         letter-spacing: 0.12em;
+    }
+    .timeline {
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0 0.5rem;
+    }
+    .timeline-item {
+        margin-bottom: 2.2rem;
+        width: 100%;
+        display: block;
+    }
+    .timeline-content {
+        width: 100%;
+        margin: 0;
+        text-align: left;
+        padding: 1.2rem 1rem;
+    }
+    .timeline::before {
+        left: 24px;
+        width: 2px;
+    }
+    .timeline-item:nth-child(even) .timeline-content {
+        margin-left: 0;
+        margin-right: 0;
     }
 }
 
