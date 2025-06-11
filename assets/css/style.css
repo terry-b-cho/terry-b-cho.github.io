@@ -112,9 +112,25 @@ body {
         left: 0;
         width: 100%;
         z-index: 1200;
+        background: rgba(20, 20, 20, 0.85);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        transition: background 0.3s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s cubic-bezier(0.4,0,0.2,1), transform 0.3s cubic-bezier(0.4,0,0.2,1);
     }
     .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.5rem;
+        min-height: 56px;
+        position: relative;
         z-index: 1201;
+    }
+    .nav-toggle-btn {
+        display: block;
+        z-index: 1300;
+        position: relative;
     }
     .overlay {
         display: block;
@@ -124,7 +140,12 @@ body {
         width: 100vw;
         height: calc(100vh - 56px);
         z-index: 1000;
-        pointer-events: auto;
+        opacity: 0;
+        pointer-events: none;
+        background: rgba(0,0,0,0.3);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        transition: opacity 0.3s cubic-bezier(0.4,0,0.2,1);
     }
     .overlay.active {
         opacity: 1;
@@ -162,6 +183,13 @@ body {
         width: 100%;
         padding: 0;
         margin: 0;
+    }
+    .navbar-link {
+        font-size: 1.35rem;
+        padding: 1.1rem 0;
+        width: 100%;
+        text-align: center;
+        letter-spacing: 0.12em;
     }
 }
 
