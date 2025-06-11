@@ -31,7 +31,7 @@ class NeuralNetwork {
     /* ────────── nodes ────────── */
     createNodes() {
         const g = new THREE.SphereGeometry(0.05, 32, 32);
-        const m = new THREE.MeshBasicMaterial({ color:0x64ffda });
+        const m = new THREE.MeshBasicMaterial({ color:0x64ffda, transparent: true, opacity: 0.45 });
 
         for (let x=-2;x<=2;x++)
             for (let y=-2;y<=2;y++)
@@ -45,7 +45,7 @@ class NeuralNetwork {
 
     /* ────────── edges ────────── */
     createConnections() {
-        const mat = new THREE.LineBasicMaterial({ color:0x64ffda, transparent:true, opacity:0.2 });
+        const mat = new THREE.LineBasicMaterial({ color:0x64ffda, transparent:true, opacity:0.12 });
 
         for (let i=0;i<this.nodes.length;i++){
             for (let j=i+1;j<this.nodes.length;j++){
