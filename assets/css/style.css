@@ -575,16 +575,14 @@ body {
     height: 48px;
     margin: 0 40px;
     vertical-align: middle;
-    filter: grayscale(100%);
-    opacity: 0.7;
-    transition: filter 0.3s, opacity 0.3s, transform 0.3s;
+    filter: none;
+    opacity: 1;
+    transition: transform 0.3s;
     border-radius: 0;
     background: transparent;
 }
 
 .logo-slide img:hover {
-    filter: grayscale(0%);
-    opacity: 1;
     transform: scale(1.05);
 }
 
