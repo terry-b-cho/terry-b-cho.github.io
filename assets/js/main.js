@@ -269,18 +269,5 @@ const initScrollIndicator = () => {
     handleScroll(); // Initial check
 };
 
-// Logo Carousel: Clone .logo-slide for seamless infinite scroll
-function setupLogoCarousel() {
-    const carousel = document.querySelector('.logo-carousel');
-    if (!carousel) return;
-    const slide = carousel.querySelector('.logo-slide');
-    if (!slide) return;
-    // Remove any previous clones
-    carousel.querySelectorAll('.logo-slide.clone').forEach(clone => clone.remove());
-    // Clone the slide for seamless animation
-    const clone = slide.cloneNode(true);
-    clone.classList.add('clone');
-    carousel.appendChild(clone);
-}
-window.addEventListener('load', setupLogoCarousel);
-window.addEventListener('resize', setupLogoCarousel); 
+// Logo Carousel: Single .logo-slide with duplicated logos for seamless animation
+// No JS manipulation needed 

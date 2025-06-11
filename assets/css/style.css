@@ -567,7 +567,7 @@ body {
 
 .logo-slide {
     display: inline-block;
-    animation: logo-slide-anim 18s linear infinite;
+    animation: logo-slide-anim 12.5s linear infinite;
     white-space: nowrap;
 }
 
@@ -594,7 +594,7 @@ body {
 
 @keyframes logo-slide-anim {
     from { transform: translateX(0); }
-    to { transform: translateX(-100%); }
+    to { transform: translateX(-50%); }
 }
 
 @media (max-width: 767px) {
