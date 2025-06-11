@@ -332,4 +332,49 @@ const initScrollIndicator = () => {
         const slide = document.querySelector('.logo-slide');
         if (slide) observer.observe(slide, { childList: true });
     });
+})();
+
+// --- Hero Headshot Interactive Logo Swap ---
+(function() {
+  const headshotImg = document.getElementById('hero-headshot-img');
+  const headshotContainer = headshotImg?.closest('.hero-headshot');
+  if (!headshotImg || !headshotContainer) return;
+  const originalSrc = 'assets/images/profile/headshot_profile.png';
+  const logoSrc = 'assets/images/profile/terry_logo.svg';
+  let isTransitioning = false;
+  let revertTimeout = null;
+
+  function triggerHeadshotSwap() {
+    if (isTransitioning) return;
+    isTransitioning = true;
+    headshotImg.classList.add('headshot-transitioning');
+    setTimeout(() => {
+      headshotImg.src = logoSrc;
+      headshotImg.alt = 'Terry Logo';
+      headshotImg.classList.remove('headshot-transitioning');
+      // Fade in new image
+      setTimeout(() => {
+        headshotImg.classList.add('headshot-transitioning');
+        revertTimeout = setTimeout(() => {
+          headshotImg.classList.remove('headshot-transitioning');
+          headshotImg.src = originalSrc;
+          headshotImg.alt = 'Terry B. Cho';
+          isTransitioning = false;
+        }, 500);
+      }, 100);
+    }, 500);
+  }
+
+  // Click/tap
+  headshotContainer.addEventListener('click', triggerHeadshotSwap);
+  // Keyboard accessibility
+  headshotContainer.setAttribute('tabindex', '0');
+  headshotContainer.setAttribute('role', 'button');
+  headshotContainer.setAttribute('aria-label', 'Show logo');
+  headshotContainer.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      triggerHeadshotSwap();
+    }
+  });
 })(); 

@@ -1136,4 +1136,14 @@ body {
         margin-left: 48px;
         margin-right: 0;
     }
+}
+
+/* Hero Headshot Interactive Transition */
+#hero-headshot-img {
+  transition: opacity 0.5s cubic-bezier(0.4,0,0.2,1), transform 0.5s cubic-bezier(0.4,0,0.2,1), filter 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+#hero-headshot-img.headshot-transitioning {
+  opacity: 0.2;
+  transform: scale(1.08) rotate(-2deg);
+  filter: blur(2px) grayscale(0.2);
 } 
