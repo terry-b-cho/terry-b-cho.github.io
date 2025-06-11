@@ -567,9 +567,8 @@ body {
 
 .logo-slide {
     display: inline-block;
-    animation: logo-slide-anim 12.5s linear infinite;
+    animation: logo-slide-anim 10s linear infinite;
     white-space: nowrap;
-    pointer-events: none;
 }
 
 .logo-slide img {
@@ -598,6 +597,9 @@ body {
     .logo-section { padding: 2rem 0; }
     .logo-slide img { height: 36px; margin: 0 24px; }
     .logo-carousel:before, .logo-carousel:after { width: 40px; }
+    .logo-slide {
+        animation: logo-slide-anim 10s linear infinite;
+    }
 }
 
 @media (max-width: 480px) {
