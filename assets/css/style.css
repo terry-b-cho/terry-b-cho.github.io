@@ -517,55 +517,66 @@ body {
 }
 
 @media (max-width: 480px) {
+    .container {
+        padding: 0 1rem;
+        margin: 0 auto;
+        max-width: 100vw;
+    }
+    .hero-content {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 0;
+        justify-content: center;
+    }
+    .hero-text {
+        flex: 1 1 0;
+        min-width: 0;
+        text-align: left;
+    }
+    .hero-visual {
+        flex: 0 0 auto;
+        max-width: 64px;
+        margin-left: 0.5rem;
+        margin-right: 0;
+    }
     .profile-headshot-hex-minimal {
         width: 48px;
         height: 48px;
-        margin-bottom: 1.2rem;
+        margin-bottom: 0;
         margin-top: 0.5rem;
-    }
-    .hero-content {
-        gap: 0.5rem;
-        padding: 0;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
     }
     .hero-description {
         margin-top: 1.2rem;
         margin-bottom: 1.2rem;
         text-align: center;
-    }
-    .btn {
-        margin-bottom: 1.5rem;
-        margin-top: 0.5rem;
         width: 100%;
-        max-width: 320px;
         margin-left: auto;
         margin-right: auto;
     }
+    .btn.btn-primary {
+        display: none;
+    }
     .scroll-indicator {
-        position: static;
-        margin: 1.2rem auto 1.2rem auto;
-        display: block;
+        position: fixed;
+        left: 50%;
+        bottom: 2.2rem;
+        transform: translateX(-50%);
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: auto;
+        z-index: 100;
     }
-    .hero-description + .btn {
-        margin-top: 0.5rem;
-    }
-    .hero-description, .btn, .scroll-indicator {
-        display: block;
-        width: 100%;
-        text-align: center;
-    }
-    .hero {
-        padding: 2.5rem 0 1.5rem 0;
-        min-height: 100vh;
+    .scroll-indicator-content {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
     }
     .section {
-        padding: 2.5rem 0 2.5rem 0;
+        padding: 2.5rem 1rem 2.5rem 1rem;
         margin: 0 auto;
         max-width: 100vw;
     }
@@ -573,11 +584,7 @@ body {
         max-width: 100%;
         width: 100%;
         margin: 0 auto;
-        padding: 1.2rem 0;
-    }
-    .timeline {
-        left: 0;
-        transform: none;
+        padding: 1.2rem 0.5rem;
     }
     .timeline-content {
         width: 100%;
@@ -590,10 +597,13 @@ body {
         margin-left: 0;
         margin-right: 0;
     }
-    .container {
-        padding: 0;
-        margin: 0 auto;
-        max-width: 100vw;
+    .overlay.active {
+        z-index: 1201;
+        pointer-events: auto;
+    }
+    .navbar.active {
+        z-index: 1202;
+        pointer-events: auto;
     }
 }
 
