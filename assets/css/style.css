@@ -590,13 +590,56 @@ body {
     text-align: left;
 }
 
-.about-content {
+.about-content, .publications-content, .portfolio-content {
     max-width: 700px;
-    margin: 0 auto 0 0;
+    margin: 0 auto;
     text-align: left;
-    font-size: 1.1rem;
     color: var(--text-color);
     line-height: 1.7;
+    padding: 0;
+}
+
+.about-heading-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.about-heading-flex h2 {
+    margin-bottom: 0;
+}
+
+.about-me-gif {
+    max-width: 56px;
+    height: auto;
+    margin-left: 1rem;
+    display: block;
+}
+
+@media (max-width: 767px) {
+    .about-me-gif {
+        max-width: 40px;
+        margin-left: 0.5rem;
+    }
+    body {
+        font-size: 0.97rem;
+    }
+    h1, .hero-title { font-size: 1.7rem !important; }
+    h2, .section h2 { font-size: 1.25rem !important; }
+    h3 { font-size: 1.05rem !important; }
+    .section, .about-content, .publications-content, .portfolio-content {
+        font-size: 0.97rem !important;
+        padding: 2.2rem 0.7rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-me-gif { max-width: 32px; }
+    .section, .about-content, .publications-content, .portfolio-content {
+        font-size: 0.93rem !important;
+        padding: 1.2rem 0.3rem !important;
+    }
 }
 
 /* Timeline Styles */
@@ -1322,50 +1365,4 @@ body {
     width: 96px;
     height: 96px;
   }
-}
-
-.about-heading-flex {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 2rem;
-}
-.about-heading-flex h2 {
-  margin-bottom: 0;
-}
-.about-me-gif {
-  max-width: 56px;
-  height: auto;
-  margin-left: 1rem;
-  display: block;
-}
-@media (max-width: 767px) {
-  .about-me-gif {
-    max-width: 40px;
-    margin-left: 0.5rem;
-  }
-  body {
-    font-size: 0.97rem;
-  }
-  h1, .hero-title { font-size: 1.7rem !important; }
-  h2, .section h2 { font-size: 1.25rem !important; }
-  h3 { font-size: 1.05rem !important; }
-  .section, .about-content, .publications-content, .portfolio-content {
-    font-size: 0.97rem !important;
-    padding: 2.2rem 0.7rem !important;
-  }
-}
-@media (max-width: 480px) {
-  .about-me-gif { max-width: 32px; }
-  .section, .about-content, .publications-content, .portfolio-content {
-    font-size: 0.93rem !important;
-    padding: 1.2rem 0.3rem !important;
-  }
-}
-.about-content, .publications-content, .portfolio-content {
-  max-width: 700px;
-  margin: 0 auto;
-  text-align: left;
-  color: var(--text-color);
-  line-height: 1.7;
 } 
