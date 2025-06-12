@@ -22,7 +22,9 @@
 ## 🚀 Live Demo
 
 <p align="center">
-  👉 <a href="https://terry-b-cho.github.io">terry-b-cho.github.io</a><br/>
+  <a href="https://terry-b-cho.github.io" style="display: inline-block; padding: 10px 20px; background-color: #64ffda; color: #0a192f; border-radius: 8px; text-decoration: none; font-weight: bold; transition: background-color 0.3s, transform 0.2s; box-shadow: 0 4px 12px rgba(100, 255, 218, 0.2);" onmouseover="this.style.backgroundColor='#4cd8b2'; this.style.transform='translateY(-2px)';" onmouseout="this.style.backgroundColor='#64ffda'; this.style.transform='translateY(0)';">
+    Visit Live Site
+  </a>
 </p>
 
 ---
