@@ -935,25 +935,6 @@ body {
     animation: fadeIn 1s ease-out;
 }
 
-.profile-headshot {
-    width: 88px;
-    height: 88px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 2.5px solid var(--primary-color);
-    margin-bottom: 1.5rem;
-    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
-    background: var(--accent-color);
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    transition: box-shadow 0.2s, border-color 0.2s;
-}
-.profile-headshot:hover {
-    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.16);
-    border-color: var(--secondary-color);
-}
-
 /* --- Background Animation Layers & Transitions --- */
 #neuralNetwork, #dnaAnimation {
     position: fixed;
