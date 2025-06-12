@@ -334,47 +334,28 @@ const initScrollIndicator = () => {
     });
 })();
 
-// --- Hero Headshot Interactive Logo Swap ---
+// --- Hero Headshot 3D Flip Animation ---
 (function() {
-  const headshotImg = document.getElementById('hero-headshot-img');
-  const headshotContainer = headshotImg?.closest('.hero-headshot');
-  if (!headshotImg || !headshotContainer) return;
-  const originalSrc = 'assets/images/profile/headshot_profile.png';
-  const logoSrc = 'assets/images/profile/terry_logo.svg';
-  let isTransitioning = false;
-  let revertTimeout = null;
+  const flipContainer = document.querySelector('.headshot-flip-container');
+  if (!flipContainer) return;
+  let isFlipping = false;
+  let flipTimeout = null;
 
-  function triggerHeadshotSwap() {
-    if (isTransitioning) return;
-    isTransitioning = true;
-    headshotImg.classList.add('headshot-transitioning');
-    setTimeout(() => {
-      headshotImg.src = logoSrc;
-      headshotImg.alt = 'Terry Logo';
-      headshotImg.classList.remove('headshot-transitioning');
-      // Fade in new image
-      setTimeout(() => {
-        headshotImg.classList.add('headshot-transitioning');
-        revertTimeout = setTimeout(() => {
-          headshotImg.classList.remove('headshot-transitioning');
-          headshotImg.src = originalSrc;
-          headshotImg.alt = 'Terry B. Cho';
-          isTransitioning = false;
-        }, 500);
-      }, 100);
-    }, 500);
+  function triggerFlip() {
+    if (isFlipping) return;
+    isFlipping = true;
+    flipContainer.classList.add('flipped');
+    flipTimeout = setTimeout(() => {
+      flipContainer.classList.remove('flipped');
+      isFlipping = false;
+    }, 6000);
   }
 
-  // Click/tap
-  headshotContainer.addEventListener('click', triggerHeadshotSwap);
-  // Keyboard accessibility
-  headshotContainer.setAttribute('tabindex', '0');
-  headshotContainer.setAttribute('role', 'button');
-  headshotContainer.setAttribute('aria-label', 'Show logo');
-  headshotContainer.addEventListener('keydown', e => {
+  flipContainer.addEventListener('click', triggerFlip);
+  flipContainer.addEventListener('keydown', e => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      triggerHeadshotSwap();
+      triggerFlip();
     }
   });
 })(); 

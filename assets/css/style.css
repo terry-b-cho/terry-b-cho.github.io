@@ -380,9 +380,52 @@ body {
     min-width: 260px;
     min-height: 260px;
 }
-.headshot-double-rim {
+.headshot-flip-container {
+    perspective: 1200px;
     width: 240px;
     height: 240px;
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    transition: box-shadow 0.2s;
+}
+.headshot-flip-container:focus {
+    box-shadow: 0 0 0 3px var(--primary-color);
+}
+.headshot-flipper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.9s cubic-bezier(0.4,0,0.2,1);
+}
+.headshot-flip-container.flipped .headshot-flipper {
+    transform: rotateY(180deg) scale(1.2);
+}
+.headshot-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+.headshot-front {
+    z-index: 2;
+}
+.headshot-back {
+    transform: rotateY(180deg);
+    z-index: 3;
+}
+.headshot-double-rim {
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
     object-fit: cover;
     background: var(--background-color);
@@ -390,6 +433,7 @@ body {
     box-shadow: 0 4px 32px 0 rgba(0,0,0,0.10);
     position: relative;
     z-index: 1;
+    transition: box-shadow 0.3s, border-color 0.3s;
 }
 .headshot-double-rim::after {
     content: '';
@@ -399,6 +443,14 @@ body {
     border: 3px solid var(--primary-color);
     pointer-events: none;
     z-index: 2;
+}
+.headshot-logo-face {
+    width: 120%;
+    height: 120%;
+    margin: 0 auto;
+    display: block;
+    background: var(--background-color);
+    border-radius: 50%;
 }
 .hero-info {
     display: flex;
@@ -469,13 +521,14 @@ body {
 }
 @media (max-width: 900px) {
     .hero-inner { gap: 2rem; padding: 0 1rem; }
-    .headshot-double-rim { width: 180px; height: 180px; }
+    .headshot-flip-container { width: 180px; height: 180px; }
     .hero-headshot { min-width: 180px; min-height: 180px; }
 }
 @media (max-width: 767px) {
     .hero-inner { flex-direction: column; gap: 1.2rem; padding: 0 0.5rem; }
+    .headshot-flip-container { width: 140px; height: 140px; }
+    .headshot-logo-face { width: 120%; height: 120%; }
     .hero-headshot { min-width: 140px; min-height: 140px; }
-    .headshot-double-rim { width: 140px; height: 140px; }
     .hero-info { align-items: center; text-align: center; }
     .hero-title { font-size: 2rem; margin-bottom: 0.15rem; }
     .hero-subtitle { font-size: 1.1rem; margin-bottom: 0.08rem; }
@@ -486,7 +539,7 @@ body {
 }
 @media (max-width: 480px) {
     .hero-inner { gap: 1.2rem; }
-    .headshot-double-rim { width: 96px; height: 96px; }
+    .headshot-flip-container { width: 96px; height: 96px; }
     .hero-headshot { min-width: 96px; min-height: 96px; }
     .hero-title { font-size: 2rem; }
     .scroll-indicator { bottom: 0.7rem; }
