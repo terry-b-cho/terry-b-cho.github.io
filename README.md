@@ -6,7 +6,7 @@
 
 <h1 align="center">
   <span style="color:#64ffda;">Terry B. Cho</span> <br/>
-  <span style="font-size:1.2em; color:#8892b0;">Bioinformatics Researcher</span>
+  <span style="font-size:1.2em; color:#8892b0;">Personal profile website</span>
 </h1>
 
 <p align="center">
@@ -23,7 +23,6 @@
 
 <p align="center">
   👉 <a href="https://terry-b-cho.github.io">terry-b-cho.github.io</a><br/>
-  <b>🔍🔍 Rest of the hidden features are for you to find out 🔍🔍</b>
 </p>
 
 ---
@@ -47,6 +46,10 @@
 - <b>🖱️ Scroll Indicator:</b> A perfectly centered, animated scroll cue appears only at the right moments.
 - <b>⚡ Logo Carousel:</b> The carousel is dynamically duplicated for infinite, seamless animation—try resizing your window!
 - <b>🧠 Accessibility:</b> All interactive elements are keyboard and screen reader friendly.
+
+<p align="center">
+  <b>🔍🔍 Rest of the hidden features are for you to find out 🔍🔍</b>
+</p>
 
 ---
 
@@ -110,7 +113,5 @@ $ cd terry-b-cho.github.io
 - Built and designed by Snoop's best friend.
 
 <p align="center">
-  <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNnRlOXBiaHI0ZG92cXBseXRmZTM0aGkxZHJoaXo5M3EwaXhqMGt6OSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/RN9CKDXRHcSD6NdTqq/giphy.gif" width="180" alt="Snoopy/Charlie Brown Animation 1" />
-  <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExdXBnNzY2Z2o1YmlsM3d6amFwem5mcnVmMnRoN2c3c2lodWpucHlndCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/IhgKEBNmk3aZEe4dbw/giphy.gif" width="180" alt="Snoopy/Charlie Brown Animation 2" />
-  <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGo5MGxpNHkwcDB1MDNnaG1ybm9ycGpiYjhzOG82cTNxcjlwdmJ3NyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/gitdNOfXczQxBZjqd4/giphy.gif" width="180" alt="Snoopy/Charlie Brown Animation 3" />
+  <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGo5MGxpNHkwcDB1MDNnaG1ybm9ycGpiYjhzOG82cTNxcjlwdmJ3NyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/gitdNOfXczQxBZjqd4/giphy.gif" width="250" alt="Snoopy/Charlie Brown Animation" />
 </p> 
