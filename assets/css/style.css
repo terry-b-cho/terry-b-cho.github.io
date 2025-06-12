@@ -415,6 +415,7 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    overflow: hidden;
 }
 .headshot-front {
     z-index: 2;
@@ -451,6 +452,10 @@ body {
     display: block;
     background: var(--background-color);
     border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 .hero-info {
     display: flex;
@@ -1192,11 +1197,111 @@ body {
 }
 
 /* Hero Headshot Interactive Transition */
-#hero-headshot-img {
-  transition: opacity 0.5s cubic-bezier(0.4,0,0.2,1), transform 0.5s cubic-bezier(0.4,0,0.2,1), filter 0.5s cubic-bezier(0.4,0,0.2,1);
+#hero-headshot-img, .headshot-transitioning { display: none !important; }
+/* --- Hero Headshot Flip Animation --- */
+.hero-headshot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 260px;
+  min-height: 260px;
 }
-#hero-headshot-img.headshot-transitioning {
-  opacity: 0.2;
-  transform: scale(1.08) rotate(-2deg);
-  filter: blur(2px) grayscale(0.2);
+.headshot-flip-container {
+  perspective: 1200px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  transition: box-shadow 0.2s;
+}
+.headshot-flip-container:focus {
+  box-shadow: 0 0 0 3px var(--primary-color);
+}
+.headshot-flipper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.9s cubic-bezier(0.4,0,0.2,1);
+}
+.headshot-flip-container.flipped .headshot-flipper {
+  transform: rotateY(180deg) scale(1.2);
+}
+.headshot-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.headshot-front {
+  z-index: 2;
+}
+.headshot-back {
+  transform: rotateY(180deg);
+  z-index: 3;
+}
+.headshot-double-rim {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--background-color);
+  border: 6px solid #fff;
+  box-shadow: 0 4px 32px 0 rgba(0,0,0,0.10);
+  position: relative;
+  z-index: 1;
+  transition: box-shadow 0.3s, border-color 0.3s;
+}
+.headshot-double-rim::after {
+  content: '';
+  position: absolute;
+  top: -12px; left: -12px; right: -12px; bottom: -12px;
+  border-radius: 50%;
+  border: 3px solid var(--primary-color);
+  pointer-events: none;
+  z-index: 2;
+}
+.headshot-logo-face {
+  width: 120%;
+  height: 120%;
+  margin: 0 auto;
+  display: block;
+  background: var(--background-color);
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+@media (max-width: 900px) {
+  .headshot-flip-container {
+    width: 180px;
+    height: 180px;
+  }
+}
+@media (max-width: 767px) {
+  .headshot-flip-container {
+    width: 140px;
+    height: 140px;
+  }
+  .headshot-logo-face {
+    width: 120%;
+    height: 120%;
+  }
+}
+@media (max-width: 480px) {
+  .headshot-flip-container {
+    width: 96px;
+    height: 96px;
+  }
 } 
