@@ -537,7 +537,7 @@ body {
     .headshot-flip-container { width: 140px; height: 140px; }
     .headshot-logo-face { width: 135%; height: 135%; }
     .hero-headshot {
-        height: calc(1.35 * 140px) !important;
+        height: calc(1.32 * 140px) !important;
         min-height: 0 !important;
         min-width: 0 !important;
         width: auto !important;
@@ -559,7 +559,7 @@ body {
     .hero-inner { gap: 0.5rem; }
     .headshot-flip-container { width: 96px; height: 96px; }
     .hero-headshot {
-        height: calc(1.3 * 96px) !important;
+        height: calc(1.32 * 96px) !important;
     }
     .hero-title { font-size: 2rem; }
     .scroll-indicator { bottom: 0; left: 50%; transform: translateX(-50%); }
@@ -1322,4 +1322,50 @@ body {
     width: 96px;
     height: 96px;
   }
+}
+
+.about-heading-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+.about-heading-flex h2 {
+  margin-bottom: 0;
+}
+.about-me-gif {
+  max-width: 56px;
+  height: auto;
+  margin-left: 1rem;
+  display: block;
+}
+@media (max-width: 767px) {
+  .about-me-gif {
+    max-width: 40px;
+    margin-left: 0.5rem;
+  }
+  body {
+    font-size: 0.97rem;
+  }
+  h1, .hero-title { font-size: 1.7rem !important; }
+  h2, .section h2 { font-size: 1.25rem !important; }
+  h3 { font-size: 1.05rem !important; }
+  .section, .about-content, .publications-content, .portfolio-content {
+    font-size: 0.97rem !important;
+    padding: 2.2rem 0.7rem !important;
+  }
+}
+@media (max-width: 480px) {
+  .about-me-gif { max-width: 32px; }
+  .section, .about-content, .publications-content, .portfolio-content {
+    font-size: 0.93rem !important;
+    padding: 1.2rem 0.3rem !important;
+  }
+}
+.about-content, .publications-content, .portfolio-content {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: left;
+  color: var(--text-color);
+  line-height: 1.7;
 } 
