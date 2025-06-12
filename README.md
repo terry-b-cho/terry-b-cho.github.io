@@ -15,7 +15,7 @@
 </p>
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=64FFDA&center=true&vCenter=true&width=600&lines=Explore+the+site+for+hidden+magic!;Click+the+headshot+for+a+surprise!;Scroll+down+to+see+the+DNA+helix!;Snoopy+to+the+moon" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=64FFDA&center=true&vCenter=true&width=600&lines=Explore+the+site+for+hidden+magic!;Click+the+headshot+for+a+surprise!;Scroll+down+to+see+the+DNA+helix!;Snoopy+to+the+moon+🚀🚀🚀" alt="Typing SVG" />
 </p>
 
 ---
