@@ -1191,7 +1191,7 @@ body {
 
 /* Hero Headshot Interactive Transition */
 #hero-headshot-img, .headshot-transitioning { display: none !important; }
-/* --- Hero Headshot Flip Animation --- */
+/* --- Hero Headshot Flip: Apple-level clarity and maintainability --- */
 .hero-headshot {
   display: flex;
   align-items: center;
@@ -1199,6 +1199,7 @@ body {
   min-width: 260px;
   min-height: 260px;
 }
+/* The flipper container sets the base size for the headshot and border */
 .headshot-flip-container {
   perspective: 1200px;
   width: 240px;
@@ -1216,6 +1217,7 @@ body {
 .headshot-flip-container:focus {
   box-shadow: 0 0 0 3px var(--primary-color);
 }
+/* The flipper holds both faces and is animated on flip */
 .headshot-flipper {
   width: 100%;
   height: 100%;
@@ -1223,9 +1225,11 @@ body {
   transform-style: preserve-3d;
   transition: transform 0.9s cubic-bezier(0.4,0,0.2,1);
 }
+/* Flip and scale up the entire flipper (logo + border) to 120% on flip */
 .headshot-flip-container.flipped .headshot-flipper {
   transform: rotateY(180deg) scale(1.2);
 }
+/* Each face fills the container and is perfectly centered */
 .headshot-face {
   position: absolute;
   width: 100%;
@@ -1237,13 +1241,9 @@ body {
   border-radius: 50%;
   overflow: visible;
 }
-.headshot-front {
-  z-index: 2;
-}
-.headshot-back {
-  transform: rotateY(180deg);
-  z-index: 3;
-}
+.headshot-front { z-index: 2; }
+.headshot-back { transform: rotateY(180deg); z-index: 3; }
+/* The double-rim border always matches the container size */
 .headshot-double-rim {
   width: 100%;
   height: 100%;
@@ -1265,6 +1265,7 @@ body {
   pointer-events: none;
   z-index: 2;
 }
+/* The logo always fits perfectly inside the border (never overflows) */
 .headshot-logo-face {
   width: 100%;
   height: 100%;
@@ -1279,29 +1280,27 @@ body {
   box-sizing: border-box;
   overflow: visible;
 }
+/* --- Responsive: Adjust container size for mobile, but keep logic identical --- */
 @media (max-width: 900px) {
-  .headshot-flip-container {
-    width: 180px;
-    height: 180px;
-  }
+  .headshot-flip-container { width: 180px; height: 180px; }
+  .hero-headshot { min-width: 180px; min-height: 180px; }
 }
 @media (max-width: 767px) {
-  .headshot-flip-container {
-    width: 140px;
-    height: 140px;
-  }
-  .headshot-logo-face {
-    width: 120%;
-    height: 120%;
+  .hero-inner { flex-direction: column; gap: 0.5rem; padding: 0 0.5rem; }
+  .headshot-flip-container { width: 140px; height: 140px; }
+  .hero-headshot {
+    height: calc(1.32 * 140px) !important;
+    min-height: 0 !important;
+    min-width: 0 !important;
+    width: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 @media (max-width: 480px) {
-  .headshot-flip-container {
-    width: 96px;
-    height: 96px;
-  }
-  .headshot-logo-face {
-    width: 120%;
-    height: 120%;
-  }
+  .headshot-flip-container { width: 96px; height: 96px; }
+  .hero-headshot { height: calc(1.32 * 96px) !important; }
 } 
