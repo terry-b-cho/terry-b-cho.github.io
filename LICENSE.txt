@@ -129,9 +129,3 @@ Licensee is solely responsible for compliance with all applicable laws, regulati
 ⸻
 
 END OF LICENSE
-
-⸻
-
-Q1. Would a separate Contributor License Agreement (CLA) help you safely accept community pull requests while retaining full proprietary control?
-
-Q2. Do you wish to embed cryptographic checksums (e.g., SHA-256) in your release tags so you can mathematically verify that downstream users have not altered your licensed binaries? 
