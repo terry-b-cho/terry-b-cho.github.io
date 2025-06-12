@@ -536,7 +536,16 @@ body {
     .hero-inner { flex-direction: column; gap: 0.5rem; padding: 0 0.5rem; }
     .headshot-flip-container { width: 140px; height: 140px; }
     .headshot-logo-face { width: 135%; height: 135%; }
-    .hero-headshot { min-width: 140px; min-height: 140px; }
+    .hero-headshot {
+        height: calc(1.3 * 140px);
+        min-height: unset;
+        max-height: unset;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
     .hero-info { align-items: center; text-align: center; }
     .hero-title { font-size: 2rem; margin-bottom: 0.15rem; }
     .hero-subtitle { font-size: 1.1rem; margin-bottom: 0.08rem; }
@@ -548,7 +557,9 @@ body {
 @media (max-width: 480px) {
     .hero-inner { gap: 0.5rem; }
     .headshot-flip-container { width: 96px; height: 96px; }
-    .hero-headshot { min-width: 96px; min-height: 96px; }
+    .hero-headshot {
+        height: calc(1.3 * 96px);
+    }
     .hero-title { font-size: 2rem; }
     .scroll-indicator { bottom: 0; left: 50%; transform: translateX(-50%); }
 }
