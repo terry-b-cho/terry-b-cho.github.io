@@ -447,8 +447,8 @@ body {
     z-index: 2;
 }
 .headshot-logo-face {
-    width: 135%;
-    height: 135%;
+    width: 100%;
+    height: 100%;
     margin: 0 auto;
     display: block;
     background: var(--background-color);
@@ -535,7 +535,7 @@ body {
 @media (max-width: 767px) {
     .hero-inner { flex-direction: column; gap: 0.5rem; padding: 0 0.5rem; }
     .headshot-flip-container { width: 140px; height: 140px; }
-    .headshot-logo-face { width: 135%; height: 135%; }
+    .headshot-logo-face { width: 120%; height: 120%; }
     .hero-headshot {
         height: calc(1.32 * 140px) !important;
         min-height: 0 !important;
@@ -1266,8 +1266,8 @@ body {
   z-index: 2;
 }
 .headshot-logo-face {
-  width: 135%;
-  height: 135%;
+  width: 100%;
+  height: 100%;
   margin: 0 auto;
   display: block;
   background: var(--background-color);
@@ -1291,13 +1291,17 @@ body {
     height: 140px;
   }
   .headshot-logo-face {
-    width: 135%;
-    height: 135%;
+    width: 120%;
+    height: 120%;
   }
 }
 @media (max-width: 480px) {
   .headshot-flip-container {
     width: 96px;
     height: 96px;
+  }
+  .headshot-logo-face {
+    width: 120%;
+    height: 120%;
   }
 } 
