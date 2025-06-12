@@ -17,8 +17,8 @@
 <p align="center">
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=64FFDA&center=true&vCenter=true&width=600&lines=Explore+the+site+for+hidden+magic!;Click+the+headshot+for+a+surprise!;Scroll+down+to+see+the+DNA+helix!;Snoopy+to+the+moon" alt="Typing SVG" />
 </p>
----
 
+---
 ## 🚀 Live Demo
 
 👉 [terry-b-cho.github.io](https://terry-b-cho.github.io)
@@ -109,21 +109,7 @@ $ cd terry-b-cho.github.io
 - Built and designed by Snoop's best friend.
 
 <p align="center">
-  <!-- Snoopy/Charlie Brown GIF Rotator -->
-  <img id="snoopy-rotator" src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNnRlOXBiaHI0ZG92cXBseXRmZTM0aGkxZHJoaXo5M3EwaXhqMGt6OSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/RN9CKDXRHcSD6NdTqq/giphy.gif" width="220" alt="Snoopy/Charlie Brown Animation" />
-</p>
-
-<script>
-// GIF URLs for rotation
-const snoopyGifs = [
-  "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNnRlOXBiaHI0ZG92cXBseXRmZTM0aGkxZHJoaXo5M3EwaXhqMGt6OSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/RN9CKDXRHcSD6NdTqq/giphy.gif",
-  "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExdXBnNzY2Z2o1YmlsM3d6amFwem5mcnVmMnRoN2c3c2lodWpucHlndCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/IhgKEBNmk3aZEe4dbw/giphy.gif",
-  "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGo5MGxpNHkwcDB1MDNnaG1ybm9ycGpiYjhzOG82cTNxcjlwdmJ3NyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/gitdNOfXczQxBZjqd4/giphy.gif"
-];
-let snoopyIndex = 0;
-setInterval(() => {
-  snoopyIndex = (snoopyIndex + 1) % snoopyGifs.length;
-  const img = document.getElementById('snoopy-rotator');
-  if (img) img.src = snoopyGifs[snoopyIndex];
-}, 3500);
-</script> 
+  <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNnRlOXBiaHI0ZG92cXBseXRmZTM0aGkxZHJoaXo5M3EwaXhqMGt6OSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/RN9CKDXRHcSD6NdTqq/giphy.gif" width="180" alt="Snoopy/Charlie Brown Animation 1" />
+  <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExdXBnNzY2Z2o1YmlsM3d6amFwem5mcnVmMnRoN2c3c2lodWpucHlndCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/IhgKEBNmk3aZEe4dbw/giphy.gif" width="180" alt="Snoopy/Charlie Brown Animation 2" />
+  <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGo5MGxpNHkwcDB1MDNnaG1ybm9ycGpiYjhzOG82cTNxcjlwdmJ3NyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/gitdNOfXczQxBZjqd4/giphy.gif" width="180" alt="Snoopy/Charlie Brown Animation 3" />
+</p> 
