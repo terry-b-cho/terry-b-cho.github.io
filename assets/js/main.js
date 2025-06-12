@@ -119,6 +119,22 @@ const initNavigation = () => {
         lastScrollY = window.scrollY;
     };
     window.addEventListener('scroll', headerSticky);
+    // Home logo scroll-to-top
+    const homeLogo = document.querySelector('.nav-brand.home-logo-link');
+    if (homeLogo) {
+        homeLogo.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Close nav if open (mobile)
+            if (elements.navbar.classList.contains('active')) {
+                elements.navbar.classList.remove('active');
+                elements.navToggleBtn.classList.remove('active');
+                elements.overlay.classList.remove('active');
+                document.body.classList.remove('nav-active');
+            }
+            // Smooth scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
 };
 
 // Focus Trap for Mobile Nav
@@ -336,6 +352,7 @@ const initScrollIndicator = () => {
 
 // --- Hero Headshot 3D Flip Animation ---
 (function() {
+    
   const flipContainer = document.querySelector('.headshot-flip-container');
   if (!flipContainer) return;
   let isFlipping = false;
@@ -348,7 +365,7 @@ const initScrollIndicator = () => {
     flipTimeout = setTimeout(() => {
       flipContainer.classList.remove('flipped');
       isFlipping = false;
-    }, 4500);
+    }, 3500);
   }
 
   flipContainer.addEventListener('click', triggerFlip);
