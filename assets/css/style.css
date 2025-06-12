@@ -533,7 +533,7 @@ body {
     .hero-headshot { min-width: 180px; min-height: 180px; }
 }
 @media (max-width: 767px) {
-    .hero-inner { flex-direction: column; gap: 1.2rem; padding: 0 0.5rem; }
+    .hero-inner { flex-direction: column; gap: 0.5rem; padding: 0 0.5rem; }
     .headshot-flip-container { width: 140px; height: 140px; }
     .headshot-logo-face { width: 135%; height: 135%; }
     .hero-headshot { min-width: 140px; min-height: 140px; }
@@ -543,14 +543,14 @@ body {
     .hero-location { font-size: 0.95rem; margin-bottom: 0.3rem; }
     .hero-description { font-size: 0.95rem; margin-bottom: 0.7rem; }
     .hero-cta { display: none; }
-    .scroll-indicator { bottom: 0.2rem; }
+    .scroll-indicator { bottom: 0; left: 50%; transform: translateX(-50%); }
 }
 @media (max-width: 480px) {
-    .hero-inner { gap: 1.2rem; }
+    .hero-inner { gap: 0.5rem; }
     .headshot-flip-container { width: 96px; height: 96px; }
     .hero-headshot { min-width: 96px; min-height: 96px; }
     .hero-title { font-size: 2rem; }
-    .scroll-indicator { bottom: 0.7rem; }
+    .scroll-indicator { bottom: 0; left: 50%; transform: translateX(-50%); }
 }
 /* Remove old hex styles */
 .profile-headshot-hex, .profile-headshot-hex-minimal { display: none !important; }
