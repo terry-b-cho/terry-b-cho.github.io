@@ -348,7 +348,7 @@ const initScrollIndicator = () => {
     flipTimeout = setTimeout(() => {
       flipContainer.classList.remove('flipped');
       isFlipping = false;
-    }, 6000);
+    }, 4500);
   }
 
   flipContainer.addEventListener('click', triggerFlip);

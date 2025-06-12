@@ -392,6 +392,7 @@ body {
     justify-content: center;
     background: transparent;
     transition: box-shadow 0.2s;
+    overflow: visible;
 }
 .headshot-flip-container:focus {
     box-shadow: 0 0 0 3px var(--primary-color);
@@ -415,7 +416,7 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    overflow: hidden;
+    overflow: visible;
 }
 .headshot-front {
     z-index: 2;
@@ -446,8 +447,8 @@ body {
     z-index: 2;
 }
 .headshot-logo-face {
-    width: 120%;
-    height: 120%;
+    width: 135%;
+    height: 135%;
     margin: 0 auto;
     display: block;
     background: var(--background-color);
@@ -456,6 +457,8 @@ body {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    overflow: visible;
 }
 .hero-info {
     display: flex;
@@ -532,7 +535,7 @@ body {
 @media (max-width: 767px) {
     .hero-inner { flex-direction: column; gap: 1.2rem; padding: 0 0.5rem; }
     .headshot-flip-container { width: 140px; height: 140px; }
-    .headshot-logo-face { width: 120%; height: 120%; }
+    .headshot-logo-face { width: 135%; height: 135%; }
     .hero-headshot { min-width: 140px; min-height: 140px; }
     .hero-info { align-items: center; text-align: center; }
     .hero-title { font-size: 2rem; margin-bottom: 0.15rem; }
@@ -1218,6 +1221,7 @@ body {
   justify-content: center;
   background: transparent;
   transition: box-shadow 0.2s;
+  overflow: visible;
 }
 .headshot-flip-container:focus {
   box-shadow: 0 0 0 3px var(--primary-color);
@@ -1241,7 +1245,7 @@ body {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  overflow: hidden;
+  overflow: visible;
 }
 .headshot-front {
   z-index: 2;
@@ -1272,8 +1276,8 @@ body {
   z-index: 2;
 }
 .headshot-logo-face {
-  width: 120%;
-  height: 120%;
+  width: 135%;
+  height: 135%;
   margin: 0 auto;
   display: block;
   background: var(--background-color);
@@ -1282,6 +1286,8 @@ body {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  overflow: visible;
 }
 @media (max-width: 900px) {
   .headshot-flip-container {
@@ -1295,8 +1301,8 @@ body {
     height: 140px;
   }
   .headshot-logo-face {
-    width: 120%;
-    height: 120%;
+    width: 135%;
+    height: 135%;
   }
 }
 @media (max-width: 480px) {
