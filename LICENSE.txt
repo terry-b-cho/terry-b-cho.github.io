@@ -1,0 +1,137 @@
+TERRY BYEONGYEON CHO COMPREHENSIVE PROPRIETARY SOFTWARE LICENSE AGREEMENT (CPSLA)
+Version 1.0 — 12 June 2025
+
+⸻
+
+Copyright © 2025 Terry Byeongyeon Cho. All Rights Reserved.
+
+This Comprehensive Proprietary Software License Agreement (“Agreement”) is a legally binding contract between you (“Licensee”) and Terry Byeongyeon Cho (“Licensor”) covering the use of all source code, binaries, artwork, documentation, and other materials (collectively, “Software”) contained in the public GitHub repository located at https://github.com/terry-b-cho/terry-b-cho.github.io (“Repository”).
+By downloading, cloning, forking, compiling, executing, accessing, or otherwise using the Software, Licensee expressly agrees to be bound by this Agreement. If Licensee does not accept every term herein, Licensee must not use the Software.
+
+⸻
+
+1 Definitions
+
+1.1 Author / Licensor – Terry Byeongyeon Cho, sole owner of all Intellectual Property (“IP”) embodied in the Software.
+1.2 Derivative Work – Any work, whether in source or binary form, that is based on, derived from, linked to, or incorporates any portion of the Software.
+1.3 Evaluation Purpose – Non-commercial, internal review on Licensee-controlled hardware strictly to determine suitability of the Software; expressly excluding production deployment, external demonstration, teaching, research publication, or commercial exploitation.
+1.4 Confidential Information – All non-public technical or business information disclosed in or by the Software, including trade secrets, algorithms, data models, and comments in source files.
+1.5 Effective Date – The earlier of (i) the date Licensee first accesses the Software or (ii) the date Licensee signals assent electronically.
+
+⸻
+
+2 Grant of Limited License
+
+2.1 Scope. Subject to full and continuous compliance with this Agreement, Licensor hereby grants Licensee a personal, non-exclusive, non-transferable, non-sublicensable, revocable, worldwide license solely to:
+    (a) download or clone one (1) copy of the Software;
+    (b) install and execute that copy only for the Evaluation Purpose.
+2.2 Reservation. No other rights are granted. All rights not expressly granted, including patent rights, are retained by Licensor.
+
+⸻
+
+3 Restrictions
+
+Licensee shall not, directly or indirectly:
+(a) distribute, publish, sell, lease, rent, lend, host, mirror, or sublicense the Software or any Derivative Work;
+(b) modify, translate, reverse-engineer, decompile, decrypt, or disassemble any portion of the Software, except to the limited extent expressly permitted by applicable mandatory law;
+(c) remove, alter, or obscure any copyright, trademark, patent, or proprietary notice;
+(d) use the Software in any service-bureau, SaaS, cloud, or time-sharing arrangement;
+(e) use or permit the Software to be used for any unlawful, defamatory, infringing, or fraudulent purpose;
+(f) disclose, publish, or otherwise make available any benchmark results or performance information without Licensor’s prior written consent;
+(g) circumvent any technical safeguard or licensing mechanism contained in the Software;
+(h) export or re-export the Software or technical data in violation of United States or other applicable export-control laws.
+
+⸻
+
+4 Intellectual-Property Ownership
+
+4.1 Title. Licensor owns and retains all title, ownership, and IP rights—including all copyrights, patents, trade secrets, and trademarks—in and to the Software and all Derivative Works.
+4.2 No Implied Licenses. Licensee acquires no rights by implication, estoppel, or otherwise except those expressly set forth herein.
+
+⸻
+
+5 Confidentiality
+
+5.1 Non-Disclosure. Licensee shall treat the Software and all Confidential Information with at least the same degree of care that Licensee uses to protect its own confidential materials (but not less than reasonable care) and shall not disclose it to any third party.
+5.2 Limited Access. Licensee may allow access only to its employees or contractors who (i) have a bona fide need to know, and (ii) are bound by written confidentiality obligations no less protective than this Agreement.
+
+⸻
+
+6 Audit Rights
+
+Upon fifteen (15) days' written notice, Licensor may audit Licensee's records and systems to verify compliance. Licensee shall fully cooperate and bear all reasonable costs if material non-compliance (>5 % unauthorized use) is found.
+
+⸻
+
+7 Feedback
+
+Any feedback, suggestions, or improvements communicated by Licensee become non-exclusive, royalty-free, sublicensable rights of Licensor to exploit without obligation or attribution.
+
+⸻
+
+8 Term and Termination
+
+8.1 Term. This Agreement commences on the Effective Date and continues until terminated.
+8.2 Automatic Termination. This Agreement terminates immediately upon any breach by Licensee.
+8.3 Effect. Upon termination, the license grants cease, and Licensee must (i) cease all use, (ii) destroy or return all copies, and (iii) certify in writing destruction within ten (10) days. Sections 3–15 survive termination.
+
+⸻
+
+9 Support and Updates
+
+Licensor is under no obligation to provide maintenance, support, updates, or enhancements. Any such services supplied are subject to this Agreement.
+
+⸻
+
+10 No Warranty
+
+THE SOFTWARE IS PROVIDED “AS IS” AND “WITH ALL FAULTS,” WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS, IMPLIED, OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, ACCURACY, OR NON-INFRINGEMENT. LICENSEE BEARS THE ENTIRE RISK OF USE.
+
+⸻
+
+11 Limitation of Liability
+
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, LICENSOR SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, PUNITIVE, OR CONSEQUENTIAL DAMAGES (INCLUDING LOST PROFITS, BUSINESS INTERRUPTION, OR DATA LOSS) ARISING FROM OR RELATED TO THE SOFTWARE OR THIS AGREEMENT, EVEN IF ADVISED OF THE POSSIBILITY. LICENSOR'S AGGREGATE LIABILITY SHALL NOT EXCEED US $100.
+
+⸻
+
+12 Indemnification
+
+Licensee shall defend, indemnify, and hold harmless Licensor and its affiliates from any claim, loss, liability, or expense (including reasonable attorneys' fees) arising out of or related to (i) Licensee's use of the Software, (ii) Licensee's breach of this Agreement, or (iii) any Derivative Work created or distributed by Licensee.
+
+⸻
+
+13 Compliance with Laws
+
+Licensee is solely responsible for compliance with all applicable laws, regulations, and industry standards, including data-protection, privacy, and export-control statutes.
+
+⸻
+
+14 Governing Law; Dispute Resolution
+
+14.1 Law. This Agreement is governed by and construed under the laws of the Commonwealth of Massachusetts, USA, excluding conflict-of-laws principles.
+14.2 Exclusive Venue. The state and federal courts located in Boston, Massachusetts, shall have exclusive jurisdiction. The parties irrevocably waive objections to personal jurisdiction and venue.
+14.3 Equitable Relief. Licensee acknowledges that unauthorized use or disclosure of the Software would cause irreparable harm; Licensor is therefore entitled to injunctive relief without posting bond in addition to other remedies.
+
+⸻
+
+15 Miscellaneous
+
+15.1 Entire Agreement. This Agreement constitutes the complete and exclusive agreement and supersedes all prior proposals or communications.
+15.2 Amendment. No modification is valid unless in writing and signed by Licensor.
+15.3 Assignment. Licensee may not assign or transfer this Agreement (by merger, operation of law, or otherwise) without Licensor's prior written consent; any attempt is void.
+15.4 Severability. If any provision is held unenforceable, it shall be reformed to the minimum extent necessary, and the remainder shall remain in full force.
+15.5 Waiver. Failure to enforce any provision is not a waiver.
+15.6 Force Majeure. Licensor is not liable for delay or failure due to causes beyond its reasonable control.
+15.7 Headings. Headings are for convenience only and do not affect interpretation.
+15.8 Notices. Legal notices must be in writing and deemed given when delivered by confirmed email to terry.b.cho@proton.me and, if to Licensee, to any address or email you provide publicly or through the GitHub account associated with the Repository.
+
+⸻
+
+END OF LICENSE
+
+⸻
+
+Q1. Would a separate Contributor License Agreement (CLA) help you safely accept community pull requests while retaining full proprietary control?
+
+Q2. Do you wish to embed cryptographic checksums (e.g., SHA-256) in your release tags so you can mathematically verify that downstream users have not altered your licensed binaries? 
