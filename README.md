@@ -109,6 +109,21 @@ $ cd terry-b-cho.github.io
 - Built and designed by Snoop's best friend.
 
 <p align="center">
-  <img src="https://64.media.tumblr.com/ff43d31a160ef89aecd135da597bd133/f1f8d760a9b08064-40/s400x600/46c7b123bc123b9eaf9722a44704a2e338a9e1dd.gif" width="180" alt="Snoopy Animation 1" />
-  <img src="https://media.giphy.com/media/3o6Zt6ML6BklcajjsA/giphy.gif" width="180" alt="Snoopy Animation 2" />
-</p> 
+  <!-- Snoopy/Charlie Brown GIF Rotator -->
+  <img id="snoopy-rotator" src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNnRlOXBiaHI0ZG92cXBseXRmZTM0aGkxZHJoaXo5M3EwaXhqMGt6OSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/RN9CKDXRHcSD6NdTqq/giphy.gif" width="220" alt="Snoopy/Charlie Brown Animation" />
+</p>
+
+<script>
+// GIF URLs for rotation
+const snoopyGifs = [
+  "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNnRlOXBiaHI0ZG92cXBseXRmZTM0aGkxZHJoaXo5M3EwaXhqMGt6OSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/RN9CKDXRHcSD6NdTqq/giphy.gif",
+  "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExdXBnNzY2Z2o1YmlsM3d6amFwem5mcnVmMnRoN2c3c2lodWpucHlndCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/IhgKEBNmk3aZEe4dbw/giphy.gif",
+  "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGo5MGxpNHkwcDB1MDNnaG1ybm9ycGpiYjhzOG82cTNxcjlwdmJ3NyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/gitdNOfXczQxBZjqd4/giphy.gif"
+];
+let snoopyIndex = 0;
+setInterval(() => {
+  snoopyIndex = (snoopyIndex + 1) % snoopyGifs.length;
+  const img = document.getElementById('snoopy-rotator');
+  if (img) img.src = snoopyGifs[snoopyIndex];
+}, 3500);
+</script> 
