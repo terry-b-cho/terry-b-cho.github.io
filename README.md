@@ -74,10 +74,36 @@ $ cd terry-b-cho.github.io
 
 ---
 
+## 🌐 Make Your Site Searchable on Google
+
+> **Want your GitHub Pages site to show up on Google?**
+
+### ✅ Quick Steps
+
+1. **Add Google Verification Meta Tag**
+   - Go to [Google Search Console](https://search.google.com/search-console/about)
+   - Add your site (e.g., `https://yourusername.github.io`)
+   - Choose the HTML tag method and copy the meta tag
+2. **Paste the tag in your `<head>` (index.html):**
+   ```html
+   <meta name="google-site-verification" content="your-verification-code" />
+   ```
+3. **Push your changes to GitHub**
+4. **Verify in Google Search Console**
+5. **Request Indexing** (URL Inspection → Request Indexing)
+
+### 🛠️ Pro SEO Tips
+- Add a clear `<title>` and `<meta name="description">` in your `<head>`
+- Use semantic HTML (e.g., `<main>`, `<section>`, `<nav>`, `<footer>`)
+- Link your site from other indexed pages (social media, blogs, etc.)
+- Avoid `noindex` in meta tags or `robots.txt`
+
+---
+
 ## 🦄 Credits & Inspiration
 
-- Inspired by Apple, modern science, and the open web.
-- Built and designed by Terry B. Cho.
+- Inspired by Snoopy.
+- Built and designed by His best friend.
 
 ---
 
