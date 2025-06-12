@@ -10,10 +10,13 @@
 </h1>
 
 <p align="center">
-  <b>Welcome to my Apple-inspired, science-powered, interactive personal website!</b><br/>
+  <b>Welcome to my Snoopy-inspired, bioinformatics-powered, interactive personal website!</b><br/>
   <i>Modern. Fun. Dynamic. Accessible. And full of hidden gems.</i>
 </p>
 
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=64FFDA&center=true&vCenter=true&width=600&lines=Explore+the+site+for+hidden+magic!;Click+the+headshot+for+a+surprise!;Scroll+down+to+see+the+DNA+helix!;Snoopy+to+the+moon" alt="Typing SVG" />
+</p>
 ---
 
 ## 🚀 Live Demo
@@ -24,9 +27,9 @@
 
 ## ✨ Features
 
-- **Apple-level UX/UI**: Glassmorphism, glowing effects, and pixel-perfect layouts.
-- **Dynamic Hero Section**: Double-rimmed, interactive 3D headshot with a secret flip animation.
-- **Animated Scientific Backgrounds**: Neural network and DNA double helix, with seamless crossfades and glassy overlays.
+- **Woodstock-level UX/UI**: Glassmorphism, glowing effects, and pixel-perfect layouts.
+- **Dynamic Hero Section**: Double-rimmed, interactive 3D headshot.
+- **Animated Scientific Backgrounds**: Neural network and DNA double helix, with crossfades and glassy overlays.
 - **Responsive Navigation**: Always-accessible, mobile-optimized navbar with a home-logo button.
 - **Infinite Logo Carousel**: Smooth, robust, and always colorful.
 - **Glassmorphic Contact Section**: Google Map card + modern info card, fully responsive.
@@ -103,14 +106,9 @@ $ cd terry-b-cho.github.io
 ## 🦄 Credits & Inspiration
 
 - Inspired by Snoopy.
-- Built and designed by His best friend.
-
----
+- Built and designed by Snoop's best friend.
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=64FFDA&center=true&vCenter=true&width=435&lines=Explore+the+site+for+hidden+science+magic!;Click+the+headshot+for+a+surprise!;Scroll+down+to+see+the+DNA+helix!" alt="Typing SVG" />
-</p>
-
-<p align="center">
-  <img src="https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif" width="240" alt="Fun Science Animation" />
+  <img src="https://64.media.tumblr.com/ff43d31a160ef89aecd135da597bd133/f1f8d760a9b08064-40/s400x600/46c7b123bc123b9eaf9722a44704a2e338a9e1dd.gif" width="180" alt="Snoopy Animation 1" />
+  <img src="https://media.giphy.com/media/3o6Zt6ML6BklcajjsA/giphy.gif" width="180" alt="Snoopy Animation 2" />
 </p> 
