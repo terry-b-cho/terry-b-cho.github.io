@@ -37,7 +37,7 @@ Licensee shall not, directly or indirectly:
 (c) remove, alter, or obscure any copyright, trademark, patent, or proprietary notice;
 (d) use the Software in any service-bureau, SaaS, cloud, or time-sharing arrangement;
 (e) use or permit the Software to be used for any unlawful, defamatory, infringing, or fraudulent purpose;
-(f) disclose, publish, or otherwise make available any benchmark results or performance information without Licensor’s prior written consent;
+(f) disclose, publish, or otherwise make available any benchmark results or performance information without Licensor's prior written consent;
 (g) circumvent any technical safeguard or licensing mechanism contained in the Software;
 (h) export or re-export the Software or technical data in violation of United States or other applicable export-control laws.
 
