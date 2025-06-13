@@ -22,13 +22,9 @@
 ## 🚀 Live Demo
 
 <p align="center">
-  <a href="https://terry-b-cho.github.io" onmouseover="this.querySelector('img').src='assets/images/buttons/live-site-button-hover.svg'" onmouseout="this.querySelector('img').src='assets/images/buttons/live-site-button.svg'">
-    <img src="assets/images/buttons/live-site-button.svg" alt="Visit Live Site" width="300" height="80">
+  <a href="https://terry-b-cho.github.io" target="_blank" rel="noopener noreferrer">
+    <img src="assets/images/buttons/live-site-button.svg" alt="Live Site Button" width="350"/>
   </a>
-</p>
-
-<p align="center">
-  [![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-64ffda?style=for-the-badge)](https://terry-b-cho.github.io)
 </p>
 
 ---
