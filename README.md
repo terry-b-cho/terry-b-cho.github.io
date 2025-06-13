@@ -10,12 +10,12 @@
 </h1>
 
 <p align="center">
-  <b>Welcome to my Snoopy-inspired, bioinformatics-powered, interactive personal website!</b><br/>
+  <b>Welcome Terry's Snoopy-inspired and interactive personal website!</b><br/>
   <i>Modern. Fun. Dynamic. Accessible. And full of hidden gems.</i>
 </p>
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=64FFDA&center=true&vCenter=true&width=600&lines=Explore+the+site+for+hidden+surprise!;Scroll+down+to+see+the+DNA+helix!;Snoopy+to+the+moon!!" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=64FFDA&center=true&vCenter=true&width=600&lines=Explore+the+site+for+hidden+surprises!;Scroll+down+to+see+the+DNA+helix!;Snoopy+to+the+moon!!" alt="Typing SVG" />
 </p>
 
 ---
@@ -25,6 +25,16 @@
   <a href="https://terry-b-cho.github.io" style="display: inline-block; padding: 10px 20px; background-color: #64ffda; color: #0a192f; border-radius: 8px; text-decoration: none; font-weight: bold; transition: background-color 0.3s, transform 0.2s; box-shadow: 0 4px 12px rgba(100, 255, 218, 0.2);" onmouseover="this.style.backgroundColor='#4cd8b2'; this.style.transform='translateY(-2px)';" onmouseout="this.style.backgroundColor='#64ffda'; this.style.transform='translateY(0)';">
     Visit Live Site
   </a>
+</p>
+
+<p align="center">
+  <a href="https://terry-b-cho.github.io" style="display: inline-block; padding: 10px 20px; background-color: #64ffda; color: #0a192f; border-radius: 8px; text-decoration: none; font-weight: bold;">
+    Visit Live Site
+  </a>
+</p>
+
+<p align="center">
+  [![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-64ffda?style=for-the-badge)](https://terry-b-cho.github.io)
 </p>
 
 ---
