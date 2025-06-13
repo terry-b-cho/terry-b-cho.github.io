@@ -22,29 +22,9 @@
 ## 🚀 Live Demo
 
 <p align="center">
-  <a href="https://terry-b-cho.github.io" style="display: inline-block; padding: 10px 20px; background-color: #64ffda; color: #0a192f; border-radius: 8px; text-decoration: none; font-weight: bold; transition: background-color 0.3s, transform 0.2s; box-shadow: 0 4px 12px rgba(100, 255, 218, 0.2);" onmouseover="this.style.backgroundColor='#4cd8b2'; this.style.transform='translateY(-2px)';" onmouseout="this.style.backgroundColor='#64ffda'; this.style.transform='translateY(0)';">
-    Visit Live Site
+  <a href="https://terry-b-cho.github.io" target="_blank" rel="noopener">
+    <img src="assets/images/buttons/live_demo_button.png" alt="Live Demo Button" width="300" />
   </a>
-</p>
-
-<p align="center">
-  <a href="https://terry-b-cho.github.io" style="display: inline-block; padding: 10px 20px; background-color: #64ffda; color: #0a192f; border-radius: 8px; text-decoration: none; font-weight: bold;">
-    Visit Live Site
-  </a>
-</p>
-
-<p align="center">
-  [![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-64ffda?style=for-the-badge)](https://terry-b-cho.github.io)
-</p>
-
-<p align="center">
-  <a href="https://terry-b-cho.github.io" style="display: inline-block; padding: 10px 20px; background-color: #64ffda; color: #0a192f; border-radius: 8px; text-decoration: none; font-weight: bold;">
-    Visit Live Site
-  </a>
-</p>
-
-<p align="center">
-  [![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-64ffda?style=for-the-badge)](https://terry-b-cho.github.io)
 </p>
 
 ---
