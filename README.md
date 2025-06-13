@@ -31,23 +31,19 @@
 
 ## ✨ Features
 
-- **Woodstock-level UX/UI**: Glassmorphism, glowing effects, and pixel-perfect layouts.
+- **Woodstock-level UX/UI**: Glassmorphism, glowing effects, dark theme and pixel-perfect layouts.
 - **Dynamic Hero Section**: Double-rimmed, interactive 3D headshot.
-- **Animated Scientific Backgrounds**: Neural network and DNA double helix, with crossfades and glassy overlays.
-- **Responsive Navigation**: Always-accessible, mobile-optimized navbar with a home-logo button.
 - **Glassmorphic Contact Section**: Google Map card + modern info card, fully responsive.
 - **Accessibility**: Keyboard navigation, ARIA labels.
-- **Dark Mode 🌙**:</b> The site is always in a beautiful, eye-friendly dark theme.
 
 ---
 
 ## 🎁 Hidden Features & Easter Eggs
 
-- <b>🧬 Animated Backgrounds:</b> Scroll between the neural network and DNA helix for a smooth, science-inspired transition.
+- <b>🧬 Animated Backgrounds:</b> Scroll between the neural network and DNA double helix for a smooth, with crossfades and glassy overlays.
 - <b>🏠 Home Logo Button:</b> Click the house logo in the navbar to instantly scroll to the top, even on mobile.
 - <b>🖱️ Scroll Indicator:</b> A perfectly centered, animated scroll cue appears only at the right moments.
-- <b>⚡ Logo Carousel:</b> The carousel is dynamically duplicated for infinite, seamless animation—try resizing your window!
-- <b>🧠 Accessibility:</b> All interactive elements are keyboard and screen reader friendly.
+- <b>🌀 Logo Carousel:</b> The carousel is dynamically duplicated for infinite, seamless animation—try resizing your window!
 
 <p align="center">
   <b>🔍🔍 Rest of the hidden features are for you to find out 🔍🔍</b>
@@ -59,6 +55,7 @@
 
 - Fully responsive: Looks and feels amazing on iPhone, iPad, Android, and desktop.
 - Mobile-specific tweaks for perfect spacing, touch targets, and scroll cues.
+- Responsive Navigation: Always-accessible, mobile-optimized navbar with a home-logo button.
 
 ---
 
@@ -109,7 +106,7 @@ $ cd terry-b-cho.github.io
 
 ---
 
-## 🦄 Credits & Inspiration
+## 👀 Credits & Inspiration
 
 - Inspired by Snoopy.
 - Built and designed by Snoop's best friend.
