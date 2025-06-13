@@ -37,6 +37,16 @@
   [![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-64ffda?style=for-the-badge)](https://terry-b-cho.github.io)
 </p>
 
+<p align="center">
+  <a href="https://terry-b-cho.github.io" style="display: inline-block; padding: 10px 20px; background-color: #64ffda; color: #0a192f; border-radius: 8px; text-decoration: none; font-weight: bold;">
+    Visit Live Site
+  </a>
+</p>
+
+<p align="center">
+  [![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-64ffda?style=for-the-badge)](https://terry-b-cho.github.io)
+</p>
+
 ---
 
 ## ✨ Features
