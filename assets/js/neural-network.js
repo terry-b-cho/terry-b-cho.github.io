@@ -41,7 +41,7 @@ class NeuralNetwork {
                     this.nodes.push(n);
                     this.scene.add(n);
                 }
-    }
+            }
 
     /* ────────── edges ────────── */
     createConnections() {
@@ -55,11 +55,11 @@ class NeuralNetwork {
                 const geo  = new THREE.BufferGeometry().setFromPoints([a.position, b.position]);
                 const line = new THREE.Line(geo, mat.clone());
                 line.userData = { nodeA:a, nodeB:b };         // store endpoints for animation
-                this.connections.push(line);
-                this.scene.add(line);
+                    this.connections.push(line);
+                    this.scene.add(line);
+                }
             }
         }
-    }
 
     /* ────────── spawn firing sprites ────────── */
     triggerRandomSynapses() {

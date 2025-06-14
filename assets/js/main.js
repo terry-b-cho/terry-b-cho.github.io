@@ -207,7 +207,7 @@ function initNeuralNetwork() {
         // Prevent infinite recursion: only call window.initNeuralNetwork if it's not this function
         if (window.initNeuralNetwork && window.initNeuralNetwork !== initNeuralNetwork) {
             window.initNeuralNetwork();
-        }
+            }
         neuralNetworkInitialized = true;
     }
 }
@@ -310,7 +310,7 @@ const initScrollIndicator = () => {
             logos.forEach(logo => {
                 slide.appendChild(logo.cloneNode(true));
             });
-        }
+    }
 
         // 2. Set animation duration based on slide width
         const slideWidth = slide.scrollWidth / 2; // Only animate one set
