@@ -707,6 +707,21 @@ body {
 .timeline-content {
     width: 45%;
     position: relative;
+    /* Hide any container outline - only glass container should be visible */
+    background: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+/* Timeline item glass content - center aligned text */
+.timeline-item .glass-content--inline {
+    padding: 2rem;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 /* Left side items (odd) */
@@ -1507,21 +1522,37 @@ svg filter#lg-dist {
         justify-content: flex-start;
         padding-left: 60px;
         margin-bottom: 2.5rem;
+        /* Ensure flex doesn't break */
+        flex-wrap: nowrap;
+        overflow: hidden;
     }
     
     .timeline-content {
         width: calc(100% - 60px);
         margin: 0 !important;
+        /* Ensure no outline/border is visible */
+        background: transparent;
+        border: none;
+        outline: none;
+        box-shadow: none;
+        /* Prevent flex breaking */
+        flex-shrink: 1;
+        min-width: 0;
     }
     
     .timeline-item .glass-container {
         width: 100%;
         margin: 0;
+        /* Ensure glass container takes full available width */
+        flex-shrink: 1;
+        min-width: 0;
     }
     
     .timeline-item .glass-content--inline {
         padding: 1.5rem;
         gap: 0.8rem;
+        text-align: center;
+        align-items: center;
     }
     
     .timeline-item .glass-content--inline h3 {
@@ -1549,15 +1580,30 @@ svg filter#lg-dist {
     .timeline {
         padding: 1rem 0;
         max-width: 100%;
+        /* Prevent horizontal overflow */
+        overflow-x: hidden;
     }
     
     .timeline-item {
         margin-bottom: 2rem;
         padding-left: 45px;
+        /* Prevent flex breaking on narrow screens */
+        flex-wrap: nowrap;
+        overflow: hidden;
+        width: 100%;
     }
     
     .timeline-content {
         width: calc(100% - 45px);
+        /* Critical: ensure no visible outline */
+        background: transparent !important;
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+        /* Prevent flex issues */
+        flex-shrink: 1;
+        min-width: 0;
+        max-width: calc(100% - 45px);
     }
     
     .timeline::before {
@@ -1571,9 +1617,19 @@ svg filter#lg-dist {
         height: 10px;
     }
     
+    .timeline-item .glass-container {
+        width: 100%;
+        max-width: 100%;
+        /* Ensure glass container doesn't overflow */
+        flex-shrink: 1;
+        min-width: 0;
+    }
+    
     .timeline-item .glass-content--inline {
         padding: 1.2rem;
         gap: 0.6rem;
+        text-align: center;
+        align-items: center;
     }
     
     .timeline-item .glass-content--inline h3 {
@@ -1702,10 +1758,19 @@ svg filter#lg-dist {
     
     .timeline-item {
         padding-left: 35px;
+        /* Extra protection against flex breaking */
+        width: 100%;
+        max-width: 100%;
     }
     
     .timeline-content {
         width: calc(100% - 35px);
+        max-width: calc(100% - 35px);
+        /* Absolutely ensure no outline shows */
+        background: transparent !important;
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
     }
     
     .timeline::before {
@@ -1721,5 +1786,7 @@ svg filter#lg-dist {
     .timeline-item .glass-content--inline {
         padding: 1rem;
         gap: 0.5rem;
+        text-align: center;
+        align-items: center;
     }
 } 
