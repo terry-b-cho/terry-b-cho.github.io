@@ -652,62 +652,79 @@ body {
     }
 }
 
-/* Timeline Styles */
+/* Timeline: two columns on desktop, one column on mobile */
 .timeline {
-    position: relative;
-    max-width: 800px;
-    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    align-items: stretch;
 }
-
-.timeline::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 2px;
-    height: 100%;
-    background-color: var(--primary-color);
-}
-
 .timeline-item {
-    margin-bottom: 3rem;
-    position: relative;
-}
-
-/* Timeline content is now just a content wrapper */
-.timeline-content {
-    position: relative;
-    z-index: 3;
+    width: 100%;
     display: flex;
     flex-direction: column;
+    align-items: stretch;
+}
+/* Alternate left/right for timeline items */
+.timeline-item:nth-child(even) {
+    grid-column: 2;
+}
+.timeline-item:nth-child(odd) {
+    grid-column: 1;
+}
+
+@media (max-width: 900px) {
+    .timeline {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    .timeline-item {
+        grid-column: 1 !important;
+    }
+}
+
+/* .glass-content--inline: vertical stack, spacing for timeline */
+.glass-content--inline {
+    flex-direction: column;
     align-items: flex-start;
-    gap: 0.7rem;
-    padding: 1.2rem 1.2rem 1.2rem 1.2rem;
+    gap: 0.5rem;
+    padding: 1.2rem 1.5rem;
     width: 100%;
-    background: transparent;
-    box-shadow: none;
-    border-radius: 0;
 }
-
-.timeline-item:nth-child(even) .timeline-content {
-    margin-left: 0;
-    margin-right: auto;
+.glass-content--inline h3 {
+    margin-bottom: 0.2rem;
+    font-size: 1.2rem;
 }
-
-.timeline-content h3 {
+.glass-content--inline .degree {
+    font-weight: 600;
     color: var(--primary-color);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.1rem;
 }
-
-.timeline-content .degree {
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-}
-
-.timeline-content .year {
+.glass-content--inline .year {
+    font-size: 1rem;
     color: var(--secondary-color);
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.1rem;
+}
+.glass-content--inline .details {
+    font-size: 1rem;
+    color: var(--text-color);
+    margin-top: 0.2rem;
+}
+
+@media (max-width: 767px) {
+    .glass-content--inline {
+        padding: 1rem 0.7rem;
+        gap: 0.4rem;
+        align-items: flex-start;
+    }
+    .glass-content--inline h3 {
+        font-size: 1.05rem;
+    }
+    .glass-content--inline .degree,
+    .glass-content--inline .year,
+    .glass-content--inline .details {
+        font-size: 0.97rem;
+    }
 }
 
 /* Logo Section */
