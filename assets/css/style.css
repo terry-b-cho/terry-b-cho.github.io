@@ -5,6 +5,13 @@
     --secondary-color: #8892b0;
     --accent-color: #112240;
     --transition-speed: 0.3s;
+    --lg-bg: rgba(255, 255, 255, 0.24);
+    --lg-highlight: rgba(255, 255, 255, 0.75);
+    --lg-shadow: rgba(0, 0, 0, 0.25);
+    --lg-glow: rgba(255, 255, 255, 0.40);
+    --lg-radius: 5rem;
+    --lg-pad-inline: 1.5rem;
+    --lg-pad-block: 0.9rem;
 }
 
 * {
@@ -1303,4 +1310,101 @@ body {
 @media (max-width: 480px) {
   .headshot-flip-container { width: 96px; height: 96px; }
   .hero-headshot { height: calc(1.32 * 96px) !important; }
+}
+
+/* Liquid-Glass UI Styles */
+/* Base Liquid-Glass Component */
+.lg {
+    position: relative;
+    display: flex;
+    font-weight: 600;
+    color: var(--text-color);
+    cursor: pointer;
+    background: transparent;
+    overflow: hidden;
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+    text-decoration: none;
+}
+
+/* Layer 0: distortion */
+.lg-filter {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    isolation: isolate;
+    backdrop-filter: blur(0);
+    filter: url(#lg-ripple);
+}
+
+/* Layer 1: tint */
+.lg-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: var(--lg-bg);
+}
+
+/* Layer 2: highlights & shadows */
+.lg-specular {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: inherit;
+    box-shadow: inset 1px 1px 0 var(--lg-highlight),
+                inset 0 0 5px var(--lg-highlight),
+                0 6px 6px var(--lg-shadow);
+    transition: 0.3s;
+}
+
+.lg:hover .lg-specular {
+    box-shadow: inset 1px 1px 0 var(--lg-highlight),
+                inset 0 0 5px var(--lg-highlight),
+                0 0 8px var(--lg-glow);
+}
+
+/* Layer 3: payload */
+.lg-content {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* Size modifiers */
+.lg--sm {
+    width: 3rem;
+    height: 3rem;
+    min-width: 3rem;
+}
+
+.lg--circle {
+    border-radius: 50%;
+}
+
+/* Social Links Container */
+.social-links {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+/* Focus styles for accessibility */
+.lg:focus-visible {
+    outline: 2px solid var(--lg-highlight);
+    outline-offset: 2px;
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+    .lg {
+        transition: none;
+    }
+    .lg:hover .lg-specular {
+        box-shadow: inset 1px 1px 0 var(--lg-highlight),
+                    inset 0 0 5px var(--lg-highlight);
+    }
 } 

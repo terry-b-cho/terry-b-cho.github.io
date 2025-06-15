@@ -7,6 +7,18 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" href="data:,">
+    <!-- Add Liquid-Glass SVG Filter -->
+    <svg style="display:none" aria-hidden="true">
+        <filter id="lg-ripple" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise"
+                        baseFrequency="0.008 0.008"
+                        numOctaves="2" seed="92" result="noise"/>
+            <feGaussianBlur in="noise" stdDeviation="2" result="map"/>
+            <feDisplacementMap in="SourceGraphic" in2="map"
+                            scale="70"
+                            xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+    </svg>
     <script src="https://cdn.jsdelivr.net/npm/three@0.136.0/build/three.min.js"></script>
     <script src="assets/js/neural-network.js"></script>
     <!-- Add Google Fonts -->
@@ -177,18 +189,40 @@
                     <div class="contact-info-main">
                         <h3 class="contact-name">Terry B. Cho</h3>
                         <p class="contact-affiliation">PhD candidate in Bioinformatics and Integrative Genomics<br>Harvard Medical School | DBMI</p>
-                        <p class="contact-email">terry_cho@hms.harvard.edu</p>
                         <div class="social-links contact-social-links">
-                            <a href="https://github.com/terry-b-cho" target="_blank" rel="noopener noreferrer" class="contact-social-btn" aria-label="GitHub">
-                                <i class="fab fa-github"></i>
+                            <a href="mailto:byeongyeon_cho@hms.harvard.edu" class="lg lg--circle lg--sm" tabindex="0" aria-label="Email">
+                                <div class="lg-filter"></div>
+                                <div class="lg-overlay"></div>
+                                <div class="lg-specular"></div>
+                                <div class="lg-content">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
                             </a>
-                            <a href="https://linkedin.com/in/terry-b-cho" target="_blank" rel="noopener noreferrer" class="contact-social-btn" aria-label="LinkedIn">
-                                <i class="fab fa-linkedin"></i>
+                            <a href="https://github.com/terry-b-cho" target="_blank" rel="noopener noreferrer" class="lg lg--circle lg--sm" tabindex="0" aria-label="GitHub">
+                                <div class="lg-filter"></div>
+                                <div class="lg-overlay"></div>
+                                <div class="lg-specular"></div>
+                                <div class="lg-content">
+                                    <i class="fab fa-github"></i>
+                                </div>
                             </a>
-                            <a href="https://twitter.com/terry_b_cho" target="_blank" rel="noopener noreferrer" class="contact-social-btn" aria-label="Twitter">
-                                <i class="fab fa-twitter"></i>
+                            <a href="https://www.linkedin.com/in/b-cho" target="_blank" rel="noopener noreferrer" class="lg lg--circle lg--sm" tabindex="0" aria-label="LinkedIn">
+                                <div class="lg-filter"></div>
+                                <div class="lg-overlay"></div>
+                                <div class="lg-specular"></div>
+                                <div class="lg-content">
+                                    <i class="fab fa-linkedin"></i>
+                                </div>
                             </a>
-                    </div>
+                            <a href="https://x.com/terry_b_cho" target="_blank" rel="noopener noreferrer" class="lg lg--circle lg--sm" tabindex="0" aria-label="Twitter">
+                                <div class="lg-filter"></div>
+                                <div class="lg-overlay"></div>
+                                <div class="lg-specular"></div>
+                                <div class="lg-content">
+                                    <i class="fab fa-twitter"></i>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
