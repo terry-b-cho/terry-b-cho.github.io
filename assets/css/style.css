@@ -9,6 +9,10 @@
     --lg-highlight: rgba(255, 255, 255, 0.75);
     --lg-shadow: rgba(0, 0, 0, 0.25);
     --lg-glow: rgba(255, 255, 255, 0.40);
+    --lg-baseFreq: 0.008;
+    --lg-octaves: 2;
+    --lg-blur: 2;
+    --lg-scale: 70;
     --lg-radius: 5rem;
     --lg-pad-inline: 1.5rem;
     --lg-pad-block: 0.9rem;
@@ -728,7 +732,7 @@ body {
     transform: translate(-50%, -50%);
 }
 
-.timeline .glass-container {
+.timeline .lg {
     min-width: 0;
     width: 90%;
     z-index: 1;
@@ -774,7 +778,7 @@ body {
         height: 18px;
         border-width: 3px;
     }
-    .timeline .glass-container {
+    .timeline .lg {
         width: 100%;
         margin-left: 2.5rem;
         margin-right: 0;
@@ -785,7 +789,7 @@ body {
     .timeline {
         padding: 0 0.1rem;
     }
-    .timeline .glass-container {
+    .timeline .lg {
         margin-left: 1.7rem;
     }
     .timeline-marker {
@@ -1560,4 +1564,10 @@ body {
     .glass-container {
         transition: none !important;
     }
-} 
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion:reduce){.lg,.lg-specular{transition:none!important}}
+
+/* Utility: grid-5 for icon docks */
+.glass-content--grid-5{display:grid;grid-template-columns:repeat(5,auto);gap:1.25rem;padding:var(--lg-pad-block) var(--lg-pad-inline)} 
