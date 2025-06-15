@@ -1407,4 +1407,92 @@ body {
         box-shadow: inset 1px 1px 0 var(--lg-highlight),
                     inset 0 0 5px var(--lg-highlight);
     }
+}
+
+/* Timeline Liquid-Glass Styles */
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.timeline .lg {
+    width: 100%;
+    min-width: unset;
+    padding: 2rem;
+    transition: transform 0.3s ease;
+}
+
+.timeline .lg:hover {
+    transform: translateY(-5px);
+}
+
+.timeline-content {
+    width: 100%;
+}
+
+/* Contact Section Liquid-Glass Styles */
+.contact-flex {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .contact-flex {
+        grid-template-columns: 1fr;
+    }
+}
+
+.contact-flex .lg {
+    width: 100%;
+    min-width: unset;
+    padding: 2rem;
+    transition: transform 0.3s ease;
+}
+
+.contact-flex .lg:hover {
+    transform: translateY(-5px);
+}
+
+.contact-map-card {
+    width: 100%;
+    height: 100%;
+}
+
+.contact-info-main {
+    width: 100%;
+    text-align: center;
+}
+
+/* Dark theme adjustments for liquid-glass */
+.dark-theme .lg-overlay {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.dark-theme .lg-specular {
+    box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.2),
+                inset 0 0 5px rgba(255, 255, 255, 0.1),
+                0 6px 6px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .lg:hover .lg-specular {
+    box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.2),
+                inset 0 0 5px rgba(255, 255, 255, 0.1),
+                0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+    .timeline .lg,
+    .contact-flex .lg {
+        transition: none;
+    }
+    
+    .timeline .lg:hover,
+    .contact-flex .lg:hover {
+        transform: none;
+    }
 } 
