@@ -674,13 +674,49 @@ body {
     position: relative;
 }
 
+/* Modern glassmorphic timeline container (matches .glass-content .glass-content--inline) */
 .timeline-content {
-    background-color: var(--accent-color);
-    padding: 2rem;
-    border-radius: 8px;
     position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: 1.5rem;
     width: calc(50% - 2rem);
     margin-left: auto;
+    border-radius: 1.5rem;
+    /* Glassmorphic layers */
+    background: transparent;
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18),
+                inset 0 0 0 1px rgba(255,255,255,0.15),
+                0 0 20px rgba(100,255,218,0.1);
+    overflow: hidden;
+}
+.timeline-content::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    filter: url(#lg-dist) contrast(1.1) brightness(1.1);
+    isolation: isolate;
+    pointer-events: none;
+}
+.timeline-content::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: var(--lg-gradient);
+    opacity: 0.85;
+    pointer-events: none;
+}
+/* Content stays above glass layers */
+.timeline-content > * {
+    position: relative;
+    z-index: 2;
 }
 
 .timeline-item:nth-child(even) .timeline-content {
@@ -1189,9 +1225,10 @@ body {
         margin-left: 48px;
         text-align: left;
         padding: 1.2rem 1rem;
-    background: var(--accent-color);
-        border-radius: 8px;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        border-radius: 1.5rem;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.1),
+                    inset 0 0 0 1px rgba(255,255,255,0.15),
+                    0 0 20px rgba(100,255,218,0.08);
     }
     .timeline-item:nth-child(even) .timeline-content {
         margin-left: 48px;
