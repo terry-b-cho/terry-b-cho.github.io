@@ -1462,4 +1462,62 @@ svg filter#lg-dist {
     baseFrequency: 0.01 0.01;
     /* Increased octaves for more complex distortion */
     numOctaves: 3;
+}
+
+@media (max-width: 900px) {
+  .glass-content--inline {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.1rem 1rem;
+    gap: 0.7rem;
+    text-align: left;
+  }
+  .glass-content--inline > div {
+    width: 100%;
+    margin-bottom: 0.3rem;
+  }
+  .glass-content--inline .details {
+    margin-top: 0.2rem;
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .glass-content--inline {
+    padding: 0.7rem 0.5rem;
+    gap: 0.5rem;
+  }
+  .glass-content--inline > div {
+    margin-bottom: 0.15rem;
+  }
+}
+
+.glass-content--inline > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.glass-content--inline .details {
+  font-size: 0.98em;
+  color: var(--secondary-color);
+  margin-left: 1.5rem;
+  align-self: flex-end;
+}
+
+@media (min-width: 901px) {
+  .glass-content--inline {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2.5rem;
+    padding: 0.5rem 2.5rem 0.5rem 1.2rem;
+  }
+  .glass-content--inline > div {
+    margin-bottom: 0;
+  }
+  .glass-content--inline .details {
+    margin-left: 2.5rem;
+    align-self: center;
+  }
 } 
