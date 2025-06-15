@@ -674,7 +674,7 @@ body {
     position: relative;
 }
 
-/* Modern glassmorphic timeline container (matches .glass-content .glass-content--inline) */
+/* Timeline content is now just a content wrapper */
 .timeline-content {
     position: relative;
     z-index: 3;
@@ -682,41 +682,11 @@ body {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.7rem;
-    padding: 1.5rem;
-    width: calc(50% - 2rem);
-    margin-left: auto;
-    border-radius: 1.5rem;
-    /* Glassmorphic layers */
+    padding: 1.2rem 1.2rem 1.2rem 1.2rem;
+    width: 100%;
     background: transparent;
-    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18),
-                inset 0 0 0 1px rgba(255,255,255,0.15),
-                0 0 20px rgba(100,255,218,0.1);
-    overflow: hidden;
-}
-.timeline-content::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    filter: url(#lg-dist) contrast(1.1) brightness(1.1);
-    isolation: isolate;
-    pointer-events: none;
-}
-.timeline-content::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: var(--lg-gradient);
-    opacity: 0.85;
-    pointer-events: none;
-}
-/* Content stays above glass layers */
-.timeline-content > * {
-    position: relative;
-    z-index: 2;
+    box-shadow: none;
+    border-radius: 0;
 }
 
 .timeline-item:nth-child(even) .timeline-content {
@@ -935,11 +905,20 @@ body {
     }
     .glass-container--large,
     .glass-container--medium {
+        min-width: 0;
+        width: 100%;
         max-width: 100%;
-        margin: 0 auto 1.5rem auto;
+        margin: 0.5rem 0;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .contact-flex {
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: stretch;
     }
 }
-@media (max-width: 600px) {
+@media (max-width: 767px) {
     .contact-section {
         padding: 2.5rem 0.5rem 2rem 0.5rem;
     }
@@ -950,6 +929,42 @@ body {
         width: 44px;
         height: 44px;
         font-size: 1.4rem;
+    }
+    .timeline-content {
+        padding: 1rem 0.7rem;
+        align-items: flex-start;
+        text-align: left;
+        width: 100%;
+    }
+    .glass-container--large,
+    .glass-container--medium {
+        min-width: 0;
+        width: 100%;
+        max-width: 100%;
+        margin: 0.5rem 0;
+        border-radius: 2rem;
+    }
+    .glass-content--inline {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0.7rem 0.7rem 0.7rem 0.7rem;
+        gap: 1rem;
+    }
+    .glass-content--alone {
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem 0.7rem;
+        gap: 1rem;
+    }
+    .contact-info-main {
+        text-align: center;
+        padding-bottom: 0.5rem;
+    }
+    .glass-content iframe {
+        min-width: 0;
+        width: 100% !important;
+        height: 220px !important;
+        border-radius: 1.2rem !important;
     }
 }
 
@@ -1462,62 +1477,4 @@ svg filter#lg-dist {
     baseFrequency: 0.01 0.01;
     /* Increased octaves for more complex distortion */
     numOctaves: 3;
-}
-
-@media (max-width: 900px) {
-  .glass-content--inline {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1.1rem 1rem;
-    gap: 0.7rem;
-    text-align: left;
-  }
-  .glass-content--inline > div {
-    width: 100%;
-    margin-bottom: 0.3rem;
-  }
-  .glass-content--inline .details {
-    margin-top: 0.2rem;
-    width: 100%;
-  }
-}
-
-@media (max-width: 600px) {
-  .glass-content--inline {
-    padding: 0.7rem 0.5rem;
-    gap: 0.5rem;
-  }
-  .glass-content--inline > div {
-    margin-bottom: 0.15rem;
-  }
-}
-
-.glass-content--inline > div {
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-}
-
-.glass-content--inline .details {
-  font-size: 0.98em;
-  color: var(--secondary-color);
-  margin-left: 1.5rem;
-  align-self: flex-end;
-}
-
-@media (min-width: 901px) {
-  .glass-content--inline {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2.5rem;
-    padding: 0.5rem 2.5rem 0.5rem 1.2rem;
-  }
-  .glass-content--inline > div {
-    margin-bottom: 0;
-  }
-  .glass-content--inline .details {
-    margin-left: 2.5rem;
-    align-self: center;
-  }
 } 
