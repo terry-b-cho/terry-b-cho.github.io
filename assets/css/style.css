@@ -5,9 +5,9 @@
     --secondary-color: #8892b0;
     --accent-color: #112240;
     --transition-speed: 0.3s;
-    --lg-bg: rgba(255, 255, 255, 0.24);
-    --lg-highlight: rgba(255, 255, 255, 0.75);
-    --lg-shadow: rgba(0, 0, 0, 0.25);
+    --lg-bg: rgba(255,255,255,0.08);
+    --lg-highlight: rgba(255,255,255,0.75);
+    --lg-shadow: rgba(0,0,0,0.25);
     --lg-glow: rgba(255, 255, 255, 0.40);
     --lg-baseFreq: 0.008;
     --lg-octaves: 2;
@@ -40,6 +40,16 @@ body {
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: url('assets/images/noise.png') center/cover;
+  opacity: .07;
+  pointer-events: none;
+  z-index: -1;
 }
 
 /* Neural Network Animation Container */
@@ -1261,14 +1271,14 @@ body {
   inset: 0;
   z-index: 0;
   backdrop-filter: blur(0px);
-  filter: url(#lg-dist);
+  filter: url(#lg-dist) !important;
   isolation: isolate;
 }
 .glass-overlay {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: var(--lg-bg-color);
+  background: var(--lg-bg);
 }
 .glass-specular {
   position: absolute;
