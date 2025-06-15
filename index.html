@@ -18,6 +18,7 @@
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </head>
 <body class="dark-theme">
+    <!-- SVG Filter Definition -->
     <svg style="display: none">
         <filter id="lg-dist" x="0%" y="0%" width="100%" height="100%">
             <feTurbulence type="fractalNoise" baseFrequency="0.008 0.008" numOctaves="2" seed="92" result="noise" />
@@ -25,6 +26,7 @@
             <feDisplacementMap in="SourceGraphic" in2="blurred" scale="70" xChannelSelector="R" yChannelSelector="G" />
         </filter>
     </svg>
+
     <!-- Preloader -->
     <div class="preloader" data-preloader>
         <div class="preloader-content">
@@ -171,57 +173,43 @@
             </div>
         </section>
 
-        <section class="section contact" id="contact">
+        <section id="contact" class="section contact-section">
             <div class="container">
-                <h2 class="h2 section-title">Contact Me</h2>
-                <div class="contact-content">
+                <h2>Contact</h2>
+                <div class="contact-flex">
                     <div class="glass-container glass-container--rounded glass-container--large">
                         <div class="glass-filter"></div>
                         <div class="glass-overlay"></div>
                         <div class="glass-specular"></div>
                         <div class="glass-content glass-content--inline">
-                            <div class="contact-info">
-                                <h3 class="h3 contact-title">Let's Talk</h3>
-                                <p class="contact-text">
-                                    Feel free to reach out for collaborations or just a friendly hello
-                                </p>
-                                <ul class="contact-list">
-                                    <li class="contact-item">
-                                        <div class="contact-icon">
-                                            <ion-icon name="mail-outline"></ion-icon>
-                                        </div>
-                                        <div>
-                                            <p class="contact-label">Email</p>
-                                            <a href="mailto:terrybcho@gmail.com" class="contact-link">terrybcho@gmail.com</a>
-                                        </div>
-                                    </li>
-                                    <li class="contact-item">
-                                        <div class="contact-icon">
-                                            <ion-icon name="location-outline"></ion-icon>
-                                        </div>
-                                        <div>
-                                            <p class="contact-label">Location</p>
-                                            <address>San Francisco, California</address>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="contact-form-wrapper">
-                                <form action="" class="contact-form">
-                                    <div class="input-wrapper">
-                                        <label for="name" class="input-label">Name</label>
-                                        <input type="text" name="name" id="name" class="contact-input" placeholder="Your Name" required>
-                                    </div>
-                                    <div class="input-wrapper">
-                                        <label for="email" class="input-label">Email</label>
-                                        <input type="email" name="email" id="email" class="contact-input" placeholder="Your Email" required>
-                                    </div>
-                                    <div class="input-wrapper">
-                                        <label for="message" class="input-label">Message</label>
-                                        <textarea name="message" id="message" class="contact-input" placeholder="Your Message" required></textarea>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Send Message</button>
-                                </form>
+                            <iframe
+                                title="Harvard Medical School Map"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2949.263464319379!2d-71.10605182318535!3d42.336905936562886!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89e3798966612a0b%3A0xccc06bd25d6986e1!2sHarvard%20Medical%20School!5e0!3m2!1sen!2sus!4v1749663650354!5m2!1sen!2sus"
+                                width="100%" height="320" style="border:0; border-radius: 1.5rem;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                    <div class="glass-container glass-container--rounded glass-container--medium">
+                        <div class="glass-filter"></div>
+                        <div class="glass-overlay"></div>
+                        <div class="glass-specular"></div>
+                        <div class="glass-content glass-content--inline">
+                            <div class="contact-info-main">
+                                <h3 class="contact-name">Terry B. Cho</h3>
+                                <p class="contact-affiliation">PhD candidate in Bioinformatics and Integrative Genomics<br>Harvard Medical School | DBMI</p>
+                                <div class="social-links contact-social-links">
+                                    <a href="https://github.com/terry-b-cho" target="_blank" rel="noopener noreferrer" class="contact-social-btn" aria-label="GitHub">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                    <a href="https://linkedin.com/in/b-cho" target="_blank" rel="noopener noreferrer" class="contact-social-btn" aria-label="LinkedIn">
+                                        <i class="fab fa-linkedin"></i>
+                                    </a>
+                                    <a href="https://twitter.com/terry_b_cho" target="_blank" rel="noopener noreferrer" class="contact-social-btn" aria-label="Twitter">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="mailto:byeongyeon_cho@hms.harvard.edu" target="_blank" rel="noopener noreferrer" class="contact-social-btn" aria-label="Email">
+                                        <i class="fa-solid fa-envelope"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
