@@ -22,9 +22,19 @@ function hidePreloader() {
     setTimeout(function() { preloader.style.display = 'none'; }, 600);
   }
 }
-document.addEventListener('DOMContentLoaded', hidePreloader);
-window.addEventListener('load', hidePreloader);
-setTimeout(hidePreloader, 3000);
+
+// Use Promise.race to wait for either DOMContentLoaded or window.load, with a fallback timeout
+Promise.race([
+  new Promise(resolve => {
+    if (document.readyState === 'complete') {
+      resolve();
+    } else {
+      document.addEventListener('DOMContentLoaded', resolve);
+      window.addEventListener('load', resolve);
+    }
+  }),
+  new Promise(resolve => setTimeout(resolve, 3000))
+]).then(hidePreloader);
 
 // Navigation
 const initNavigation = () => {
