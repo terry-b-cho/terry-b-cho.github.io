@@ -14,27 +14,15 @@ const elements = {
 let lastScrollY = window.scrollY;
 let isNeuralNetworkVisible = true;
 
-// --- Preloader Dismissal (robust, always works) ---
-function hidePreloader() {
-  var preloader = document.querySelector('.preloader');
-  if (preloader) {
-    preloader.classList.add('loaded');
-    setTimeout(function() { preloader.style.display = 'none'; }, 600);
-  }
-}
-
-// Use Promise.race to wait for either DOMContentLoaded or window.load, with a fallback timeout
-Promise.race([
-  new Promise(resolve => {
-    if (document.readyState === 'complete') {
-      resolve();
-    } else {
-      document.addEventListener('DOMContentLoaded', resolve);
-      window.addEventListener('load', resolve);
-    }
-  }),
-  new Promise(resolve => setTimeout(resolve, 3000))
-]).then(hidePreloader);
+// Preloader
+const initPreloader = () => {
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            elements.preloader.classList.add('loaded');
+            document.body.classList.add('loaded');
+        }, 1000);
+    });
+};
 
 // Navigation
 const initNavigation = () => {
@@ -236,6 +224,7 @@ function initDNAAnimation() {
 
 // Initialize both animations on page load
 document.addEventListener('DOMContentLoaded', () => {
+    initPreloader();
     initNavigation();
     initSmoothScroll();
     initNeuralNetwork();
@@ -321,7 +310,8 @@ const initScrollIndicator = () => {
             logos.forEach(logo => {
                 slide.appendChild(logo.cloneNode(true));
             });
-        }
+    }
+
         // 2. Set animation duration based on slide width
         const slideWidth = slide.scrollWidth / 2; // Only animate one set
         if (slideWidth !== lastSlideWidth) {

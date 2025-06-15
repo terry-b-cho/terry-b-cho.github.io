@@ -7,18 +7,6 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" href="data:,">
-    <!-- Add Liquid-Glass SVG Filter -->
-    <svg style="display:none" aria-hidden="true">
-        <filter id="lg-dist" x="0" y="0" width="100%" height="100%">
-            <feTurbulence type="fractalNoise"
-                        baseFrequency="0.008 0.008"
-                        numOctaves="2" seed="92" result="noise"/>
-            <feGaussianBlur in="noise" stdDeviation="2" result="map"/>
-            <feDisplacementMap in="SourceGraphic" in2="map"
-                            scale="70"
-                            xChannelSelector="R" yChannelSelector="G"/>
-        </filter>
-    </svg>
     <script src="https://cdn.jsdelivr.net/npm/three@0.136.0/build/three.min.js"></script>
     <script src="assets/js/neural-network.js"></script>
     <!-- Add Google Fonts -->
@@ -30,13 +18,6 @@
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </head>
 <body class="dark-theme">
-    <svg style="display:none">
-        <filter id="lg-dist" x="0" y="0" width="100%" height="100%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.008 0.008" numOctaves="2" seed="92" result="noise"/>
-            <feGaussianBlur in="noise" stdDeviation="2" result="blurMap"/>
-            <feDisplacementMap in="SourceGraphic" in2="blurMap" scale="70" xChannelSelector="R" yChannelSelector="G"/>
-        </filter>
-    </svg>
     <!-- Preloader -->
     <div class="preloader" data-preloader>
         <div class="preloader-content">
@@ -124,69 +105,37 @@
 
         <section id="education" class="section">
             <div class="container">
-                <h2>Education</h2>
-                <div class="timeline timeline--singlecol">
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="glass-container glass-container--medium glass-container--rounded" tabindex="0">
-                            <div class="glass-filter"></div>
-                            <div class="glass-overlay"></div>
-                            <div class="glass-specular"></div>
-                            <div class="glass-content">
-                                <div class="timeline-content">
-                                    <h3>Harvard Medical School</h3>
-                                    <p class="degree">PhD in Bioinformatics and Integrative Genomics</p>
-                                    <p class="year">2024 - 2029</p>
-                                    <p class="details">PhD candidate in Bioinformatics and Integrative Genomics</p>
-                                </div>
-                            </div>
-                        </div>
+            <h2>Education</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Harvard Medical School</h3>
+                        <p class="degree">PhD in Bioinformatics and Integrative Genomics</p>
+                        <p class="year">2024 - 2029</p>
+                        <p class="details">PhD candidate in Bioinformatics and Integrative Genomics</p>
                     </div>
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="glass-container glass-container--medium glass-container--rounded" tabindex="0">
-                            <div class="glass-filter"></div>
-                            <div class="glass-overlay"></div>
-                            <div class="glass-specular"></div>
-                            <div class="glass-content">
-                                <div class="timeline-content">
-                                    <h3>Harvard Medical School</h3>
-                                    <p class="degree">MSc in Biomedical Informatics</p>
-                                    <p class="year">2022 - 2024</p>
-                                    <p class="details">Cumulative GPA: 3.984</p>
-                                </div>
-                            </div>
-                        </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Harvard Medical School</h3>
+                        <p class="degree">MSc in Biomedical Informatics</p>
+                        <p class="year">2022 - 2024</p>
+                            <p class="details">Cumulative GPA: 3.984</p>
                     </div>
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="glass-container glass-container--medium glass-container--rounded" tabindex="0">
-                            <div class="glass-filter"></div>
-                            <div class="glass-overlay"></div>
-                            <div class="glass-specular"></div>
-                            <div class="glass-content">
-                                <div class="timeline-content">
-                                    <h3>University College London</h3>
-                                    <p class="degree">BSc in Economics</p>
-                                    <p class="year">2017 - 2021</p>
-                                    <p class="details">First Class Honors</p>
-                                </div>
-                            </div>
-                        </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                            <h3>University College London</h3>
+                        <p class="degree">BSc in Economics</p>
+                        <p class="year">2017 - 2021</p>
+                        <p class="details">First Class Honors</p>
                     </div>
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="glass-container glass-container--medium glass-container--rounded" tabindex="0">
-                            <div class="glass-filter"></div>
-                            <div class="glass-overlay"></div>
-                            <div class="glass-specular"></div>
-                            <div class="glass-content">
-                                <div class="timeline-content">
-                                    <h3>Cardiff Sixth Form College</h3>
-                                    <p class="year">2015 - 2017</p>
-                                    <p class="details">A*A*A*</p>
-                                </div>
-                            </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Cardiff Sixth Form College</h3>
+                        <p class="year">2015 - 2017</p>
+                        <p class="details">A*A*A*</p>
                         </div>
                     </div>
                 </div>
@@ -218,64 +167,28 @@
         <section id="contact" class="section contact-section">
             <div class="container">
                 <h2>Contact</h2>
-                <div class="contact-flex contact-flex--balanced">
-                    <div class="glass-container glass-container--large glass-container--rounded contact-card" tabindex="0">
-                        <div class="glass-filter"></div>
-                        <div class="glass-overlay"></div>
-                        <div class="glass-specular"></div>
-                        <div class="glass-content">
-                            <div class="contact-map-card">
-                                <iframe
-                                    title="Harvard Medical School Map"
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2949.263464319379!2d-71.10605182318535!3d42.336905936562886!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89e3798966612a0b%3A0xccc06bd25d6986e1!2sHarvard%20Medical%20School!5e0!3m2!1sen!2sus!4v1749663650354!5m2!1sen!2sus"
-                                    width="100%" height="320" style="border:0; border-radius: 1.5rem;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                            </div>
-                        </div>
+                <div class="contact-flex">
+                    <div class="contact-map-card">
+                        <iframe
+                            title="Harvard Medical School Map"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2949.263464319379!2d-71.10605182318535!3d42.336905936562886!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89e3798966612a0b%3A0xccc06bd25d6986e1!2sHarvard%20Medical%20School!5e0!3m2!1sen!2sus!4v1749663650354!5m2!1sen!2sus"
+                            width="100%" height="320" style="border:0; border-radius: 1.5rem;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
-                    <div class="glass-container glass-container--large glass-container--rounded contact-card" tabindex="0">
-                        <div class="glass-filter"></div>
-                        <div class="glass-overlay"></div>
-                        <div class="glass-specular"></div>
-                        <div class="glass-content">
-                            <div class="contact-info-main">
-                                <h3 class="contact-name">Terry B. Cho</h3>
-                                <p class="contact-affiliation">PhD candidate in Bioinformatics and Integrative Genomics<br>Harvard Medical School | DBMI</p>
-                                <div class="social-links contact-social-links">
-                                    <a href="mailto:byeongyeon_cho@hms.harvard.edu" class="glass-container glass-container--small glass-container--rounded" tabindex="0" aria-label="Email">
-                                        <div class="glass-filter"></div>
-                                        <div class="glass-overlay"></div>
-                                        <div class="glass-specular"></div>
-                                        <div class="glass-content glass-content--inline">
-                                            <i class="fas fa-envelope"></i>
-                                        </div>
-                                    </a>
-                                    <a href="https://github.com/terry-b-cho" target="_blank" rel="noopener noreferrer" class="glass-container glass-container--small glass-container--rounded" tabindex="0" aria-label="GitHub">
-                                        <div class="glass-filter"></div>
-                                        <div class="glass-overlay"></div>
-                                        <div class="glass-specular"></div>
-                                        <div class="glass-content glass-content--inline">
-                                            <i class="fab fa-github"></i>
-                                        </div>
-                                    </a>
-                                    <a href="https://www.linkedin.com/in/b-cho" target="_blank" rel="noopener noreferrer" class="glass-container glass-container--small glass-container--rounded" tabindex="0" aria-label="LinkedIn">
-                                        <div class="glass-filter"></div>
-                                        <div class="glass-overlay"></div>
-                                        <div class="glass-specular"></div>
-                                        <div class="glass-content glass-content--inline">
-                                            <i class="fab fa-linkedin"></i>
-                                        </div>
-                                    </a>
-                                    <a href="https://x.com/terry_b_cho" target="_blank" rel="noopener noreferrer" class="glass-container glass-container--small glass-container--rounded" tabindex="0" aria-label="Twitter">
-                                        <div class="glass-filter"></div>
-                                        <div class="glass-overlay"></div>
-                                        <div class="glass-specular"></div>
-                                        <div class="glass-content glass-content--inline">
-                                            <i class="fab fa-twitter"></i>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="contact-info-main">
+                        <h3 class="contact-name">Terry B. Cho</h3>
+                        <p class="contact-affiliation">PhD candidate in Bioinformatics and Integrative Genomics<br>Harvard Medical School | DBMI</p>
+                        <p class="contact-email">terry_cho@hms.harvard.edu</p>
+                        <div class="social-links contact-social-links">
+                            <a href="https://github.com/terry-b-cho" target="_blank" rel="noopener noreferrer" class="contact-social-btn" aria-label="GitHub">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="https://linkedin.com/in/terry-b-cho" target="_blank" rel="noopener noreferrer" class="contact-social-btn" aria-label="LinkedIn">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="https://twitter.com/terry_b_cho" target="_blank" rel="noopener noreferrer" class="contact-social-btn" aria-label="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                    </div>
                     </div>
                 </div>
             </div>
