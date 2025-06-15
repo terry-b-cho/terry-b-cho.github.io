@@ -9,13 +9,13 @@
     <link rel="icon" href="data:,">
     <!-- Add Liquid-Glass SVG Filter -->
     <svg style="display:none" aria-hidden="true">
-        <filter id="lg-ripple" x="0" y="0" width="100%" height="100%">
+        <filter id="lg-dist" x="0" y="0" width="100%" height="100%">
             <feTurbulence type="fractalNoise"
-                        baseFrequency="var(--lg-baseFreq) var(--lg-baseFreq)"
-                        numOctaves="var(--lg-octaves)" seed="92" result="noise"/>
-            <feGaussianBlur in="noise" stdDeviation="var(--lg-blur)" result="map"/>
+                        baseFrequency="0.008 0.008"
+                        numOctaves="2" seed="92" result="noise"/>
+            <feGaussianBlur in="noise" stdDeviation="2" result="map"/>
             <feDisplacementMap in="SourceGraphic" in2="map"
-                            scale="var(--lg-scale)"
+                            scale="70"
                             xChannelSelector="R" yChannelSelector="G"/>
         </filter>
     </svg>
@@ -121,11 +121,11 @@
             <div class="timeline">
                 <div class="timeline-item">
                     <div class="timeline-marker"></div>
-                    <div class="lg lg--md lg--rounded" tabindex="0" data-layout="block">
-                        <div class="lg-filter"></div>
-                        <div class="lg-overlay"></div>
-                        <div class="lg-specular"></div>
-                        <div class="lg-content">
+                    <div class="glass-container glass-container--medium glass-container--rounded" tabindex="0">
+                        <div class="glass-filter"></div>
+                        <div class="glass-overlay"></div>
+                        <div class="glass-specular"></div>
+                        <div class="glass-content">
                             <div class="timeline-content">
                                 <h3>Harvard Medical School</h3>
                                 <p class="degree">PhD in Bioinformatics and Integrative Genomics</p>
@@ -137,11 +137,11 @@
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-marker"></div>
-                    <div class="lg lg--md lg--rounded" tabindex="0" data-layout="block">
-                        <div class="lg-filter"></div>
-                        <div class="lg-overlay"></div>
-                        <div class="lg-specular"></div>
-                        <div class="lg-content">
+                    <div class="glass-container glass-container--medium glass-container--rounded" tabindex="0">
+                        <div class="glass-filter"></div>
+                        <div class="glass-overlay"></div>
+                        <div class="glass-specular"></div>
+                        <div class="glass-content">
                             <div class="timeline-content">
                                 <h3>Harvard Medical School</h3>
                                 <p class="degree">MSc in Biomedical Informatics</p>
@@ -153,11 +153,11 @@
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-marker"></div>
-                    <div class="lg lg--md lg--rounded" tabindex="0" data-layout="block">
-                        <div class="lg-filter"></div>
-                        <div class="lg-overlay"></div>
-                        <div class="lg-specular"></div>
-                        <div class="lg-content">
+                    <div class="glass-container glass-container--medium glass-container--rounded" tabindex="0">
+                        <div class="glass-filter"></div>
+                        <div class="glass-overlay"></div>
+                        <div class="glass-specular"></div>
+                        <div class="glass-content">
                             <div class="timeline-content">
                                 <h3>University College London</h3>
                                 <p class="degree">BSc in Economics</p>
@@ -169,11 +169,11 @@
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-marker"></div>
-                    <div class="lg lg--md lg--rounded" tabindex="0" data-layout="block">
-                        <div class="lg-filter"></div>
-                        <div class="lg-overlay"></div>
-                        <div class="lg-specular"></div>
-                        <div class="lg-content">
+                    <div class="glass-container glass-container--medium glass-container--rounded" tabindex="0">
+                        <div class="glass-filter"></div>
+                        <div class="glass-overlay"></div>
+                        <div class="glass-specular"></div>
+                        <div class="glass-content">
                             <div class="timeline-content">
                                 <h3>Cardiff Sixth Form College</h3>
                                 <p class="year">2015 - 2017</p>
@@ -211,11 +211,11 @@
             <div class="container">
                 <h2>Contact</h2>
                 <div class="contact-flex">
-                    <div class="lg lg--lg lg--rounded" tabindex="0" data-layout="block">
-                        <div class="lg-filter"></div>
-                        <div class="lg-overlay"></div>
-                        <div class="lg-specular"></div>
-                        <div class="lg-content">
+                    <div class="glass-container glass-container--large glass-container--rounded" tabindex="0">
+                        <div class="glass-filter"></div>
+                        <div class="glass-overlay"></div>
+                        <div class="glass-specular"></div>
+                        <div class="glass-content">
                             <div class="contact-map-card">
                                 <iframe
                                     title="Harvard Medical School Map"
@@ -224,44 +224,44 @@
                             </div>
                         </div>
                     </div>
-                    <div class="lg lg--lg lg--rounded" tabindex="0" data-layout="block">
-                        <div class="lg-filter"></div>
-                        <div class="lg-overlay"></div>
-                        <div class="lg-specular"></div>
-                        <div class="lg-content">
+                    <div class="glass-container glass-container--large glass-container--rounded" tabindex="0">
+                        <div class="glass-filter"></div>
+                        <div class="glass-overlay"></div>
+                        <div class="glass-specular"></div>
+                        <div class="glass-content">
                             <div class="contact-info-main">
                                 <h3 class="contact-name">Terry B. Cho</h3>
                                 <p class="contact-affiliation">PhD candidate in Bioinformatics and Integrative Genomics<br>Harvard Medical School | DBMI</p>
                                 <div class="social-links contact-social-links">
-                                    <a href="mailto:byeongyeon_cho@hms.harvard.edu" class="lg lg--sm lg--circle" tabindex="0" aria-label="Email">
-                                        <div class="lg-filter"></div>
-                                        <div class="lg-overlay"></div>
-                                        <div class="lg-specular"></div>
-                                        <div class="lg-content lg-content--inline">
+                                    <a href="mailto:byeongyeon_cho@hms.harvard.edu" class="glass-container glass-container--small glass-container--rounded" tabindex="0" aria-label="Email">
+                                        <div class="glass-filter"></div>
+                                        <div class="glass-overlay"></div>
+                                        <div class="glass-specular"></div>
+                                        <div class="glass-content glass-content--inline">
                                             <i class="fas fa-envelope"></i>
                                         </div>
                                     </a>
-                                    <a href="https://github.com/terry-b-cho" target="_blank" rel="noopener noreferrer" class="lg lg--sm lg--circle" tabindex="0" aria-label="GitHub">
-                                        <div class="lg-filter"></div>
-                                        <div class="lg-overlay"></div>
-                                        <div class="lg-specular"></div>
-                                        <div class="lg-content lg-content--inline">
+                                    <a href="https://github.com/terry-b-cho" target="_blank" rel="noopener noreferrer" class="glass-container glass-container--small glass-container--rounded" tabindex="0" aria-label="GitHub">
+                                        <div class="glass-filter"></div>
+                                        <div class="glass-overlay"></div>
+                                        <div class="glass-specular"></div>
+                                        <div class="glass-content glass-content--inline">
                                             <i class="fab fa-github"></i>
                                         </div>
                                     </a>
-                                    <a href="https://www.linkedin.com/in/b-cho" target="_blank" rel="noopener noreferrer" class="lg lg--sm lg--circle" tabindex="0" aria-label="LinkedIn">
-                                        <div class="lg-filter"></div>
-                                        <div class="lg-overlay"></div>
-                                        <div class="lg-specular"></div>
-                                        <div class="lg-content lg-content--inline">
+                                    <a href="https://www.linkedin.com/in/b-cho" target="_blank" rel="noopener noreferrer" class="glass-container glass-container--small glass-container--rounded" tabindex="0" aria-label="LinkedIn">
+                                        <div class="glass-filter"></div>
+                                        <div class="glass-overlay"></div>
+                                        <div class="glass-specular"></div>
+                                        <div class="glass-content glass-content--inline">
                                             <i class="fab fa-linkedin"></i>
                                         </div>
                                     </a>
-                                    <a href="https://x.com/terry_b_cho" target="_blank" rel="noopener noreferrer" class="lg lg--sm lg--circle" tabindex="0" aria-label="Twitter">
-                                        <div class="lg-filter"></div>
-                                        <div class="lg-overlay"></div>
-                                        <div class="lg-specular"></div>
-                                        <div class="lg-content lg-content--inline">
+                                    <a href="https://x.com/terry_b_cho" target="_blank" rel="noopener noreferrer" class="glass-container glass-container--small glass-container--rounded" tabindex="0" aria-label="Twitter">
+                                        <div class="glass-filter"></div>
+                                        <div class="glass-overlay"></div>
+                                        <div class="glass-specular"></div>
+                                        <div class="glass-content glass-content--inline">
                                             <i class="fab fa-twitter"></i>
                                         </div>
                                     </a>
