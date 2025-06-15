@@ -1352,56 +1352,51 @@ body {
   .hero-headshot { height: calc(1.32 * 96px) !important; }
 }
 
-/* ========== ENHANCED LIQUID GLASS UI ========== */
+/* ========== GLASS CONTAINER (Apple Liquid Glass UI, matched to reference) ========== */
 .glass-container {
     position: relative;
     display: flex;
     font-weight: 600;
     color: var(--lg-text);
     background: transparent;
-    border-radius: 1.5rem;
+    border-radius: 2rem;
     overflow: hidden;
-    /* Enhanced shadow with stronger edge highlight */
-    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18),
-                inset 0 0 0 1px rgba(255,255,255,0.15),
-                0 0 20px rgba(100,255,218,0.1);
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
 }
+.glass-container--rounded {
+    border-radius: 5rem;
+    margin: 0.5rem;
+}
+.glass-container--large { min-width: 32rem; }
+.glass-container--medium { min-width: 25rem; }
 
-/* --- Glass effect stack: filter (blur/distort) -> overlay (tint) -> specular (rim) -> content (no background!) --- */
+/* ========== GLASS LAYERS ========== */
 .glass-filter {
     position: absolute;
     inset: 0;
     z-index: 0;
-    /* Reduced blur for more visibility of background */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    /* Increased distortion effect */
-    filter: url(#lg-dist) contrast(1.1) brightness(1.1);
+    backdrop-filter: blur(0px);
+    filter: url(#lg-dist);
     isolation: isolate;
 }
-
 .glass-overlay {
     position: absolute;
     inset: 0;
     z-index: 1;
-    background: var(--lg-gradient);
-    /* Reduced opacity for more transparency */
-    opacity: 0.85;
+    background: var(--lg-bg-color);
 }
-
 .glass-specular {
     position: absolute;
     inset: 0;
     z-index: 2;
     border-radius: inherit;
     overflow: hidden;
-    /* Enhanced edge highlights and glow */
     box-shadow: inset 1px 1px 0 var(--lg-highlight),
-                inset 0 0 30px var(--lg-highlight),
-                0 0 30px rgba(100, 255, 218, 0.15);
+        inset 0 0 5px var(--lg-highlight);
 }
 
+/* ========== GLASS CONTENT ========== */
 .glass-content {
     position: relative;
     z-index: 3;
@@ -1409,59 +1404,29 @@ body {
     align-items: center;
     gap: 20px;
     padding: 1rem 1.5rem 0.9rem;
-    width: 100%;
-    /* --- DO NOT add a background or backdrop-filter here! --- */
-    background: transparent; /* Make content area truly glassy */
-    /* backdrop-filter: none;  Remove any blur here */
+    background: transparent;
 }
-
 .glass-content--inline {
-    padding: 1.5rem;
+    padding: 0.25rem 2rem 0.25rem 0.75rem;
     flex: 1 1 auto;
     justify-content: space-between;
 }
-
-/* Update existing contact section styles */
-.contact-flex {
-    display: flex;
-    gap: 2.5rem;
-    align-items: stretch;
+.glass-content--alone {
     justify-content: center;
-    flex-wrap: wrap;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    gap: 1.5rem;
+    background: transparent;
 }
 
-.contact-info-main {
-    text-align: center;
-    margin-bottom: 1.2rem;
-    width: 100%;
-    position: relative;
-    z-index: 4;
-}
-
-.contact-name {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary-color);
-    margin-bottom: 0.3rem;
-    letter-spacing: -0.01em;
-    text-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
-}
-
-.contact-affiliation {
-    font-size: 1.05rem;
-    color: var(--secondary-color);
-    margin-bottom: 0.7rem;
-    line-height: 1.5;
-}
-
+/* Social links in glass-content--alone */
 .contact-social-links {
     display: flex;
     gap: 1.5rem;
     justify-content: center;
     align-items: center;
-    margin-top: 1.5rem;
+    margin-top: 0;
 }
-
 .contact-social-btn {
     display: flex;
     align-items: center;
@@ -1480,16 +1445,6 @@ body {
     position: relative;
     overflow: hidden;
 }
-
-.contact-social-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--lg-gradient);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
 .contact-social-btn:hover,
 .contact-social-btn:focus {
     background: var(--primary-color);
@@ -1497,38 +1452,6 @@ body {
     transform: translateY(-2px) scale(1.08);
     box-shadow: 0 4px 12px rgba(100,255,218,0.2),
                 inset 0 0 0 1px rgba(255,255,255,0.2);
-}
-
-.contact-social-btn:hover::before,
-.contact-social-btn:focus::before {
-    opacity: 0.1;
-}
-
-@media (max-width: 900px) {
-    .contact-flex {
-        flex-direction: column;
-        gap: 2rem;
-        align-items: stretch;
-    }
-    .glass-container--large,
-    .glass-container--medium {
-        max-width: 100%;
-        margin: 0 auto 1.5rem auto;
-    }
-}
-
-@media (max-width: 600px) {
-    .contact-section {
-        padding: 2.5rem 0.5rem 2rem 0.5rem;
-    }
-    .glass-content {
-        padding: 1rem;
-    }
-    .contact-social-btn {
-        width: 44px;
-        height: 44px;
-        font-size: 1.4rem;
-    }
 }
 
 /* Update SVG filter for stronger edge distortion */
