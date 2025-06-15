@@ -16,8 +16,217 @@
     <!-- Add Ionicons -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <style>
+      /* Add these new CSS variables */
+      :root {
+        --lg-bg-color: rgba(255, 255, 255, 0.25);
+        --lg-highlight: rgba(255, 255, 255, 0.75);
+        --lg-text: #ffffff;
+        --lg-hover-glow: rgba(255, 255, 255, 0.4);
+        --lg-red: #fb4268;
+        --lg-grey: #5b5b5b;
+      }
+
+      /* Glass Container Styles */
+      .glass-container {
+        position: relative;
+        display: flex;
+        font-weight: 600;
+        color: var(--lg-text);
+        cursor: pointer;
+        background: transparent;
+        border-radius: 2rem;
+        overflow: hidden;
+        box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }
+
+      .glass-container--rounded {
+        border-radius: 5rem;
+        margin: 0.5rem;
+        fill: var(--lg-grey);
+      }
+
+      .glass-container--large {
+        min-width: 32rem;
+      }
+
+      /* Glass Layers */
+      .glass-filter {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        backdrop-filter: blur(0px);
+        filter: url(#lg-dist);
+        isolation: isolate;
+      }
+
+      .glass-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: var(--lg-bg-color);
+      }
+
+      .glass-specular {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        border-radius: inherit;
+        overflow: hidden;
+        box-shadow: inset 1px 1px 0 var(--lg-highlight),
+          inset 0 0 5px var(--lg-highlight);
+      }
+
+      .glass-content {
+        position: relative;
+        z-index: 3;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 1rem 1.5rem 0.9rem;
+      }
+
+      .glass-content--inline {
+        padding: 0.25rem 2rem 0.25rem 0.75rem;
+        flex: 1 1 auto;
+        justify-content: space-between;
+      }
+
+      /* Contact Form Styles */
+      .contact-form {
+        flex: 1;
+        margin-left: 2rem;
+      }
+
+      .input-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .input-field {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 1rem;
+        padding: 1rem;
+        color: var(--lg-text);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .input-field:focus {
+        outline: none;
+        border-color: var(--lg-highlight);
+        box-shadow: 0 0 0 2px var(--lg-hover-glow);
+      }
+
+      textarea.input-field {
+        width: 100%;
+        min-height: 150px;
+        resize: vertical;
+      }
+
+      .btn-primary {
+        background: var(--lg-highlight);
+        color: var(--lg-grey);
+        border: none;
+        border-radius: 1rem;
+        padding: 1rem 2rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        background: var(--lg-text);
+        transform: translateY(-2px);
+      }
+
+      /* Contact Info Styles */
+      .contact-info {
+        flex: 1;
+      }
+
+      .contact-list {
+        margin: 2rem 0;
+      }
+
+      .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .item-icon {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+      }
+
+      .item-icon ion-icon {
+        font-size: 1.5rem;
+        color: var(--lg-highlight);
+      }
+
+      .social-list {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .social-link {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        transition: all 0.3s ease;
+      }
+
+      .social-link:hover {
+        background: var(--lg-highlight);
+        transform: translateY(-2px);
+      }
+
+      .social-link ion-icon {
+        font-size: 1.5rem;
+        color: var(--lg-text);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .glass-content {
+          flex-direction: column;
+        }
+
+        .contact-form {
+          margin-left: 0;
+          margin-top: 2rem;
+          width: 100%;
+        }
+
+        .input-wrapper {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
 </head>
 <body class="dark-theme">
+    <svg style="display: none">
+        <filter id="lg-dist" x="0%" y="0%" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.008 0.008" numOctaves="2" seed="92" result="noise" />
+            <feGaussianBlur in="noise" stdDeviation="2" result="blurred" />
+            <feDisplacementMap in="SourceGraphic" in2="blurred" scale="70" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+    </svg>
     <!-- Preloader -->
     <div class="preloader" data-preloader>
         <div class="preloader-content">
@@ -164,31 +373,81 @@
             </div>
         </section>
 
-        <section id="contact" class="section contact-section">
+        <section class="section contact" id="contact" aria-label="contact">
             <div class="container">
-                <h2>Contact</h2>
-                <div class="contact-flex">
-                    <div class="contact-map-card">
-                        <iframe
-                            title="Harvard Medical School Map"
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2949.263464319379!2d-71.10605182318535!3d42.336905936562886!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89e3798966612a0b%3A0xccc06bd25d6986e1!2sHarvard%20Medical%20School!5e0!3m2!1sen!2sus!4v1749663650354!5m2!1sen!2sus"
-                            width="100%" height="320" style="border:0; border-radius: 1.5rem;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    </div>
-                    <div class="contact-info-main">
-                        <h3 class="contact-name">Terry B. Cho</h3>
-                        <p class="contact-affiliation">PhD candidate in Bioinformatics and Integrative Genomics<br>Harvard Medical School | DBMI</p>
-                        <p class="contact-email">terry_cho@hms.harvard.edu</p>
-                        <div class="social-links contact-social-links">
-                            <a href="https://github.com/terry-b-cho" target="_blank" rel="noopener noreferrer" class="contact-social-btn" aria-label="GitHub">
-                                <i class="fab fa-github"></i>
-                            </a>
-                            <a href="https://linkedin.com/in/terry-b-cho" target="_blank" rel="noopener noreferrer" class="contact-social-btn" aria-label="LinkedIn">
-                                <i class="fab fa-linkedin"></i>
-                            </a>
-                            <a href="https://twitter.com/terry_b_cho" target="_blank" rel="noopener noreferrer" class="contact-social-btn" aria-label="Twitter">
-                                <i class="fab fa-twitter"></i>
-                            </a>
-                    </div>
+                <h2 class="h2 section-title">Contact Me</h2>
+                <p class="section-text">Feel free to reach out to me for any questions or opportunities.</p>
+
+                <div class="contact-card glass-container glass-container--rounded glass-container--large">
+                    <div class="glass-filter"></div>
+                    <div class="glass-overlay"></div>
+                    <div class="glass-specular"></div>
+                    <div class="glass-content">
+                        <div class="contact-info">
+                            <h3 class="h3 card-title">Let's Talk</h3>
+                            <p class="card-text">I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.</p>
+
+                            <ul class="contact-list">
+                                <li class="contact-item">
+                                    <div class="item-icon">
+                                        <ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
+                                    </div>
+                                    <div>
+                                        <h3 class="h4 item-title">Email</h3>
+                                        <a href="mailto:terrybcho@gmail.com" class="item-link">terrybcho@gmail.com</a>
+                                    </div>
+                                </li>
+
+                                <li class="contact-item">
+                                    <div class="item-icon">
+                                        <ion-icon name="phone-portrait-outline" aria-hidden="true"></ion-icon>
+                                    </div>
+                                    <div>
+                                        <h3 class="h4 item-title">Phone</h3>
+                                        <a href="tel:+1234567890" class="item-link">+1 (234) 567-890</a>
+                                    </div>
+                                </li>
+
+                                <li class="contact-item">
+                                    <div class="item-icon">
+                                        <ion-icon name="location-outline" aria-hidden="true"></ion-icon>
+                                    </div>
+                                    <div>
+                                        <h3 class="h4 item-title">Location</h3>
+                                        <address class="item-link">San Francisco, California, USA</address>
+                                    </div>
+                                </li>
+                            </ul>
+
+                            <ul class="social-list">
+                                <li>
+                                    <a href="#" class="social-link">
+                                        <ion-icon name="logo-github"></ion-icon>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="social-link">
+                                        <ion-icon name="logo-linkedin"></ion-icon>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="social-link">
+                                        <ion-icon name="logo-twitter"></ion-icon>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <form action="" class="contact-form">
+                            <div class="input-wrapper">
+                                <input type="text" name="name" placeholder="Your Name" required class="input-field">
+                                <input type="email" name="email" placeholder="Email Address" required class="input-field">
+                            </div>
+
+                            <textarea name="message" placeholder="How Can I Help You" required class="input-field"></textarea>
+
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </form>
                     </div>
                 </div>
             </div>
