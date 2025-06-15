@@ -5,13 +5,14 @@
     --secondary-color: #8892b0;
     --accent-color: #112240;
     --transition-speed: 0.3s;
-    /* Liquid Glass UI Variables */
-    --lg-bg-color: rgba(17, 34, 64, 0.25);
-    --lg-highlight: rgba(100, 255, 218, 0.15);
+    /* Enhanced Liquid Glass UI Variables */
+    --lg-bg-color: rgba(17, 34, 64, 0.85);
+    --lg-highlight: rgba(100, 255, 218, 0.25);
     --lg-text: var(--text-color);
-    --lg-hover-glow: rgba(100, 255, 218, 0.2);
+    --lg-hover-glow: rgba(100, 255, 218, 0.3);
     --lg-red: #fb4268;
     --lg-grey: var(--secondary-color);
+    --lg-gradient: linear-gradient(135deg, rgba(100, 255, 218, 0.1), rgba(17, 34, 64, 0.95));
 }
 
 * {
@@ -1310,7 +1311,7 @@ body {
   .hero-headshot { height: calc(1.32 * 96px) !important; }
 }
 
-/* ========== LIQUID GLASS UI ========== */
+/* ========== ENHANCED LIQUID GLASS UI ========== */
 .glass-container {
     position: relative;
     display: flex;
@@ -1319,7 +1320,8 @@ body {
     background: transparent;
     border-radius: 1.5rem;
     overflow: hidden;
-    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18),
+                inset 0 0 0 1px rgba(255,255,255,0.1);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
 }
 
@@ -1344,8 +1346,8 @@ body {
     position: absolute;
     inset: 0;
     z-index: 0;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     filter: url(#lg-dist);
     isolation: isolate;
 }
@@ -1354,7 +1356,8 @@ body {
     position: absolute;
     inset: 0;
     z-index: 1;
-    background: var(--lg-bg-color);
+    background: var(--lg-gradient);
+    opacity: 0.95;
 }
 
 .glass-specular {
@@ -1364,7 +1367,8 @@ body {
     border-radius: inherit;
     overflow: hidden;
     box-shadow: inset 1px 1px 0 var(--lg-highlight),
-        inset 0 0 5px var(--lg-highlight);
+                inset 0 0 20px var(--lg-highlight),
+                0 0 20px rgba(100, 255, 218, 0.1);
 }
 
 .glass-content {
@@ -1375,6 +1379,9 @@ body {
     gap: 20px;
     padding: 1rem 1.5rem 0.9rem;
     width: 100%;
+    background: rgba(17, 34, 64, 0.3);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 .glass-content--inline {
@@ -1396,6 +1403,8 @@ body {
     text-align: center;
     margin-bottom: 1.2rem;
     width: 100%;
+    position: relative;
+    z-index: 4;
 }
 
 .contact-name {
@@ -1404,6 +1413,7 @@ body {
     color: var(--primary-color);
     margin-bottom: 0.3rem;
     letter-spacing: -0.01em;
+    text-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
 }
 
 .contact-affiliation {
@@ -1431,10 +1441,22 @@ body {
     background: rgba(100,255,218,0.08);
     color: var(--primary-color);
     font-size: 2rem;
-    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
-    transition: background 0.2s, color 0.2s, transform 0.18s;
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10),
+                inset 0 0 0 1px rgba(100,255,218,0.1);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 2.2);
     outline: none;
     border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-social-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--lg-gradient);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .contact-social-btn:hover,
@@ -1442,6 +1464,13 @@ body {
     background: var(--primary-color);
     color: var(--background-color);
     transform: translateY(-2px) scale(1.08);
+    box-shadow: 0 4px 12px rgba(100,255,218,0.2),
+                inset 0 0 0 1px rgba(255,255,255,0.2);
+}
+
+.contact-social-btn:hover::before,
+.contact-social-btn:focus::before {
+    opacity: 0.1;
 }
 
 @media (max-width: 900px) {
