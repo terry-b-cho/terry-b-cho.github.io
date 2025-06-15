@@ -6,13 +6,17 @@
     --accent-color: #112240;
     --transition-speed: 0.3s;
     /* Enhanced Liquid Glass UI Variables */
-    --lg-bg-color: rgba(17, 34, 64, 0.85);
-    --lg-highlight: rgba(100, 255, 218, 0.25);
+    --lg-bg-color: rgba(17, 34, 64, 0.65);  /* Reduced opacity for more transparency */
+    --lg-highlight: rgba(100, 255, 218, 0.2);  /* Softer highlight for subtle edge glow */
     --lg-text: var(--text-color);
-    --lg-hover-glow: rgba(100, 255, 218, 0.3);
+    --lg-hover-glow: rgba(100, 255, 218, 0.25);
     --lg-red: #fb4268;
     --lg-grey: var(--secondary-color);
-    --lg-gradient: linear-gradient(135deg, rgba(100, 255, 218, 0.1), rgba(17, 34, 64, 0.95));
+    /* Gradient with more transparency in the center */
+    --lg-gradient: linear-gradient(135deg, 
+        rgba(100, 255, 218, 0.05),  /* Very subtle primary color tint */
+        rgba(17, 34, 64, 0.75)      /* Semi-transparent dark background */
+    );
 }
 
 * {
@@ -1320,8 +1324,10 @@ body {
     background: transparent;
     border-radius: 1.5rem;
     overflow: hidden;
+    /* Enhanced shadow with stronger edge highlight */
     box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18),
-                inset 0 0 0 1px rgba(255,255,255,0.1);
+                inset 0 0 0 1px rgba(255,255,255,0.15),
+                0 0 20px rgba(100,255,218,0.1);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
 }
 
@@ -1346,9 +1352,11 @@ body {
     position: absolute;
     inset: 0;
     z-index: 0;
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    filter: url(#lg-dist);
+    /* Reduced blur for more visibility of background */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    /* Increased distortion effect */
+    filter: url(#lg-dist) contrast(1.1) brightness(1.1);
     isolation: isolate;
 }
 
@@ -1357,7 +1365,8 @@ body {
     inset: 0;
     z-index: 1;
     background: var(--lg-gradient);
-    opacity: 0.95;
+    /* Reduced opacity for more transparency */
+    opacity: 0.85;
 }
 
 .glass-specular {
@@ -1366,9 +1375,10 @@ body {
     z-index: 2;
     border-radius: inherit;
     overflow: hidden;
+    /* Enhanced edge highlights and glow */
     box-shadow: inset 1px 1px 0 var(--lg-highlight),
-                inset 0 0 20px var(--lg-highlight),
-                0 0 20px rgba(100, 255, 218, 0.1);
+                inset 0 0 30px var(--lg-highlight),
+                0 0 30px rgba(100, 255, 218, 0.15);
 }
 
 .glass-content {
@@ -1379,9 +1389,10 @@ body {
     gap: 20px;
     padding: 1rem 1.5rem 0.9rem;
     width: 100%;
-    background: rgba(17, 34, 64, 0.3);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    /* Lighter background with minimal blur */
+    background: rgba(17, 34, 64, 0.2);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .glass-content--inline {
@@ -1498,4 +1509,14 @@ body {
         height: 44px;
         font-size: 1.4rem;
     }
+}
+
+/* Update SVG filter for stronger edge distortion */
+svg filter#lg-dist {
+    /* Increased scale for more pronounced distortion */
+    scale: 90;
+    /* Adjusted turbulence for more organic distortion */
+    baseFrequency: 0.01 0.01;
+    /* Increased octaves for more complex distortion */
+    numOctaves: 3;
 } 
