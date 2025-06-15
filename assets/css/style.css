@@ -12,6 +12,17 @@
     --lg-radius: 5rem;
     --lg-pad-inline: 1.5rem;
     --lg-pad-block: 0.9rem;
+    --lg-bg-color: rgba(255, 255, 255, 0.25);
+    --lg-text: #ffffff;
+    --lg-hover-glow: rgba(255, 255, 255, 0.4);
+    --lg-red: #fb4268;
+    --lg-grey: #5b5b5b;
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-shadow: rgba(0, 0, 0, 0.1);
+    --glass-blur: 10px;
+    --glass-overlay: rgba(255, 255, 255, 0.05);
+    --glass-specular: rgba(255, 255, 255, 0.1);
 }
 
 * {
@@ -650,53 +661,139 @@ body {
 /* Timeline Styles */
 .timeline {
     position: relative;
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
+    padding: 2rem 0;
 }
 
 .timeline::before {
     content: '';
     position: absolute;
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 2px;
+    width: 4px;
     height: 100%;
-    background-color: var(--primary-color);
+    background: var(--primary-color);
+    opacity: 0.18;
+    z-index: 0;
 }
 
 .timeline-item {
-    margin-bottom: 3rem;
     position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 50%;
+    padding: 2rem 0;
 }
 
-.timeline-content {
-    background-color: var(--accent-color);
-    padding: 2rem;
-    border-radius: 8px;
-    position: relative;
-    width: calc(50% - 2rem);
-    margin-left: auto;
-}
-
-.timeline-item:nth-child(even) .timeline-content {
+.timeline-item:nth-child(odd) {
+    left: 0;
+    flex-direction: row-reverse;
     margin-left: 0;
     margin-right: auto;
 }
 
-.timeline-content h3 {
-    color: var(--primary-color);
-    margin-bottom: 0.5rem;
+.timeline-item:nth-child(even) {
+    left: 50%;
+    flex-direction: row;
+    margin-left: auto;
+    margin-right: 0;
 }
 
-.timeline-content .degree {
-    font-weight: bold;
-    margin-bottom: 0.5rem;
+.timeline-marker {
+    width: 22px;
+    height: 22px;
+    background: var(--primary-color);
+    border: 4px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 12px 0 var(--primary-color), 0 0 0 4px rgba(0,0,0,0.04);
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
 }
 
-.timeline-content .year {
-    color: var(--secondary-color);
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
+.timeline-item:nth-child(even) .timeline-marker {
+    left: 0%;
+    right: auto;
+    transform: translate(-50%, -50%);
+}
+
+.timeline-item:nth-child(odd) .timeline-marker {
+    left: 100%;
+    right: auto;
+    transform: translate(-50%, -50%);
+}
+
+.timeline .glass-container {
+    min-width: 0;
+    width: 90%;
+    z-index: 1;
+}
+
+.timeline-content {
+    width: 100%;
+    text-align: left;
+}
+
+@media (max-width: 900px) {
+    .timeline {
+        padding: 1.2rem 0.2rem;
+    }
+    .timeline-item {
+        padding: 1.2rem 0;
+    }
+}
+
+@media (max-width: 767px) {
+    .timeline {
+        max-width: 100%;
+        padding: 0 0.5rem;
+    }
+    .timeline::before {
+        left: 24px;
+        width: 3px;
+        opacity: 0.22;
+    }
+    .timeline-item {
+        width: 100%;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 1.2rem 0 1.2rem 0.5rem;
+        margin: 0;
+    }
+    .timeline-marker {
+        left: 0;
+        top: 32px;
+        transform: translate(-50%, 0);
+        width: 18px;
+        height: 18px;
+        border-width: 3px;
+    }
+    .timeline .glass-container {
+        width: 100%;
+        margin-left: 2.5rem;
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .timeline {
+        padding: 0 0.1rem;
+    }
+    .timeline .glass-container {
+        margin-left: 1.7rem;
+    }
+    .timeline-marker {
+        width: 14px;
+        height: 14px;
+        border-width: 2px;
+        top: 24px;
+    }
 }
 
 /* Logo Section */
@@ -1313,186 +1410,154 @@ body {
 }
 
 /* Liquid-Glass UI Styles */
-/* Base Liquid-Glass Component */
-.lg {
+/* ========== GLASS CONTAINER ========== */
+.glass-container {
     position: relative;
-    display: flex;
-    font-weight: 600;
-    color: var(--text-color);
-    cursor: pointer;
-    background: transparent;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 1rem;
     overflow: hidden;
-    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
-    text-decoration: none;
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
 }
 
-/* Layer 0: distortion */
-.lg-filter {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    isolation: isolate;
-    backdrop-filter: blur(0);
-    filter: url(#lg-ripple);
-}
-
-/* Layer 1: tint */
-.lg-overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: var(--lg-bg);
-}
-
-/* Layer 2: highlights & shadows */
-.lg-specular {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    border-radius: inherit;
-    box-shadow: inset 1px 1px 0 var(--lg-highlight),
-                inset 0 0 5px var(--lg-highlight),
-                0 6px 6px var(--lg-shadow);
-    transition: 0.3s;
-}
-
-.lg:hover .lg-specular {
-    box-shadow: inset 1px 1px 0 var(--lg-highlight),
-                inset 0 0 5px var(--lg-highlight),
-                0 0 8px var(--lg-glow);
-}
-
-/* Layer 3: payload */
-.lg-content {
-    position: relative;
-    z-index: 3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-}
-
-/* Size modifiers */
-.lg--sm {
+.glass-container--small {
     width: 3rem;
     height: 3rem;
-    min-width: 3rem;
 }
 
-.lg--circle {
-    border-radius: 50%;
+.glass-container--medium {
+    width: 100%;
+    max-width: 600px;
+    margin: 1rem auto;
 }
 
-/* Social Links Container */
-.social-links {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    margin-top: 1.5rem;
+.glass-container--large {
+    width: 100%;
+    max-width: 800px;
+    margin: 1rem auto;
 }
 
-/* Focus styles for accessibility */
-.lg:focus-visible {
-    outline: 2px solid var(--lg-highlight);
-    outline-offset: 2px;
+.glass-container--rounded {
+    border-radius: 1.5rem;
 }
 
-/* Reduce motion */
-@media (prefers-reduced-motion: reduce) {
-    .lg {
-        transition: none;
-    }
-    .lg:hover .lg-specular {
-        box-shadow: inset 1px 1px 0 var(--lg-highlight),
-                    inset 0 0 5px var(--lg-highlight);
-    }
+/* ========== GLASS LAYERS ========== */
+.glass-filter {
+    position: absolute;
+    inset: 0;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
 }
 
-/* Timeline Liquid-Glass Styles */
+.glass-overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--glass-overlay);
+}
+
+.glass-specular {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        var(--glass-specular) 0%,
+        transparent 50%,
+        var(--glass-specular) 100%
+    );
+}
+
+.glass-content {
+    position: relative;
+    z-index: 1;
+    padding: 1.5rem;
+}
+
+/* Timeline specific styles */
 .timeline {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
-    margin-top: 2rem;
+    gap: 1.5rem;
+    padding: 1rem 0;
 }
 
-.timeline .lg {
+.timeline .glass-container {
     width: 100%;
     min-width: unset;
-    padding: 2rem;
-    transition: transform 0.3s ease;
-}
-
-.timeline .lg:hover {
-    transform: translateY(-5px);
 }
 
 .timeline-content {
     width: 100%;
 }
 
-/* Contact Section Liquid-Glass Styles */
+/* Contact section specific styles */
 .contact-flex {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
     margin-top: 2rem;
-}
-
-@media (max-width: 768px) {
-    .contact-flex {
-        grid-template-columns: 1fr;
-    }
-}
-
-.contact-flex .lg {
-    width: 100%;
-    min-width: unset;
-    padding: 2rem;
-    transition: transform 0.3s ease;
-}
-
-.contact-flex .lg:hover {
-    transform: translateY(-5px);
 }
 
 .contact-map-card {
     width: 100%;
     height: 100%;
+    min-height: 320px;
 }
 
 .contact-info-main {
-    width: 100%;
     text-align: center;
 }
 
-/* Dark theme adjustments for liquid-glass */
-.dark-theme .lg-overlay {
-    background: rgba(255, 255, 255, 0.08);
+.contact-name {
+    font-size: 1.5rem;
+    margin: 0 0 0.5rem;
+    color: var(--text-color);
 }
 
-.dark-theme .lg-specular {
-    box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.2),
-                inset 0 0 5px rgba(255, 255, 255, 0.1),
-                0 6px 6px rgba(0, 0, 0, 0.3);
+.contact-affiliation {
+    margin: 0 0 1.5rem;
+    color: var(--text-color);
+    opacity: 0.9;
 }
 
-.dark-theme .lg:hover .lg-specular {
-    box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.2),
-                inset 0 0 5px rgba(255, 255, 255, 0.1),
-                0 0 8px rgba(255, 255, 255, 0.2);
+.contact-social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
 }
 
-/* Reduce motion */
-@media (prefers-reduced-motion: reduce) {
-    .timeline .lg,
-    .contact-flex .lg {
-        transition: none;
+.contact-social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: transform 0.2s ease;
+}
+
+.contact-social-links a:hover {
+    transform: translateY(-2px);
+}
+
+.contact-social-links i {
+    font-size: 1.25rem;
+}
+
+/* Dark theme adjustments */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --glass-bg: rgba(0, 0, 0, 0.2);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --glass-overlay: rgba(255, 255, 255, 0.02);
+        --glass-specular: rgba(255, 255, 255, 0.05);
     }
-    
-    .timeline .lg:hover,
-    .contact-flex .lg:hover {
-        transform: none;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .glass-container {
+        transition: none !important;
     }
 } 
