@@ -14,15 +14,17 @@ const elements = {
 let lastScrollY = window.scrollY;
 let isNeuralNetworkVisible = true;
 
-// Preloader
-const initPreloader = () => {
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            elements.preloader.classList.add('loaded');
-            document.body.classList.add('loaded');
-        }, 1000);
-    });
-};
+// --- Preloader Dismissal (robust, always works) ---
+function hidePreloader() {
+  var preloader = document.querySelector('.preloader');
+  if (preloader) {
+    preloader.classList.add('loaded');
+    setTimeout(function() { preloader.style.display = 'none'; }, 600);
+  }
+}
+document.addEventListener('DOMContentLoaded', hidePreloader);
+window.addEventListener('load', hidePreloader);
+setTimeout(hidePreloader, 3000);
 
 // Navigation
 const initNavigation = () => {
@@ -224,7 +226,6 @@ function initDNAAnimation() {
 
 // Initialize both animations on page load
 document.addEventListener('DOMContentLoaded', () => {
-    initPreloader();
     initNavigation();
     initSmoothScroll();
     initNeuralNetwork();
@@ -310,8 +311,7 @@ const initScrollIndicator = () => {
             logos.forEach(logo => {
                 slide.appendChild(logo.cloneNode(true));
             });
-    }
-
+        }
         // 2. Set animation duration based on slide width
         const slideWidth = slide.scrollWidth / 2; // Only animate one set
         if (slideWidth !== lastSlideWidth) {
