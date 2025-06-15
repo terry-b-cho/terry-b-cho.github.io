@@ -35,6 +35,9 @@
 - **Dynamic Hero Section**: Double-rimmed, interactive 3D headshot.
 - **Glassmorphic Contact Section**: Google Map card + modern info card, fully responsive.
 - **Accessibility**: Keyboard navigation, ARIA labels.
+- **Apple-inspired Liquid Glass UI**: All major sections use a 4-layer glass container system for realistic, modern glass effects.
+- **SVG-based Liquid Distortion**: Custom SVG filters create organic, animated glass warping for a true liquid look.
+- **Responsive Glass Containers**: Glassmorphic cards adapt perfectly to all screen sizes, preserving clarity and depth.
 
 ---
 
